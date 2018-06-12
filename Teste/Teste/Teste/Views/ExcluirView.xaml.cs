@@ -1,5 +1,4 @@
-﻿using Android.Content;
-using AppClientes.DAL;
+﻿using AppClientes.DAL;
 using AppClientes.Models;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,5 +1,4 @@
-﻿using Android.Widget;
-using AppClientes.DAL;
+﻿using AppClientes.DAL;
 using AppClientes.Models;
 using System;
 using System.Collections.Generic;
