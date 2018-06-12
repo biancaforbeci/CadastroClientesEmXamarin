@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AppClientes.Views.ListagemView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <StackLayout>
+        <Label
+            Font="40"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Text="Clientes Cadastrados" />
+
+
+        <Picker
+            x:Name="pckBusca"
+            Title="Selecione o tipo:"
+            HorizontalOptions="FillAndExpand"
+            SelectedIndexChanged="pckBusca_SelectedIndexChanged">
+            <Picker.Items>
+                <x:String>Listar Clientes</x:String>
+                <x:String>Listar Clientes Ordenados por Idade</x:String>
+            </Picker.Items>
+        </Picker>
+
+
+        <ListView x:Name="ListaClientes">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell
+                        Detail="{Binding Nome}"
+                        DetailColor="Blue"
+                        ImageSource="drawable-xhdpi/person.png"
+                        Text="{Binding ClienteID}"
+                        TextColor="DeepSkyBlue" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+</ContentPage>
