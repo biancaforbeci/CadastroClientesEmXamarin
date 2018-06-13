@@ -7,15 +7,15 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <!--<StackLayout>
+        <StackLayout>
             <Label
                 Font="40"
                 HorizontalOptions="CenterAndExpand"
-                Text="Procurar Clientes"
+                Text="{Binding Title}"
                 VerticalOptions="CenterAndExpand" />
             <Picker
                 x:Name="pckProcurar"
-                Title="Selecione o tipo de busca:"
+                Title="{Binding TitleTipo}"
                 HorizontalOptions="FillAndExpand"
                 SelectedIndexChanged="PckProcurar_SelectedIndexChanged">
                 <Picker.Items>
@@ -31,7 +31,7 @@
                 TextColor="Black" />
 
             <Button
-                Clicked="BuscaCliente"
+                Command="{Binding Procurar}"
                 Font="30"
                 HorizontalOptions="FillAndExpand"
                 Text="Pesquisar"
@@ -40,13 +40,17 @@
             <ListView x:Name="ListaClientes">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-        -->
-        <!--<TextCell Text="{Binding Nome}" TextColor="DeepSkyBlue" Detail="{Binding Telefone}" DetailColor="Blue"/>-->
-        <!--
+
+                        <TextCell
+                            Detail="{Binding Telefone}"
+                            DetailColor="Blue"
+                            Text="{Binding Nome}"
+                            TextColor="DeepSkyBlue" />
+
                         <ImageCell
                             Detail="{Binding Telefone}"
                             DetailColor="Blue"
-                            ImageSource="drawable-xhdpi/person.png"
+                            ImageSource="{Binding ImagemList}"
                             Text="{Binding Nome}"
                             TextColor="DeepSkyBlue" />
 
@@ -54,7 +58,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-        </StackLayout>-->
+        </StackLayout>
     </ContentPage.Content>
 
 </ContentPage>
