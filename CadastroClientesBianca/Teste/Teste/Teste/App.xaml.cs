@@ -1,5 +1,9 @@
 ﻿using AppClientes.DAL;
+using AppClientes.ViewModels;
 using AppClientes.Views;
+using Prism;
+using Prism.Ioc;
+using Prism.Unity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,16 +13,19 @@ using Xamarin.Forms;
 
 namespace AppClientes
 {
-	public partial class App : Application
+	public partial class App : PrismApplication
 	{
-		public App ()
-		{
-			InitializeComponent();
+		public App (IPlatformInitializer initializer = null): base(initializer) { }
 
-			MainPage = new NavigationPage(new CadastroCliente());
+        protected override void OnInitialized()
+        {
+            InitializeComponent();
+
+            NavigationService.NavigateAsync("HomePage");
+
             InicializandoAsync();
-		}
-
+        }        
+		
 		protected override void OnStart ()
 		{
 			// Handle when your app starts
@@ -43,5 +50,14 @@ namespace AppClientes
 		{
 			// Handle when your app resumes
 		}
-	}
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
+            containerRegistry.RegisterForNavigation<HomePage,HomePageViewModel>();
+            throw new NotImplementedException();
+
+            
+        }
+    }
 }

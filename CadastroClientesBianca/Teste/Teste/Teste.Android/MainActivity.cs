@@ -6,6 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Prism;
+using Unity;
+using Prism.Ioc;
 
 namespace AppClientes.Droid
 {
@@ -20,7 +23,20 @@ namespace AppClientes.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+            LoadApplication(new App(new AndroidInitializer()));
+        }
+
+        public class AndroidInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IUnityContainer container)
+            {
+                //hallo
+            }
+
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

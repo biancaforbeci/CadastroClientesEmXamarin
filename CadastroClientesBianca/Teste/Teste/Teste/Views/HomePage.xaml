@@ -1,62 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AppClientes.Views.CadastroCliente"
+    x:Class="AppClientes.Views.HomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Teste">
-    <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Spacing="50">
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <StackLayout Orientation="Vertical" Spacing="50">
 
-            <Image Source="imagem.png" VerticalOptions="Start" />
+        <Image Source="imagem.png" VerticalOptions="Start" />
 
-            <Label
-                Font="70"
-                FontFamily="Broadway"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="Bem-Vindo"
-                TextColor="DarkBlue" />
+        <Label
+            Font="70"
+            FontFamily="Broadway"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Text="Bem-Vindo"
+            TextColor="DarkBlue" />
 
-            <Button
-                BackgroundColor="Gray"                
-                Clicked="Cadastro"
-                Font="50"
-                HorizontalOptions="FillAndExpand"
-                Text="Cadastrar"
-                TextColor="DarkBlue"
-                VerticalOptions="Start" />
-
-
-            <Button
-                BackgroundColor="Gray"
-                Clicked="ListagemCliente"
-                Font="50"
-                HorizontalOptions="FillAndExpand"
-                Text="Listagem"
-                TextColor="DarkBlue"
-                VerticalOptions="Start" />
+        <Button
+            BackgroundColor="Gray"
+            Clicked="Cadastro"
+            Font="50"
+            HorizontalOptions="FillAndExpand"
+            Text="Cadastrar"
+            TextColor="DarkBlue"
+            VerticalOptions="Start" />
 
 
-            <Button
-                BackgroundColor="Gray"
-                Clicked="ProcurarCliente"
-                Font="50"
-                HorizontalOptions="FillAndExpand"
-                Text="Buscar"
-                TextColor="DarkBlue"
-                VerticalOptions="Start" />
+        <Button
+            BackgroundColor="Gray"
+            Clicked="ListagemCliente"
+            Font="50"
+            HorizontalOptions="FillAndExpand"
+            Text="Listagem"
+            TextColor="DarkBlue"
+            VerticalOptions="Start" />
 
 
-            <Button
-                BackgroundColor="Gray"
-                Clicked="ExcluirCliente"
-                Font="50"
-                HorizontalOptions="FillAndExpand"
-                Text="Excluir"
-                TextColor="DarkBlue"
-                VerticalOptions="Start" />
+        <Button
+            BackgroundColor="Gray"
+            Clicked="ProcurarCliente"
+            Font="50"
+            HorizontalOptions="FillAndExpand"
+            Text="Buscar"
+            TextColor="DarkBlue"
+            VerticalOptions="Start" />
 
 
-        </StackLayout>
-    </ContentPage.Content>
+        <Button
+            BackgroundColor="Gray"
+            Clicked="ExcluirCliente"
+            Font="50"
+            HorizontalOptions="FillAndExpand"
+            Text="Excluir"
+            TextColor="DarkBlue"
+            VerticalOptions="Start" />
+
+
+    </StackLayout>
+
 </ContentPage>
