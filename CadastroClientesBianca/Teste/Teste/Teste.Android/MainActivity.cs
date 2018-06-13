@@ -28,14 +28,9 @@ namespace AppClientes.Droid
 
         public class AndroidInitializer : IPlatformInitializer
         {
-            public void RegisterTypes(IUnityContainer container)
-            {
-                //hallo
-            }
-
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                throw new NotImplementedException();
+                
             }
         }
     }

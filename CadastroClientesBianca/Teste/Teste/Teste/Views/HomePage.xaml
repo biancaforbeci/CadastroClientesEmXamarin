@@ -5,58 +5,61 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <StackLayout Orientation="Vertical" Spacing="50">
 
-        <Image Source="imagem.png" VerticalOptions="Start" />
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Spacing="50">
 
-        <Label
-            Font="70"
-            FontFamily="Broadway"
-            HorizontalOptions="FillAndExpand"
-            HorizontalTextAlignment="Center"
-            Text="Bem-Vindo"
-            TextColor="DarkBlue" />
+            <Image Source="{Binding Imagem}" VerticalOptions="Start" />
 
-        <Button
-            BackgroundColor="Gray"
-            Clicked="Cadastro"
-            Font="50"
-            HorizontalOptions="FillAndExpand"
-            Text="Cadastrar"
-            TextColor="DarkBlue"
-            VerticalOptions="Start" />
+            <Label
+                Font="70"
+                FontFamily="Broadway"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Title}"
+                TextColor="DarkBlue" />
 
-
-        <Button
-            BackgroundColor="Gray"
-            Clicked="ListagemCliente"
-            Font="50"
-            HorizontalOptions="FillAndExpand"
-            Text="Listagem"
-            TextColor="DarkBlue"
-            VerticalOptions="Start" />
+            <Button
+                BackgroundColor="Gray"
+                Command="{Binding Cadastrar}"
+                Font="50"
+                HorizontalOptions="FillAndExpand"
+                Text="{Binding Cadastro}"
+                TextColor="DarkBlue"
+                VerticalOptions="Start" />
 
 
-        <Button
-            BackgroundColor="Gray"
-            Clicked="ProcurarCliente"
-            Font="50"
-            HorizontalOptions="FillAndExpand"
-            Text="Buscar"
-            TextColor="DarkBlue"
-            VerticalOptions="Start" />
+            <Button
+                BackgroundColor="Gray"
+                Command="{Binding Listar}"
+                Font="50"
+                HorizontalOptions="FillAndExpand"
+                Text="{Binding Listagem}"
+                TextColor="DarkBlue"
+                VerticalOptions="Start" />
 
 
-        <Button
-            BackgroundColor="Gray"
-            Clicked="ExcluirCliente"
-            Font="50"
-            HorizontalOptions="FillAndExpand"
-            Text="Excluir"
-            TextColor="DarkBlue"
-            VerticalOptions="Start" />
+            <Button
+                BackgroundColor="Gray"
+                Command="{Binding Procurar}"
+                Font="50"
+                HorizontalOptions="FillAndExpand"
+                Text="{Binding Procura}"
+                TextColor="DarkBlue"
+                VerticalOptions="Start" />
 
 
-    </StackLayout>
+            <Button
+                BackgroundColor="Gray"
+                Command="{Binding Exclusao}"
+                Font="50"
+                HorizontalOptions="FillAndExpand"
+                Text="{Binding Excluir}"
+                TextColor="DarkBlue"
+                VerticalOptions="Start" />
+
+
+        </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>

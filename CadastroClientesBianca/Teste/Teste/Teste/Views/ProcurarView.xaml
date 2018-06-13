@@ -2,9 +2,12 @@
 <ContentPage
     x:Class="AppClientes.Views.ProcurarView"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
     <ContentPage.Content>
-        <StackLayout>
+        <!--<StackLayout>
             <Label
                 Font="40"
                 HorizontalOptions="CenterAndExpand"
@@ -37,7 +40,9 @@
             <ListView x:Name="ListaClientes">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <!--<TextCell Text="{Binding Nome}" TextColor="DeepSkyBlue" Detail="{Binding Telefone}" DetailColor="Blue"/>-->
+        -->
+        <!--<TextCell Text="{Binding Nome}" TextColor="DeepSkyBlue" Detail="{Binding Telefone}" DetailColor="Blue"/>-->
+        <!--
                         <ImageCell
                             Detail="{Binding Telefone}"
                             DetailColor="Blue"
@@ -49,6 +54,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-        </StackLayout>
+        </StackLayout>-->
     </ContentPage.Content>
+
 </ContentPage>

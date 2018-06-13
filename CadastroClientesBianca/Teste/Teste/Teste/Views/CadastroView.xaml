@@ -2,21 +2,24 @@
 <ContentPage
     x:Class="AppClientes.Views.CadastroView"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
     <ContentPage.Content>
         <StackLayout Spacing="50">
             <Label
                 Font="40"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="Cadastro Clientes" />
+                Text="{Binding Title}" />
 
             <Label
                 Font="40"
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="Nome" />
+                Text="{Binding TitleNome} />
             <Entry
                 x:Name="EntryNome"
                 FontSize="Large"
@@ -28,7 +31,7 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="Idade" />
+                Text="{Binding TitleIdade}" />
             <Entry
                 x:Name="EntryIdade"
                 FontSize="Large"
@@ -40,7 +43,7 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="Telefone" />
+                Text="{Binding TitleTelefone}" />
             <Entry
                 x:Name="EntryTelefone"
                 FontSize="Large"
@@ -49,7 +52,7 @@
 
             <Button
                 BackgroundColor="Gray"
-                Clicked="SalvarBD"
+                Command="{Binding Cadastrar}"
                 Font="50"
                 HorizontalOptions="FillAndExpand"
                 Text="Salvar"
@@ -58,4 +61,5 @@
 
         </StackLayout>
     </ContentPage.Content>
+
 </ContentPage>

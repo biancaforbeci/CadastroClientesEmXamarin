@@ -54,10 +54,12 @@ namespace AppClientes
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
-            containerRegistry.RegisterForNavigation<HomePage,HomePageViewModel>();
-            throw new NotImplementedException();
-
-            
+            containerRegistry.RegisterForNavigation<HomePage>();
+            containerRegistry.RegisterForNavigation<CadastroView>();
+            containerRegistry.RegisterForNavigation<ExcluirView>();
+            containerRegistry.RegisterForNavigation<ListagemView>();
+            containerRegistry.RegisterForNavigation<ProcurarView>();
         }
+
     }
 }

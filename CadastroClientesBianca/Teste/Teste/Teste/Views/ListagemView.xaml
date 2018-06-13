@@ -2,18 +2,21 @@
 <ContentPage
     x:Class="AppClientes.Views.ListagemView"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
     <StackLayout>
         <Label
             Font="40"
             HorizontalOptions="FillAndExpand"
             HorizontalTextAlignment="Center"
-            Text="Clientes Cadastrados" />
+            Text="{Binding Title}" />
 
 
         <Picker
             x:Name="pckBusca"
-            Title="Selecione o tipo:"
+            Title="{Binding TitleTipo}"
             HorizontalOptions="FillAndExpand"
             SelectedIndexChanged="pckBusca_SelectedIndexChanged">
             <Picker.Items>
@@ -29,7 +32,7 @@
                     <ImageCell
                         Detail="{Binding Nome}"
                         DetailColor="Blue"
-                        ImageSource="drawable-xhdpi/person.png"
+                        ImageSource="{Binding ImagemList}"
                         Text="{Binding ClienteID}"
                         TextColor="DeepSkyBlue" />
                 </DataTemplate>
@@ -37,4 +40,5 @@
         </ListView>
 
     </StackLayout>
+
 </ContentPage>

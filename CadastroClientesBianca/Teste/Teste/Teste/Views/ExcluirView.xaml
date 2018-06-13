@@ -2,19 +2,21 @@
 <ContentPage
     x:Class="AppClientes.Views.ExcluirView"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
         <StackLayout>
             <Label
                 Font="40"
                 HorizontalOptions="CenterAndExpand"
-                Text="Excluir Clientes"
+                Text="{Binding Title}"
                 VerticalOptions="CenterAndExpand" />
 
             <Picker
                 x:Name="pckExcluir"
-                Title="Selecione a procura:"
+                Title="{Binding Titleprocura}"
                 HorizontalOptions="FillAndExpand"
                 SelectedIndexChanged="pckExcluir_SelectedIndexChanged">
                 <Picker.Items>
@@ -30,16 +32,22 @@
                 TextColor="Black" />
 
             <Button
-                Clicked="BuscaCliente"
+                Command="{Binding BuscaCliente}"
                 Font="30"
                 HorizontalOptions="FillAndExpand"
-                Text="Pesquisar"
+                Text="{Binding TitleButton}"
                 VerticalOptions="Start" />
 
             <ListView x:Name="ListaClientes">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <!--<TextCell Text="{Binding Nome}" TextColor="DeepSkyBlue" Detail="{Binding Telefone}" DetailColor="Blue"/>-->
+
+                        <TextCell
+                            Detail="{Binding Telefone}"
+                            DetailColor="Blue"
+                            Text="{Binding Nome}"
+                            TextColor="DeepSkyBlue" />
+
                         <ImageCell
                             Detail="{Binding Telefone}"
                             DetailColor="Blue"
@@ -51,4 +59,5 @@
             </ListView>
         </StackLayout>
     </ContentPage.Content>
+
 </ContentPage>
