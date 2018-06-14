@@ -2,22 +2,25 @@
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AppClientes.ViewModels
 {
 	public class CadastroViewModel : BindableBase
 	{
-        public CadastroViewModel()
+        public CadastroViewModel(IPageDialogService pageDialog)
         {
             Title = "Cadastro Clientes";
             TitleNome = "Nome";
             TitleIdade = "Idade";
             TitleTelefone = "Telefone";
             Cadastrar = new DelegateCommand<object>(SalvarBD);
+            _pageDialog = pageDialog;
         }
 
         public string Title { get; set; }
@@ -29,8 +32,8 @@ namespace AppClientes.ViewModels
         public string TelefoneCli { get; set; }
 
         
-        public DelegateCommand<object> Cadastrar { get; set; }      
-       
+        public DelegateCommand<object> Cadastrar { get; set; }
+        IPageDialogService _pageDialog;
 
             bool valida;
 
@@ -56,15 +59,15 @@ namespace AppClientes.ViewModels
                     DatabaseContext contexto = new DatabaseContext();
                     contexto.Add(novo);
                     contexto.SaveChanges();
-                   // await DisplayAlert("Salvo", "Cliente salvo com sucesso", "OK");
+                    _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
                 }
                 catch (Exception e)
                 {
-                   // await DisplayAlert("Erro", "Ocorreu um erro para salvar: " + e, "OK");
+                _pageDialog.DisplayAlertAsync("Erro", "Ocorreu um erro para salvar: " + e, "OK");
                 }
             }
 
-            private void ValidandoDadosAsync()
+            private async void ValidandoDadosAsync()
             {
 
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
@@ -73,15 +76,15 @@ namespace AppClientes.ViewModels
             {
                 if (!Regex.IsMatch(NomeCli, @"^[a-zA-Z]+$"))
                 {
-                  //  await DisplayAlert("ATENÇÃO", "Campo nome inválido,digite apenas caracteres !", "OK");
+                    await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido,digite apenas caracteres !", "OK");
                 }
                 else if (Convert.ToInt32(IdadeCli) < 0)
                 {
-                  //  await DisplayAlert("ATENÇÃO", "Campo idade inválido, digite valores positivos !", "OK");
+                    await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido, digite valores positivos !", "OK");
                 }
                 else if (Regex.IsMatch(TelefoneCli, tel) == false)
                 {
-                   // await DisplayAlert("ATENÇÃO", "Campo telefone inválido ! Digite como o exemplo: 3333-3333 ou 33333333", "OK");
+                    await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido ! Digite como o exemplo: 3333-3333 ou 33333333", "OK");
                 }
                 else
                 {
@@ -90,8 +93,8 @@ namespace AppClientes.ViewModels
             }
             else
             {
-              //  await DisplayAlert("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
-               // await Task.Delay(500);
+                await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
+                 await Task.Delay(500);
             }
 
         }
