@@ -23,7 +23,7 @@ namespace AppClientes.ViewModels
             _navigationService = navigationService;
             Cadastrar = new DelegateCommand(TelaCadastro);
             Listar = new DelegateCommand(TelaListar);
-            //Exclusao = new DelegateCommand(TelaExcluir);
+            Exclusao = new DelegateCommand(TelaExcluir);
             Procurar = new DelegateCommand(TelaProcurar);
 
         }

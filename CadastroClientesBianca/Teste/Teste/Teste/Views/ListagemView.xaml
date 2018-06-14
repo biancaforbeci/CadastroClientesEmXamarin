@@ -3,6 +3,7 @@
     x:Class="AppClientes.Views.ListagemView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     prism:ViewModelLocator.AutowireViewModel="True">
 
@@ -14,19 +15,12 @@
             Text="{Binding Title}" />
 
 
-        <Picker
-            x:Name="pckBusca"
-            Title="{Binding TitleTipo}"
-            HorizontalOptions="FillAndExpand"
-            SelectedIndexChanged="pckBusca_SelectedIndexChanged">
-            <Picker.Items>
-                <x:String>Listar Clientes</x:String>
-                <x:String>Listar Clientes Ordenados por Idade</x:String>
-            </Picker.Items>
-        </Picker>
+        <Picker ItemsSource="{Binding Elementos}" SelectedIndex="{Binding ElementosSelectedIndex}" />
 
-
-        <ListView x:Name="ListaClientes">
+        <!--<ListView
+            x:Name="ListaClientes"
+            ItemsSource="{Binding ListaClientes}"
+            SelectedItem="{Binding ListaSelected}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell
@@ -37,7 +31,20 @@
                         TextColor="DeepSkyBlue" />
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior Command="{Binding ListaSelect}" EventName="ItemSelected" />
+            </ListView.Behaviors>
+        </ListView>-->
+
+
+        <!--  SelectedIndex="{Binding ItemEscolha}"  -->
+
+        <!--<Picker.Behaviors>
+            <behaviors:EventHandlerBehavior EventName="SelectedIndexChanged">
+                <behaviors:InvokeCommandAction Command="{Binding SelectedProviderChanged}" />
+            </behaviors:EventHandlerBehavior>
+        </Picker.Behaviors>-->
+
 
     </StackLayout>
 
