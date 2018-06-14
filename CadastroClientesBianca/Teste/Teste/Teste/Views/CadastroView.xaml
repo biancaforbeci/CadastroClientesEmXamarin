@@ -19,11 +19,12 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="{Binding TitleNome} />
+                Text="{Binding TitleNome}" />
             <Entry
                 x:Name="EntryNome"
                 FontSize="Large"
                 Keyboard="Text"
+                Text="{Binding NomeCli}"
                 TextColor="Black" />
 
             <Label
@@ -36,6 +37,7 @@
                 x:Name="EntryIdade"
                 FontSize="Large"
                 Keyboard="Numeric"
+                Text="{Binding IdadeCli}"
                 TextColor="Black" />
 
             <Label
@@ -48,6 +50,7 @@
                 x:Name="EntryTelefone"
                 FontSize="Large"
                 Keyboard="Telephone"
+                Text="{Binding TelefoneCli}"
                 TextColor="Black" />
 
             <Button

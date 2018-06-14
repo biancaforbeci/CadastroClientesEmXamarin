@@ -6,10 +6,11 @@ using System.Linq;
 
 namespace AppClientes.ViewModels
 {
-	public class ListagemViewViewModel : BindableBase
-	{
-        public ListagemViewViewModel()
+    public class ListagemViewModel : BindableBase
+    {
+        public ListagemViewModel()
         {
+
             Title = "Clientes Cadastrados";
             TitleTipo = "Selecione o tipo:";
             ImagemList = "drawable-xhdpi/person.png";
@@ -18,10 +19,5 @@ namespace AppClientes.ViewModels
         public string Title { get; set; }
         public string TitleTipo { get; set; }
         public string ImagemList { get; set; }
-       
-
-
-
-
     }
 }

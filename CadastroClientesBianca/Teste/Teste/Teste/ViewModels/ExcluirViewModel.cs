@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace AppClientes.ViewModels
 {
-	public class ExcluirViewViewModel : BindableBase
+	public class ExcluirViewModel : BindableBase
 	{
-        public ExcluirViewViewModel()
+        public ExcluirViewModel()
         {
             Title = "Excluir Clientes";
             Titleprocura = "Selecione o tipo de procura:";
             TitleButton = "Pesquisar";
-            BuscaCliente= new DelegateCommand<object>(BuscarCliente);
+            BuscaCliente = new DelegateCommand<object>(BuscarCliente);
         }
 
         public string Title { get; set; }
@@ -29,9 +29,6 @@ namespace AppClientes.ViewModels
         {
 
         }
-
-
-
 
     }
 }
