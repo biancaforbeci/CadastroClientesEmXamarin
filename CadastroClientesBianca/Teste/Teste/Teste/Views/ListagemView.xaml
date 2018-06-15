@@ -14,13 +14,13 @@
             HorizontalTextAlignment="Center"
             Text="{Binding Title}" />
 
-
         <Picker ItemsSource="{Binding Elementos}" SelectedIndex="{Binding ElementosSelectedIndex}" />
 
-        <!--<ListView
-            x:Name="ListaClientes"
-            ItemsSource="{Binding ListaClientes}"
-            SelectedItem="{Binding ListaSelected}">
+
+        <!--<Button Command="{Binding PesquisaBD}" Text="{Binding Pesquisar}" />-->
+
+
+        <ListView x:Name="ListaClientes" ItemsSource="{Binding ListaClientes}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell
@@ -31,19 +31,7 @@
                         TextColor="DeepSkyBlue" />
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior Command="{Binding ListaSelect}" EventName="ItemSelected" />
-            </ListView.Behaviors>
-        </ListView>-->
-
-
-        <!--  SelectedIndex="{Binding ItemEscolha}"  -->
-
-        <!--<Picker.Behaviors>
-            <behaviors:EventHandlerBehavior EventName="SelectedIndexChanged">
-                <behaviors:InvokeCommandAction Command="{Binding SelectedProviderChanged}" />
-            </behaviors:EventHandlerBehavior>
-        </Picker.Behaviors>-->
+        </ListView>
 
 
     </StackLayout>

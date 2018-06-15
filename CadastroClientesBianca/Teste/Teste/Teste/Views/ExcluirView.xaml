@@ -14,45 +14,30 @@
                 Text="{Binding Title}"
                 VerticalOptions="CenterAndExpand" />
 
-            <Picker
-                x:Name="pckExcluir"
-                Title="{Binding Titleprocura}"
-                HorizontalOptions="FillAndExpand"
-                SelectedIndexChanged="pckExcluir_SelectedIndexChanged">
-                <Picker.Items>
-                    <x:String>Por ID</x:String>
-                    <x:String>Por Nome</x:String>
-                </Picker.Items>
-            </Picker>
+            <Picker ItemsSource="{Binding Elementos}" SelectedIndex="{Binding ElementosSelectedIndex}" />
 
             <Entry
                 x:Name="entryExcluir"
                 FontSize="Large"
                 Keyboard="Text"
+                Text="{Binding ItemProcura}"
                 TextColor="Black" />
 
             <Button
-                Command="{Binding BuscaCliente}"
+                Command="{Binding Procurar}"
                 Font="30"
                 HorizontalOptions="FillAndExpand"
-                Text="{Binding TitleButton}"
+                Text="Pesquisar"
                 VerticalOptions="Start" />
 
-            <ListView x:Name="ListaClientes">
+            <ListView x:Name="ListaClientes" ItemsSource="{Binding ListaClientes}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-
-                        <TextCell
-                            Detail="{Binding Telefone}"
-                            DetailColor="Blue"
-                            Text="{Binding Nome}"
-                            TextColor="DeepSkyBlue" />
-
                         <ImageCell
-                            Detail="{Binding Telefone}"
+                            Detail="{Binding Nome}"
                             DetailColor="Blue"
-                            ImageSource="drawable-xhdpi/person.png"
-                            Text="{Binding Nome}"
+                            ImageSource="{Binding ImagemList}"
+                            Text="{Binding ClienteID}"
                             TextColor="DeepSkyBlue" />
                     </DataTemplate>
                 </ListView.ItemTemplate>

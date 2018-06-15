@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace AppClientes.ViewModels
@@ -16,38 +18,39 @@ namespace AppClientes.ViewModels
     {
         public ListagemViewModel(IPageDialogService pageDialog)
         {
-             Title = "Clientes Cadastrados";
-            TitleTipo = "Selecione o tipo:";
+            Title = "Clientes Cadastrados";
             ImagemList = "drawable-xhdpi/person.png";
-            TitleLista = "Lista Clientes";            
-            TitleLista2 = "Lista Clientes por Ordenação";
             _pageDialog = pageDialog;
             Elementos = _Elementos;
+            ListaClientes = ListaItens;
+            Pesquisar = "Pesquisar";
+            PesquisaBD = new DelegateCommand(PesquisarBD);           
         }
-        
 
+        //public event PropertyChangedEventHandler PropertyChanged;
         private void ItemSelecionado()
         {
             throw new NotImplementedException();
         }
 
         public string Title { get; set; }
-        public string TitleTipo { get; set; }
+        public string Pesquisar { get; set; }
         public string ImagemList { get; set; }
         public string TitleLista { get; set; }
-        public string TitleLista2 { get; set; }        
+        public string TitleLista2 { get; set; }
         public Cliente ListaSelected { get; set; }
         public int ItemEscolha { get; set; }
-        public List<string> _Elementos = new List<string> {"Listar Cliente","Listar por Ordenação"};
+        public List<string> _Elementos = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
         public List<string> Elementos
         {
             get { return _Elementos; }
             set
             {
                 if (Equals(value, _Elementos)) return;
-                _Elementos = value;                
+                _Elementos = value;
             }
         }
+
         public int ElementosSelectedIndex
         {
             get
@@ -59,24 +62,32 @@ namespace AppClientes.ViewModels
                 if (ItemEscolha != value)
                 {
                     ItemEscolha = value;
-                    
-                    //SelectedCountry = Countries[countriesSelectedIndex];
                 }
             }
         }
 
 
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        private List<Cliente> ListaItens;
+        public List<Cliente> ListaClientes
+        {
+            get { return ListaItens; }
+            set
+            {
+                ListaItens = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ListaClientes)));
+            }
+        }
 
         public DelegateCommand SelectedProviderChanged { get; set; }
         public DelegateCommand OpcaoSelect { get; set; }
+        public DelegateCommand PesquisaBD { get; set; }
 
 
         IPageDialogService _pageDialog;
-        public ObservableCollection<Cliente> ListaClientes { get; set; } = new ObservableCollection<Cliente>();
 
 
-       
+
 
         //private void ListaClientes_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         //{
@@ -99,32 +110,30 @@ namespace AppClientes.ViewModels
 
 
 
-        private void pckBusca_SelectedIndexChanged()
+        private void PesquisarBD()
         {
             DatabaseContext contexto = new DatabaseContext();
-            
-            if (ItemEscolha.Equals("Listar Clientes"))
+
+            if (ItemEscolha.Equals(1))
             {
                 var lista = contexto.Clientes.ToList();
                 if (lista.Count > 0)
                 {
-                    ObservableCollection<Cliente> ListaItens = new ObservableCollection<Cliente>(lista);
-                   
+                    ListaClientes = lista;
                 }
                 else
                 {
                     _pageDialog.DisplayAlertAsync("Nada encontrado", "Não foi encontrado nada cadastrado", "OK");
                 }
             }
-            else
+            else if (ItemEscolha.Equals(2))
             {
                 var listaord = (from x in contexto.Clientes
                                 orderby x.Idade
                                 select x).ToList();
                 if (listaord.Count > 0)
                 {
-                    ObservableCollection<Cliente> ListaItens1 = new ObservableCollection<Cliente>(listaord);
-                    
+                    ListaClientes = listaord;
                 }
                 else
                 {
@@ -134,9 +143,6 @@ namespace AppClientes.ViewModels
             }
 
         }
-
-
-
     }
 }
 

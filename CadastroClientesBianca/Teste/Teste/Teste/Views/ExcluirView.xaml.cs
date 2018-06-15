@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using AppClientes.ViewModels;
+using Xamarin.Forms;
 
 namespace AppClientes.Views
 {
@@ -7,6 +8,7 @@ namespace AppClientes.Views
         public ExcluirView()
         {
             InitializeComponent();
+            BindingContext = new ExcluirViewModel();
         }
     }
 }

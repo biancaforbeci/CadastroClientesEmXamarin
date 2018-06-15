@@ -66,7 +66,7 @@ namespace AppClientes.ViewModels
 
         private void TelaProcurar()
         {
-            _navigationService.NavigateAsync("ProcurarView");  //não abrindo
+            _navigationService.NavigateAsync("ProcurarView");  
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
