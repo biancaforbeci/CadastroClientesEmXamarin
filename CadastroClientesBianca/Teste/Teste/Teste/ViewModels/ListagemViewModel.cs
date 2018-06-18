@@ -26,12 +26,10 @@ namespace AppClientes.ViewModels
             PesquisaBD = new DelegateCommand(PesquisarBD);
             ListaSelect = new DelegateCommand(ListaClientes_ItemSelected);
         }
-
-
         
 
         public string Title { get; set; }
-        public string Pesquisar { get; set; }        
+        public string Pesquisar { get; set; }   
         public Cliente ListaSelected { get; set; }
         public int ItemEscolha { get; set; }
         public List<string> _Elementos = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
