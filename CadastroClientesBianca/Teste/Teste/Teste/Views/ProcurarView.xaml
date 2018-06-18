@@ -8,7 +8,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <StackLayout Spacing="20">
+        <StackLayout Spacing="50">
             <Label
                 Font="40"
                 HorizontalOptions="FillAndExpand"
