@@ -15,7 +15,7 @@ namespace AppClientes.ViewModels
 	{
         public CadastroViewModel(IPageDialogService pageDialog)
         {
-            Title = "Cadastro Clientes";
+            Title = "Cadastro Clientes";            
             TitleNome = "Nome";
             TitleIdade = "Idade";
             TitleTelefone = "Telefone";
