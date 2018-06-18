@@ -74,7 +74,7 @@ namespace AppClientes.ViewModels
 
             if ((NomeCli != null) && (IdadeCli != null) && (TelefoneCli != null))
             {
-                if (!Regex.IsMatch(NomeCli, @"^[a-zA-Z]+$"))
+                if (!Regex.IsMatch(NomeCli, @"^[a-zA-Z]"))
                 {
                     await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido,digite apenas caracteres !", "OK");
                 }

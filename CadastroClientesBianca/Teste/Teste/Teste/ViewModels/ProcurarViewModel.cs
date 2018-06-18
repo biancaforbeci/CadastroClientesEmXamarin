@@ -19,7 +19,6 @@ namespace AppClientes.ViewModels
             TitleButton = "Pesquisar";
             _pageDialog = pageDialog;
             Procurar = new DelegateCommand(ProcurarBD);
-            ImagemList = "drawable-hdpi/person.png";
             Elementos = _Elementos;
             ListaClientes = ListaItens;
             ListaSelect = new DelegateCommand(ListaClientes_ItemSelectedAsync);
@@ -27,8 +26,7 @@ namespace AppClientes.ViewModels
 
         public string Title { get; set; }
         public string TitleTipo { get; set; }
-        public string TitleButton { get; set; }
-        public string ImagemList { get; set; }
+        public string TitleButton { get; set; }        
         public int ItemEscolha { get; set; }
         public string ItemProcura { get; set; }
         public Cliente ListaSelected { get; set; }

@@ -19,8 +19,7 @@ namespace AppClientes.ViewModels
         {
             Title = "Excluir Clientes";            
             TitleButton = "Pesquisar";
-            _pageDialog = pageDialog;
-            ImagemList = "drawable-xhdpi/person.png";
+            _pageDialog = pageDialog;            
             Procurar = new DelegateCommand(ProcurarBD);
             Elementos = _Elementos;
             ListaClientes = ListaItens;
@@ -30,8 +29,7 @@ namespace AppClientes.ViewModels
 
         public string Title { get; set; }
         public string TitleTipo { get; set; }
-        public string TitleButton { get; set; }
-        public string ImagemList { get; set; }
+        public string TitleButton { get; set; }        
         public int ItemEscolha { get; set; }
         public string ItemProcura { get; set; }
         IPageDialogService _pageDialog;
