@@ -7,8 +7,7 @@ namespace AppClientes.Views
     {
         public ExcluirView()
         {
-            InitializeComponent();
-            BindingContext = new ExcluirViewModel();
+            InitializeComponent();           
         }
     }
 }

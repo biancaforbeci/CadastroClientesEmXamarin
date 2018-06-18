@@ -12,7 +12,8 @@
                 Font="40"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="{Binding Title}" />
+                Text="{Binding Title}"
+                TextColor="LightSeaGreen" />
 
             <Label
                 Font="40"

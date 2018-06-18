@@ -18,26 +18,21 @@ namespace AppClientes.ViewModels
     {
         public ListagemViewModel(IPageDialogService pageDialog)
         {
-            Title = "Clientes Cadastrados";
-            ImagemList = "drawable-xhdpi/person.png";
+            Title = "Clientes Cadastrados";           
             _pageDialog = pageDialog;
             Elementos = _Elementos;
             ListaClientes = ListaItens;
             Pesquisar = "Pesquisar";
-            PesquisaBD = new DelegateCommand(PesquisarBD);           
+            PesquisaBD = new DelegateCommand(PesquisarBD);
+            ListaSelect = new DelegateCommand(ListaClientes_ItemSelected);
         }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
-        private void ItemSelecionado()
-        {
-            throw new NotImplementedException();
-        }
+
+        
 
         public string Title { get; set; }
         public string Pesquisar { get; set; }
-        public string ImagemList { get; set; }
-        public string TitleLista { get; set; }
-        public string TitleLista2 { get; set; }
+        public ImageSource ImagemList { get { return ImageSource.FromFile("person.png"); } }
         public Cliente ListaSelected { get; set; }
         public int ItemEscolha { get; set; }
         public List<string> _Elementos = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
@@ -79,8 +74,8 @@ namespace AppClientes.ViewModels
             }
         }
 
-        public DelegateCommand SelectedProviderChanged { get; set; }
-        public DelegateCommand OpcaoSelect { get; set; }
+        public DelegateCommand ListaSelect { get; set; }
+         
         public DelegateCommand PesquisaBD { get; set; }
 
 
@@ -89,24 +84,22 @@ namespace AppClientes.ViewModels
 
 
 
-        //private void ListaClientes_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        //{
-        //    if (e.SelectedItem != null)
-        //    {
-        //        if (escolha.Equals("Listar Clientes"))
-        //        {
-        //            var element = e.SelectedItem as Cliente;
-        //            _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + element.ClienteID + "\nNome: " + element.Nome, "OK");
-        //            ListaClientes.SelectedItem = null;
-        //        }
-        //        else
-        //        {
-        //            var element = e.SelectedItem as Cliente;
-        //            _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + element.ClienteID + "\nNome: " + element.Nome + "\nIdade: " + element.Idade + "\nTelefone: " + element.Telefone, "OK");
-        //            ListaClientes.SelectedItem = null;
-        //        }
-        //    }
-        //}
+        private void ListaClientes_ItemSelected()
+        {
+                if (ItemEscolha.Equals(1))
+                {
+                    
+                    _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListaSelected.ClienteID + "\nNome: " + ListaSelected.Nome, "OK");
+                    ListaSelected = null;                    
+                    
+                }
+                else if(ItemEscolha.Equals(2))
+                {
+                    
+                    _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListaSelected.ClienteID + "\nNome: " + ListaSelected.Nome + "\nIdade: " + ListaSelected.Idade + "\nTelefone: " + ListaSelected.Telefone, "OK");
+                    ListaSelected = null;
+                }            
+        }
 
 
 

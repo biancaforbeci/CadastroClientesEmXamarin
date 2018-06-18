@@ -1,5 +1,6 @@
 ﻿using AppClientes.DAL;
 using AppClientes.Models;
+using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
@@ -8,17 +9,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AppClientes.ViewModels
 {
-	public class ExcluirViewModel : BindableBase
+	public class ExcluirViewModel : BindableBase, INotifyPropertyChanged
 	{
-        public ExcluirViewModel()
+        public ExcluirViewModel(IPageDialogService pageDialog)
         {
             Title = "Excluir Clientes";            
             TitleButton = "Pesquisar";
-            Procurar = new DelegateCommand<object>(ProcurarBD);
+            _pageDialog = pageDialog;
+            ImagemList = "drawable-xhdpi/person.png";
+            Procurar = new DelegateCommand(ProcurarBD);
             Elementos = _Elementos;
+            ListaClientes = ListaItens;
+            ListaSelect = new DelegateCommand(ListaClientes_ItemSelectedAsync);
+            
         }
 
         public string Title { get; set; }
@@ -28,7 +35,10 @@ namespace AppClientes.ViewModels
         public int ItemEscolha { get; set; }
         public string ItemProcura { get; set; }
         IPageDialogService _pageDialog;
-        public DelegateCommand<object> Procurar { get; set; }
+        public DelegateCommand Procurar { get; set; }
+        public DelegateCommand ListaSelect { get; set; }
+        public Cliente ListaSelected { get; set; }
+
 
         public List<string> _Elementos = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
         public List<string> Elementos
@@ -58,7 +68,7 @@ namespace AppClientes.ViewModels
         }
 
 
-        private async void ProcurarBD(object parm)
+        private async void ProcurarBD()
         {
 
             if (ItemProcura != null && ItemEscolha != 0)
@@ -132,7 +142,7 @@ namespace AppClientes.ViewModels
         }
 
 
-        public event PropertyChangedEventHandler Property;
+        public event PropertyChangedEventHandler PropertyChanged;
         private List<Cliente> ListaItens;
 
         public List<Cliente> ListaClientes
@@ -141,9 +151,50 @@ namespace AppClientes.ViewModels
             set
             {
                 ListaItens = value;
-                Property?.Invoke(this, new PropertyChangedEventArgs(nameof(ListaClientes)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ListaClientes)));
             }
         }
+
+        private async void ListaClientes_ItemSelectedAsync()
+        {
+            if (ListaSelected != null)
+            {
+                var result = await _pageDialog.DisplayAlertAsync("Deseja excluir o cliente abaixo ?", "ID:" + ListaSelected.ClienteID + "\nNome: " + ListaSelected.Nome + "\nIdade: " + ListaSelected.Idade + "\nTelefone: " + ListaSelected.Telefone, "SIM", "NÃO");
+                await Task.Delay(500);
+                if (result)
+                {
+                    ExcluiBanco(ListaSelected.ClienteID);
+                    if (ItemEscolha.Equals(1))
+                    {
+                        ProcuraPorIDAsync();
+                    }
+                    else if(ItemEscolha.Equals(2))
+                    {
+                        ProcuraPorNomeAsync();
+                    }
+                }                
+            }
+        }
+
+        private async void ExcluiBanco(int idCliente)
+        {
+            try
+            {
+                DatabaseContext contexto = new DatabaseContext();
+                Cliente c = contexto.Clientes.Find(idCliente);
+                contexto.Entry(c).State = EntityState.Deleted;
+                contexto.SaveChanges();
+                await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
+            }
+            catch (Exception)
+            {
+                await _pageDialog.DisplayAlertAsync("Erro", "Cliente já excluído", "OK");
+            }
+
+        }
+
+
+
 
     }
 }

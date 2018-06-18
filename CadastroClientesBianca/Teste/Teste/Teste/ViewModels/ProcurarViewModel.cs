@@ -16,13 +16,13 @@ namespace AppClientes.ViewModels
         public ProcurarViewModel(IPageDialogService pageDialog)
         {
             Title = "Procurar Clientes";
-            TitleTipo = "Selecione o tipo de busca:";
             TitleButton = "Pesquisar";
             _pageDialog = pageDialog;
-            Procurar = new DelegateCommand<object>(ProcurarBD);
-            ImagemList = "drawable-xhdpi/person.png";
+            Procurar = new DelegateCommand(ProcurarBD);
+            ImagemList = "drawable-hdpi/person.png";
             Elementos = _Elementos;
             ListaClientes = ListaItens;
+            ListaSelect = new DelegateCommand(ListaClientes_ItemSelectedAsync);
         }
 
         public string Title { get; set; }
@@ -31,8 +31,10 @@ namespace AppClientes.ViewModels
         public string ImagemList { get; set; }
         public int ItemEscolha { get; set; }
         public string ItemProcura { get; set; }
+        public Cliente ListaSelected { get; set; }
         IPageDialogService _pageDialog;
-        public DelegateCommand<object> Procurar { get; set; }
+        public DelegateCommand Procurar { get; set; }
+        public DelegateCommand ListaSelect { get; set; }
 
         public List<string> _Elementos = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
         public List<string> Elementos
@@ -62,7 +64,7 @@ namespace AppClientes.ViewModels
         }
 
 
-        private async void ProcurarBD(object parm)
+        private async void ProcurarBD()
         {
             
             if (ItemProcura != null && ItemEscolha != 0)
@@ -149,21 +151,12 @@ namespace AppClientes.ViewModels
             }
         }
 
+        private async void ListaClientes_ItemSelectedAsync()
+        {
 
-
-
-
-
-
-        //private void ListaClientes_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        //{
-        //    if (e.SelectedItem != null)
-        //    {
-        //        var element = e.SelectedItem as Cliente;
-        //        DisplayAlert("Detalhes do Cliente", "ID:" + element.ClienteID + "\nNome: " + element.Nome + "\nIdade: " + element.Idade + "\nTelefone: " + element.Telefone, "OK");
-        //        ListaClientes.SelectedItem = null;
-        //    }
-        //}
+            await _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListaSelected.ClienteID + "\nNome: " + ListaSelected.Nome + "\nIdade: " + ListaSelected.Idade + "\nTelefone: " + ListaSelected.Telefone, "OK");
+            ListaSelected = null;            
+        }
 
 
 

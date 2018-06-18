@@ -59,6 +59,7 @@ namespace AppClientes
             containerRegistry.RegisterForNavigation<ExcluirView,ExcluirViewModel>();
             containerRegistry.RegisterForNavigation<ListagemView,ListagemViewModel>();
             containerRegistry.RegisterForNavigation<ProcurarView,ProcurarViewModel>();
+            containerRegistry.RegisterForNavigation<ListagemView>();
         }
 
     }

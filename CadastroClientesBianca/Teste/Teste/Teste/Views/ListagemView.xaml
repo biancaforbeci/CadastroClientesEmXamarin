@@ -7,30 +7,45 @@
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     prism:ViewModelLocator.AutowireViewModel="True">
 
-    <StackLayout>
+
+    <StackLayout Spacing="20">
         <Label
             Font="40"
             HorizontalOptions="FillAndExpand"
             HorizontalTextAlignment="Center"
-            Text="{Binding Title}" />
+            Text="{Binding Title}"
+            TextColor="LightSeaGreen" />
 
         <Picker ItemsSource="{Binding Elementos}" SelectedIndex="{Binding ElementosSelectedIndex}" />
 
 
-        <!--<Button Command="{Binding PesquisaBD}" Text="{Binding Pesquisar}" />-->
+        <Button Command="{Binding PesquisaBD}" Text="{Binding Pesquisar}" />
 
 
-        <ListView x:Name="ListaClientes" ItemsSource="{Binding ListaClientes}">
+        <ListView
+            x:Name="ListaClientes"
+            ItemsSource="{Binding ListaClientes}"
+            SelectedItem="{Binding ListaSelected}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ImageCell
-                        Detail="{Binding Nome}"
-                        DetailColor="Blue"
-                        ImageSource="{Binding ImagemList}"
-                        Text="{Binding ClienteID}"
-                        TextColor="DeepSkyBlue" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="drawable-xhdpi/person.png" />
+                            <Label
+                                Font="20"
+                                Text="{Binding ClienteID}"
+                                TextColor="Black" />
+                            <Label
+                                Font="30"
+                                Text="{Binding Nome}"
+                                TextColor="Blue" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior Command="{Binding ListaSelect}" EventName="ItemSelected" />
+            </ListView.Behaviors>
         </ListView>
 
 
