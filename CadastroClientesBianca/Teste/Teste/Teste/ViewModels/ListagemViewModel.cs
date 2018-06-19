@@ -1,4 +1,5 @@
 ﻿using AppClientes.DAL;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -16,7 +17,9 @@ namespace AppClientes.ViewModels
 {
     public class ListagemViewModel : BindableBase, INotifyPropertyChanged
     {
-        public ListagemViewModel(IPageDialogService pageDialog)
+        private readonly ClienteService _clienteService;
+
+        public ListagemViewModel(IPageDialogService pageDialog, ClienteService clienteService)
         {
             Title = "Clientes Cadastrados";           
             _pageDialog = pageDialog;
@@ -25,6 +28,7 @@ namespace AppClientes.ViewModels
             Pesquisar = "Pesquisar";
             PesquisaBD = new DelegateCommand(PesquisarBD);
             ListaSelect = new DelegateCommand(ListaClientes_ItemSelected);
+            _clienteService = clienteService;
         }
         
 
@@ -106,7 +110,7 @@ namespace AppClientes.ViewModels
 
             if (ItemEscolha.Equals(1))
             {
-                var lista = contexto.Clientes.ToList();
+                var lista=_clienteService.ListagemGeral();
                 if (lista.Count > 0)
                 {
                     ListaClientes = lista;
@@ -118,9 +122,7 @@ namespace AppClientes.ViewModels
             }
             else if (ItemEscolha.Equals(2))
             {
-                var listaord = (from x in contexto.Clientes
-                                orderby x.Idade
-                                select x).ToList();
+                var listaord = _clienteService.ListagemPorIdade();
                 if (listaord.Count > 0)
                 {
                     ListaClientes = listaord;

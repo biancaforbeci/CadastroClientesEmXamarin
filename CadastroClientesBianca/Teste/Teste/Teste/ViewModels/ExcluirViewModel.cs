@@ -1,4 +1,5 @@
 ﻿using AppClientes.DAL;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
@@ -15,7 +16,9 @@ namespace AppClientes.ViewModels
 {
 	public class ExcluirViewModel : BindableBase, INotifyPropertyChanged
 	{
-        public ExcluirViewModel(IPageDialogService pageDialog)
+        private readonly ClienteService _clienteService;
+
+        public ExcluirViewModel(IPageDialogService pageDialog, ClienteService ClienteService)
         {
             Title = "Excluir Clientes";            
             TitleButton = "Pesquisar";
@@ -24,7 +27,7 @@ namespace AppClientes.ViewModels
             Elementos = _Elementos;
             ListaClientes = ListaItens;
             ListaSelect = new DelegateCommand(ListaClientes_ItemSelectedAsync);
-            
+            _clienteService = ClienteService;            
         }
 
         private int referen = 0; 
@@ -109,9 +112,7 @@ namespace AppClientes.ViewModels
 
         private async void ProcuraPorIDAsync()
         {
-            var busca = (from c in contexto.Clientes
-                         where c.ClienteID.Equals(Convert.ToInt32(ItemProcura))
-                         select c).ToList();
+            var busca = _clienteService.ProcuraPorID(Convert.ToInt32(ItemProcura));
 
             if (busca.Count > 0)
             {
@@ -136,9 +137,7 @@ namespace AppClientes.ViewModels
 
         private async void ProcuraPorNomeAsync()
         {
-            var busca = (from c in contexto.Clientes
-                         where c.Nome.ToLower().Equals(ItemProcura.ToLower())
-                         select c).ToList();
+            var busca = _clienteService.ProcuraPorNome(ItemProcura.ToLower());
 
             if (busca.Count > 0)
             {
@@ -201,8 +200,7 @@ namespace AppClientes.ViewModels
             {
                 DatabaseContext contexto = new DatabaseContext();
                 Cliente c = contexto.Clientes.Find(idCliente);
-                contexto.Entry(c).State = EntityState.Deleted;
-                contexto.SaveChanges();
+                _clienteService.ExcluirCliente(c);
                 await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
             }
             catch (Exception)

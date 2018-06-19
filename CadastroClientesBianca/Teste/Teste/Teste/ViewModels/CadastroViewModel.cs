@@ -1,4 +1,6 @@
 ﻿using AppClientes.DAL;
+using AppClientes.Infra;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -13,7 +15,10 @@ namespace AppClientes.ViewModels
 {
 	public class CadastroViewModel : BindableBase
 	{
-        public CadastroViewModel(IPageDialogService pageDialog)
+
+        private readonly ClienteService _clienteService;
+
+        public CadastroViewModel(IPageDialogService pageDialog, ClienteService ClienteService)
         {
             Title = "Cadastro Clientes";            
             TitleNome = "Nome";
@@ -21,6 +26,7 @@ namespace AppClientes.ViewModels
             TitleTelefone = "Telefone";
             Cadastrar = new DelegateCommand<object>(SalvarBD);
             _pageDialog = pageDialog;
+            _clienteService=ClienteService;
         }
 
         public string Title { get; set; }
@@ -56,9 +62,7 @@ namespace AppClientes.ViewModels
             {
                 try
                 {
-                    DatabaseContext contexto = new DatabaseContext();
-                    contexto.Add(novo);
-                    contexto.SaveChanges();
+                    _clienteService.SalvaBanco(novo);
                     _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
                 }
                 catch (Exception e)
@@ -94,7 +98,7 @@ namespace AppClientes.ViewModels
             else
             {
                 await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
-                 await Task.Delay(500);
+                await Task.Delay(500);
             }
 
         }
