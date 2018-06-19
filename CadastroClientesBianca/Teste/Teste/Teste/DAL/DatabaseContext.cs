@@ -10,7 +10,7 @@ using System.Text;
 
 namespace AppClientes.DAL
 {
-    public class DatabaseContext: DbContext : IDownData
+    public class DatabaseContext: DbContext 
     {
         public static string DatabasePath { get; set; }
 
