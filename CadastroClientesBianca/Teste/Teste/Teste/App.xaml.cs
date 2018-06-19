@@ -1,4 +1,5 @@
 ﻿using AppClientes.DAL;
+using AppClientes.Infra.Services;
 using AppClientes.ViewModels;
 using AppClientes.Views;
 using Prism;
@@ -59,7 +60,9 @@ namespace AppClientes
             containerRegistry.RegisterForNavigation<ExcluirView,ExcluirViewModel>();
             containerRegistry.RegisterForNavigation<ListagemView,ListagemViewModel>();
             containerRegistry.RegisterForNavigation<ProcurarView,ProcurarViewModel>();
-            containerRegistry.RegisterForNavigation<ListagemView>();
+            containerRegistry.RegisterInstance(new DatabaseContext());
+            containerRegistry.Register<IService,ClienteService>();
+
         }
 
     }

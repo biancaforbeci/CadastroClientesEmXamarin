@@ -1,18 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using AppClientes.Infra;
+using AppClientes.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AppClientes.Infra;
-using AppClientes.Models;
+using System.Text;
 
 namespace AppClientes.DAL
 {
-    class DatabaseContext:DbContext
+    public class DatabaseContext: DbContext : IDownData
     {
         public static string DatabasePath { get; set; }
 
-        public DbSet<Cliente> Clientes{ get; private set; }
+        public DbSet<Cliente> Clientes { get; private set; }
 
         public DatabaseContext()
         {
@@ -75,5 +77,6 @@ namespace AppClientes.DAL
                 return new FileInfo(DatabasePath).Length;
             return double.NaN;
         }
+        
     }
-}
+    }
