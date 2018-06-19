@@ -122,6 +122,7 @@ namespace AppClientes.ViewModels
                 if (referen == 0)
                 {
                     await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                    ListaClientes = busca;
                 }
                 else
                 {
@@ -148,6 +149,7 @@ namespace AppClientes.ViewModels
                 if (referen == 0)
                 {
                     await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                    ListaClientes = busca;
                 }
                 else
                 {
