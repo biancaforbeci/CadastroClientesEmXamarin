@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AppClientes.DAL;
 using AppClientes.Models;
 
 namespace AppClientes.Infra.Services
 {
-    public class ClienteService : IService
+    public class ClienteService : IService 
     {
+     
+
+        public ClienteService()
+        {
+            
+        }
+
         public List<Cliente> ListagemGeral()
         {
             return contexto.Clientes.ToList();

@@ -77,6 +77,7 @@ namespace AppClientes.DAL
                 return new FileInfo(DatabasePath).Length;
             return double.NaN;
         }
+
         
     }
     }

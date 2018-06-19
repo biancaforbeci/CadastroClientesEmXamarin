@@ -6,6 +6,6 @@ namespace AppClientes.DAL
 {
     interface IDownData
     {
-      void ConexaoBanco();
+      DatabaseContext ConexaoBanco();
     }
 }
