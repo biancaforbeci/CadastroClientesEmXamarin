@@ -115,6 +115,7 @@ namespace AppClientes.ViewModels
             else
             {
                 await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                ListaClientes = busca;
             }
 
         }
@@ -132,6 +133,7 @@ namespace AppClientes.ViewModels
             else
             {
                 await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                ListaClientes = busca;
             }
         }
 

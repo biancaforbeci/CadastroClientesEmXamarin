@@ -42,12 +42,12 @@
                             <StackLayout Orientation="Horizontal">
                                 <Image Source="drawable-xhdpi/person.png" />
                                 <Label
-                                    Font="20"
-                                    Text="{Binding ClienteID}"
+                                    Font="30"
+                                    Text="{Binding Nome}"
                                     TextColor="Black" />
                                 <Label
                                     Font="30"
-                                    Text="{Binding Nome}"
+                                    Text="{Binding Idade}"
                                     TextColor="Blue" />
                             </StackLayout>
                         </ViewCell>

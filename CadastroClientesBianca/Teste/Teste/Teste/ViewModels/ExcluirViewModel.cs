@@ -27,6 +27,7 @@ namespace AppClientes.ViewModels
             
         }
 
+        private int referen = 0; 
         public string Title { get; set; }
         public string TitleTipo { get; set; }
         public string TitleButton { get; set; }        
@@ -118,7 +119,17 @@ namespace AppClientes.ViewModels
             }
             else
             {
-                await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                if (referen == 0)
+                {
+                    await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                    ListaClientes = busca;
+                }
+                else
+                {
+                    ListaClientes = busca;
+                    referen = 0;
+                }
+              
             }
 
         }
@@ -135,7 +146,16 @@ namespace AppClientes.ViewModels
             }
             else
             {
-                await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                if (referen == 0)
+                {
+                    await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
+                    ListaClientes = busca;
+                }
+                else
+                {
+                    ListaClientes = busca;
+                    referen = 0;
+                }
             }
         }
 
@@ -162,6 +182,7 @@ namespace AppClientes.ViewModels
                 if (result)
                 {
                     ExcluiBanco(ListaSelected.ClienteID);
+                    referen = 1;
                     if (ItemEscolha.Equals(1))
                     {
                         ProcuraPorIDAsync();
