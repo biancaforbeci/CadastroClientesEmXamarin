@@ -50,23 +50,23 @@ namespace AppClientes.ViewModels
 
         private void PageRegister()
         {
-            _navigationService.NavigateAsync("CadastroView");
+            _navigationService.NavigateAsync("RegisterView");
         }
 
 
         private void PageDelete()
         {
-            _navigationService.NavigateAsync("ExcluirView");  
+            _navigationService.NavigateAsync("DeleteView");  
         }
 
         private void PageList()
         {
-            _navigationService.NavigateAsync("ListagemView");  
+            _navigationService.NavigateAsync("ListingView");  
         }
 
         private void PageSearch()
         {
-            _navigationService.NavigateAsync("ProcurarView");  
+            _navigationService.NavigateAsync("SearchView");  
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

@@ -2,9 +2,9 @@
 
 namespace AppClientes.Views
 {
-    public partial class ListagemView : ContentPage
+    public partial class ListingView : ContentPage
     {
-        public ListagemView()
+        public ListingView()
         {
             InitializeComponent();
         }

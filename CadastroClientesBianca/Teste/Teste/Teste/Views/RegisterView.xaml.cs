@@ -2,9 +2,9 @@
 
 namespace AppClientes.Views
 {
-    public partial class CadastroView : ContentPage
+    public partial class RegisterView : ContentPage
     {
-        public CadastroView()
+        public RegisterView()
         {
             InitializeComponent();
         }

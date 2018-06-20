@@ -4,12 +4,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="HomePage"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Spacing="50">
 
-            <Image Source="{Binding Imagem}" VerticalOptions="Start" />
+            <Image Source="{Binding Image}" VerticalOptions="Start" />
 
             <Label
                 Font="70"

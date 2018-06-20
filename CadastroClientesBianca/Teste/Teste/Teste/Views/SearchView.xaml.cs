@@ -2,9 +2,9 @@
 
 namespace AppClientes.Views
 {
-    public partial class ProcurarView : ContentPage
+    public partial class SearchView : ContentPage
     {
-        public ProcurarView()
+        public SearchView()
         {
             InitializeComponent();
         }
