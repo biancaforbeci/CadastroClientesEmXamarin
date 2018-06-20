@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     Title="RegisterView"
-    prism:ViewModelLocator.AutowireViewModel="True"
-    NavigationPage.HasNavigationBar="True">
-
+    prism:ViewModelLocator.AutowireViewModel="True">
     <ContentPage.Content>
         <StackLayout Spacing="50">
             <Label
@@ -17,7 +15,7 @@
                 Text="{Binding Title}"
                 TextColor="LightSeaGreen" />
 
-            <Label
+            <!--<Label
                 Font="40"
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
@@ -63,7 +61,7 @@
                 HorizontalOptions="FillAndExpand"
                 Text="Salvar"
                 TextColor="Aquamarine"
-                VerticalOptions="Start" />
+                VerticalOptions="Start" />-->
 
         </StackLayout>
     </ContentPage.Content>

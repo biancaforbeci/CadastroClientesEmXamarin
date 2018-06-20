@@ -24,7 +24,7 @@ namespace AppClientes
 
             NavigationService.NavigateAsync("HomePage");
 
-            InitializingAsync();
+            //InitializingAsync();
         }        
 		
 		protected override void OnStart ()
@@ -33,14 +33,14 @@ namespace AppClientes
 		}
 
 
-        protected async void InitializingAsync()
-        {
-            var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            var fileName = "Clients.db";
-            var dbFullPath = Path.Combine(dbFolder, fileName);
-            DatabaseContext context = new DatabaseContext(dbFullPath);
-            await Database.InitializeDataAsync(context);
-        }
+        //protected async void InitializingAsync()
+        //{
+        //    var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        //    var fileName = "Clients.db";
+        //    var dbFullPath = Path.Combine(dbFolder, fileName);
+        //    DatabaseContext context = new DatabaseContext(dbFullPath);
+        //    await Database.InitializeDataAsync(context);
+        //}
 
 		protected override void OnSleep ()
 		{
