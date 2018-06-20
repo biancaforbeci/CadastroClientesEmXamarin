@@ -1,7 +1,5 @@
-﻿using AppClientes.DAL;
-using AppClientes.Infra.Services;
+﻿using AppClientes.Infra.Services;
 using AppClientes.Models;
-using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
@@ -10,30 +8,29 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AppClientes.ViewModels
 {
-	public class DeleteViewModel : BindableBase, INotifyPropertyChanged
-	{
+    public class DeleteViewModel : BindableBase, INotifyPropertyChanged
+    {
         private readonly IService _clienteService;
 
         public DeleteViewModel(IPageDialogService pageDialog, IService ClienteService)
         {
-            Title = "Excluir Clientes";            
+            Title = "Excluir Clientes";
             TitleButton = "Pesquisar";
-            _pageDialog = pageDialog;            
+            _pageDialog = pageDialog;
             Search = new DelegateCommand(SearchDB);
             Elements = _Elements;
             ListClients = ListItems;
             ListSelect = new DelegateCommand(ListClients_ItemSelectedAsync);
-            _clienteService = ClienteService;            
+            _clienteService = ClienteService;
         }
 
-        private int reference = 0; 
+        private int reference = 0;
         public string Title { get; set; }
         public string TitleTipo { get; set; }
-        public string TitleButton { get; set; }        
+        public string TitleButton { get; set; }
         public int Selected { get; set; }
         public string ItemSearch { get; set; }
         IPageDialogService _pageDialog;
@@ -108,7 +105,7 @@ namespace AppClientes.ViewModels
             }
         }
 
-        
+
         private async void SearchID()
         {
             var search = _clienteService.SearchID(Convert.ToInt32(ItemSearch));
@@ -129,7 +126,7 @@ namespace AppClientes.ViewModels
                     ListClients = search;
                     reference = 0;
                 }
-              
+
             }
 
         }
@@ -176,20 +173,20 @@ namespace AppClientes.ViewModels
             if (ListSelected != null)
             {
                 var result = await _pageDialog.DisplayAlertAsync("Deseja excluir o cliente abaixo ?", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name + "\nIdade: " + ListSelected.Age + "\nTelefone: " + ListSelected.Phone, "SIM", "NÃO");
-                
+
                 if (result)
                 {
                     DeleteDB(ListSelected.ClientID);
-                    reference= 1;
+                    reference = 1;
                     if (Selected.Equals(1))
                     {
                         SearchID();
                     }
-                    else if(Selected.Equals(2))
+                    else if (Selected.Equals(2))
                     {
                         SearchName();
                     }
-                }                
+                }
             }
         }
 
@@ -198,9 +195,9 @@ namespace AppClientes.ViewModels
             try
             {
                 Client c = _clienteService.SearchClient(idClient);
-               _clienteService.DeleteClient(c);
-               await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
-                               
+                _clienteService.DeleteClient(c);
+                await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
+
             }
             catch (Exception)
             {
@@ -208,9 +205,5 @@ namespace AppClientes.ViewModels
             }
 
         }
-
-
-
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using AppClientes.DAL;
-using AppClientes.Infra;
-using AppClientes.Infra.Services;
+﻿using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -9,24 +7,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AppClientes.ViewModels
 {
-	public class RegisterViewModel : BindableBase
-	{
+    public class RegisterViewModel : BindableBase
+    {
 
         private readonly IService _clientService;
 
         public RegisterViewModel(IPageDialogService pageDialog, IService ClientService)
         {
-            Title = "Cadastro Clientes";            
+            Title = "Cadastro Clientes";
             TitleName = "Nome";
             TitleAge = "Idade";
             TitlePhone = "Telefone";
             Register = new DelegateCommand<object>(SavingClient);
             _pageDialog = pageDialog;
-            _clientService=ClientService;
+            _clientService = ClientService;
         }
 
         public string Title { get; set; }
@@ -37,42 +34,42 @@ namespace AppClientes.ViewModels
         public string AgeCli { get; set; }
         public string PhoneCli { get; set; }
 
-        
+
         public DelegateCommand<object> Register { get; set; }
         IPageDialogService _pageDialog;
 
-            bool x;
+        bool x;
 
-            private void SavingClient(object sender)
+        private void SavingClient(object sender)
+        {
+            Validate();
+
+            if (x == true)
             {
-                Validate();
-
-                if (x == true)
-                {
-                    Client c = new Client();
-                    c.Name = NameCli;
-                    c.Age = Convert.ToInt32(AgeCli);
-                    c.Phone = PhoneCli;
-                    SavingDB(c);
-                }
-
+                Client c = new Client();
+                c.Name = NameCli;
+                c.Age = Convert.ToInt32(AgeCli);
+                c.Phone = PhoneCli;
+                SavingDB(c);
             }
 
-            private void SavingDB(Client c)
-            {
-                try
-                {
-                    _clientService.SaveClient(c);
-                    _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
-                }
-                catch (Exception e)
-                {
-                    _pageDialog.DisplayAlertAsync("Erro", "Ocorreu um erro para salvar: " + e, "OK");
-                }
-            }
+        }
 
-            private async void Validate()
+        private void SavingDB(Client c)
+        {
+            try
             {
+                _clientService.SaveClient(c);
+                _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
+            }
+            catch (Exception e)
+            {
+                _pageDialog.DisplayAlertAsync("Erro", "Ocorreu um erro para salvar: " + e, "OK");
+            }
+        }
+
+        private async void Validate()
+        {
 
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
 
@@ -97,20 +94,9 @@ namespace AppClientes.ViewModels
             }
             else
             {
-                await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");                
+                await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
             }
 
         }
-        }
     }
-
-
-
-
-
-
-
-
-
-
-
+}

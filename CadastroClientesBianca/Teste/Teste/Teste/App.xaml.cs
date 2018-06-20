@@ -24,7 +24,7 @@ namespace AppClientes
 
             NavigationService.NavigateAsync("HomePage");
 
-            InicializandoAsync();
+            InitializingAsync();
         }        
 		
 		protected override void OnStart ()
@@ -33,13 +33,13 @@ namespace AppClientes
 		}
 
 
-        protected async void InicializandoAsync()
+        protected async void InitializingAsync()
         {
             var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            var fileName = "Clientes.db";
+            var fileName = "Clients.db";
             var dbFullPath = Path.Combine(dbFolder, fileName);
-            DatabaseContext contexto = new DatabaseContext(dbFullPath);
-            await Database.InitializeDataAsync(contexto);
+            DatabaseContext context = new DatabaseContext(dbFullPath);
+            await Database.InitializeDataAsync(context);
         }
 
 		protected override void OnSleep ()
@@ -62,8 +62,7 @@ namespace AppClientes
             containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
             containerRegistry.RegisterInstance(new DatabaseContext());
             containerRegistry.Register<IDownData, ClientService>();
-
+            containerRegistry.RegisterForNavigation<RegisterView>();
         }
-
     }
 }

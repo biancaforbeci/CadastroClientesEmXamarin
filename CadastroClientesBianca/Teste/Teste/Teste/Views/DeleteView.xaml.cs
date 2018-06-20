@@ -1,13 +1,12 @@
-﻿using AppClientes.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace AppClientes.Views
 {
-    public partial class ExcluirView : ContentPage
+    public partial class DeleteView : ContentPage
     {
-        public ExcluirView()
+        public DeleteView()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
     }
 }
