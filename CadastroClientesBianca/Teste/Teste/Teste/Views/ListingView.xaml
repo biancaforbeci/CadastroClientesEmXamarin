@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AppClientes.Views.ExcluirView"
+    x:Class="AppClientes.Views.ListingView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
@@ -8,34 +8,27 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <StackLayout Spacing="20">
+        <StackLayout Spacing="50">
             <Label
                 Font="40"
-                HorizontalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
                 Text="{Binding Title}"
-                TextColor="LightSeaGreen"
-                VerticalOptions="CenterAndExpand" />
+                TextColor="LightSeaGreen" />
 
-            <Picker ItemsSource="{Binding Elementos}" SelectedIndex="{Binding ElementosSelectedIndex}" />
+            <Picker ItemsSource="{Binding Elements}" SelectedIndex="{Binding ElementsSelectedIndex}" />
 
-            <Entry
-                x:Name="entryExcluir"
-                FontSize="Large"
-                Keyboard="Text"
-                Text="{Binding ItemProcura}"
-                TextColor="Black" />
 
             <Button
-                Command="{Binding Procurar}"
+                Command="{Binding SearchDB}"
                 Font="30"
-                HorizontalOptions="FillAndExpand"
-                Text="Pesquisar"
-                VerticalOptions="Start" />
+                Text="{Binding Search}" />
+
 
             <ListView
                 x:Name="ListaClientes"
-                ItemsSource="{Binding ListaClientes}"
-                SelectedItem="{Binding ListaSelected}">
+                ItemsSource="{Binding ListClients}"
+                SelectedItem="{Binding ListSelected}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -43,21 +36,22 @@
                                 <Image Source="drawable-xhdpi/person.png" />
                                 <Label
                                     Font="30"
-                                    Text="{Binding Nome}"
+                                    Text="{Binding Name}"
                                     TextColor="Black" />
                                 <Label
                                     Font="30"
-                                    Text="{Binding Idade}"
+                                    Text="{Binding Age}"
                                     TextColor="Blue" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior Command="{Binding ListaSelect}" EventName="ItemSelected" />
+                    <behaviors:EventToCommandBehavior Command="{Binding ListSelect}" EventName="ItemSelected" />
                 </ListView.Behaviors>
             </ListView>
+
+
         </StackLayout>
     </ContentPage.Content>
-
 </ContentPage>

@@ -14,7 +14,7 @@ namespace AppClientes.DAL
     {
         public static string DatabasePath { get; set; }
 
-        public DbSet<Cliente> Clientes { get; private set; }
+        public DbSet<Client> Clients { get; private set; }
 
         public DatabaseContext()
         {
@@ -76,8 +76,6 @@ namespace AppClientes.DAL
             if (File.Exists(DatabasePath))
                 return new FileInfo(DatabasePath).Length;
             return double.NaN;
-        }
-
-        
+        }        
     }
     }
