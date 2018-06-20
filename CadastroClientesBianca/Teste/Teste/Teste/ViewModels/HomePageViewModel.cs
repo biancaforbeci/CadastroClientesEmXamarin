@@ -15,16 +15,16 @@ namespace AppClientes.ViewModels
         public HomePageViewModel(INavigationService navigationService)
         {
             Title = "Bem-Vindo";
-            Imagem = "imagem.png";
-            Cadastro = "Cadastrar";
-            Listagem = "Listagem";
-            Procura = "Buscar";
-            Excluir = "Excluir";
+            Image = "imagem.png";
+            Register = "Cadastrar";
+            Listing = "Listagem";
+            Search = "Buscar";
+            Delete = "Excluir";
             _navigationService = navigationService;
-            Cadastrar = new DelegateCommand(TelaCadastro);
-            Listar = new DelegateCommand(TelaListar);
-            Exclusao = new DelegateCommand(TelaExcluir);
-            Procurar = new DelegateCommand(TelaProcurar);
+            RegisterClient = new DelegateCommand(PageRegister);
+            PageListClient = new DelegateCommand(PageList);
+            DeletePage = new DelegateCommand(PageDelete);
+            SearchPage = new DelegateCommand(PageSearch);
 
         }
 
@@ -32,39 +32,39 @@ namespace AppClientes.ViewModels
         private readonly INavigationService _navigationService;
 
         public string Title { get; set; }
-        public string Imagem { get; set; }
-        public string Cadastro { get; set; }
-        public string Listagem { get; set; }
-        public string Procura { get; set; }
-        public string Excluir { get; set; }
+        public string Image { get; set; }
+        public string Register { get; set; }
+        public string Listing { get; set; }
+        public string Search { get; set; }
+        public string Delete { get; set; }
 
 
-        public DelegateCommand Cadastrar { get; set; }
-        public DelegateCommand Listar { get; set; }
-        public DelegateCommand Exclusao { get; set; }
-        public DelegateCommand Procurar { get; set; }
+        public DelegateCommand RegisterClient { get; set; }
+        public DelegateCommand PageListClient { get; set; }
+        public DelegateCommand DeletePage { get; set; }
+        public DelegateCommand SearchPage { get; set; }
 
 
 
 
 
-        private void TelaCadastro()
+        private void PageRegister()
         {
             _navigationService.NavigateAsync("CadastroView");
         }
 
 
-        private void TelaExcluir()
+        private void PageDelete()
         {
-            _navigationService.NavigateAsync("ExcluirView");  //não abrindo
+            _navigationService.NavigateAsync("ExcluirView");  
         }
 
-        private void TelaListar()
+        private void PageList()
         {
-            _navigationService.NavigateAsync("ListagemView");  //não abrindo
+            _navigationService.NavigateAsync("ListagemView");  
         }
 
-        private void TelaProcurar()
+        private void PageSearch()
         {
             _navigationService.NavigateAsync("ProcurarView");  
         }

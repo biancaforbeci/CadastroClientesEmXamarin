@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AppClientes.Views.CadastroView"
+    x:Class="AppClientes.Views.RegisterView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
@@ -21,12 +21,12 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="{Binding TitleNome}" />
+                Text="{Binding TitleName}" />
             <Entry
                 x:Name="EntryNome"
                 FontSize="Large"
                 Keyboard="Text"
-                Text="{Binding NomeCli}"
+                Text="{Binding NameCli}"
                 TextColor="Black" />
 
             <Label
@@ -34,12 +34,12 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="{Binding TitleIdade}" />
+                Text="{Binding TitleAge}" />
             <Entry
                 x:Name="EntryIdade"
                 FontSize="Large"
                 Keyboard="Numeric"
-                Text="{Binding IdadeCli}"
+                Text="{Binding AgeCli}"
                 TextColor="Black" />
 
             <Label
@@ -47,17 +47,17 @@
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
-                Text="{Binding TitleTelefone}" />
+                Text="{Binding TitlePhone}" />
             <Entry
                 x:Name="EntryTelefone"
                 FontSize="Large"
                 Keyboard="Telephone"
-                Text="{Binding TelefoneCli}"
+                Text="{Binding PhoneCli}"
                 TextColor="Black" />
 
             <Button
                 BackgroundColor="Gray"
-                Command="{Binding Cadastrar}"
+                Command="{Binding Register}"
                 Font="50"
                 HorizontalOptions="FillAndExpand"
                 Text="Salvar"

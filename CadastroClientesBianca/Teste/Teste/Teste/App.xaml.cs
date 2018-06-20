@@ -55,13 +55,13 @@ namespace AppClientes
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
-            containerRegistry.RegisterForNavigation<HomePage,HomePageViewModel>();
-            containerRegistry.RegisterForNavigation<CadastroView,CadastroViewModel>();
-            containerRegistry.RegisterForNavigation<ExcluirView,ExcluirViewModel>();
-            containerRegistry.RegisterForNavigation<ListagemView,ListagemViewModel>();
-            containerRegistry.RegisterForNavigation<ProcurarView,ProcurarViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>();
+            containerRegistry.RegisterForNavigation<DeleteView, DeleteViewModel>();
+            containerRegistry.RegisterForNavigation<ListingView, ListingViewModel>();
+            containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
             containerRegistry.RegisterInstance(new DatabaseContext());
-            containerRegistry.Register<IService,ClienteService>();
+            containerRegistry.Register<IDownData, ClientService>();
 
         }
 

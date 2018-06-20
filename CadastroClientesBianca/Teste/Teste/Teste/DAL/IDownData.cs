@@ -4,8 +4,8 @@ using System.Text;
 
 namespace AppClientes.DAL
 {
-    interface IDownData
+    public interface IDownData
     {
-      DatabaseContext ConexaoBanco();
+        DatabaseContext ConexaoBanco();
     }
 }

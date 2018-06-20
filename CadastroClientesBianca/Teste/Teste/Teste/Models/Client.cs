@@ -6,12 +6,12 @@ using System.Text;
 
 namespace AppClientes.Models
 {
-    public class Cliente
+    public class Client
     {
         [Key]
-        public int ClienteID { get; set; }
-        public string Nome { get; set; }
-        public int Idade { get; set; }
-        public string Telefone { get; set; }
+        public int ClientID { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Phone { get; set; }
     }
 }

@@ -8,14 +8,18 @@ namespace AppClientes.Infra.Services
     public interface IService
     {
 
-        bool SalvaBanco(Cliente cli);
+        bool SaveClient(Client cli);
 
-        List<Cliente> ListagemPorIdade();
+        bool DeleteClient(Client cli);
 
-        List<Cliente> ListagemGeral();
+        Client SearchClient(int ID);
 
-        List<Cliente> ProcuraPorID(int ClienteID);
+        List<Client> AgeListing();
 
-        List<Cliente> ProcuraPorNome(string ClienteNome);
+        List<Client> AllClient();
+
+        List<Client> SearchID(int ClientID);
+
+        List<Client> SearchName(string ClientName);
     }
 }
