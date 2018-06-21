@@ -18,6 +18,7 @@ namespace AppClientes.DAL
 
         public DatabaseContext()
         {
+            
         }
 
         public DatabaseContext(string databasePath)

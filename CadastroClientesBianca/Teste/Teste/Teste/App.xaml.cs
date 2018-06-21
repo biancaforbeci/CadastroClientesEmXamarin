@@ -22,9 +22,9 @@ namespace AppClientes
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync("HomePage");
+            InitializingAsync();
 
-            //InitializingAsync();
+            NavigationService.NavigateAsync("HomePage");            
         }        
 		
 		protected override void OnStart ()
@@ -33,16 +33,15 @@ namespace AppClientes
 		}
 
 
-        //protected async void InitializingAsync()
-        //{
-        //    var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-        //    var fileName = "Clients.db";
-        //    var dbFullPath = Path.Combine(dbFolder, fileName);
-        //    DatabaseContext context = new DatabaseContext(dbFullPath);
-        //    await Database.InitializeDataAsync(context);
-        //}
+        protected void InitializingAsync()
+        {
+            var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            var fileName = "Clientes.db";
+            var dbFullPath = Path.Combine(dbFolder, fileName);
+            DatabaseContext.DatabasePath = dbFullPath;
+        }
 
-		protected override void OnSleep ()
+        protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
 		}
@@ -54,15 +53,13 @@ namespace AppClientes
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
-            containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>();
-            containerRegistry.RegisterForNavigation<DeleteView, DeleteViewModel>();
-            containerRegistry.RegisterForNavigation<ListingView, ListingViewModel>();
-            containerRegistry.RegisterForNavigation<SearchView, SearchViewModel>();
+            containerRegistry.RegisterForNavigation<Register, RegisterViewModel>();
+            containerRegistry.RegisterForNavigation<Delete, DeleteViewModel>();
+            containerRegistry.RegisterForNavigation<Listing, ListingViewModel>();
+            containerRegistry.RegisterForNavigation<Search, SearchViewModel>();
             containerRegistry.RegisterInstance(new DatabaseContext());
-            containerRegistry.Register<IDownData, ClientService>();
-            containerRegistry.RegisterForNavigation<RegisterView>();
+            containerRegistry.Register<IService, ClientService>();            
         }
     }
 }

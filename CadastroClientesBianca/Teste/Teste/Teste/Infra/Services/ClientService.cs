@@ -8,24 +8,20 @@ using System.Text;
 
 namespace AppClientes.Infra.Services
 {
-    public class ClientService : IDownData
+    public class ClientService : IService
     {
-        private readonly IDownData database;
-
-        public ClientService(IDownData Database)
+        
+        DatabaseContext _databaseContext;
+        
+        public ClientService(DatabaseContext databaseContext)
         {
-            database = Database;     
-        }
-     
-        public List<Client> All()
-        {
-            return database.ConexaoBanco().Clients.ToList();
-        }
-
+            _databaseContext = databaseContext;     
+        }    
+        
         public List<Client> AgeListing()
         {
 
-            var listaord = (from x in database.ConexaoBanco().Clients
+            var listaord = (from x in _databaseContext.Clients
                             orderby x.Age
                             select x).ToList();
 
@@ -34,7 +30,7 @@ namespace AppClientes.Infra.Services
 
         public List<Client> SearchID(int ClientID)
         {
-            var busca = (from c in database.ConexaoBanco().Clients
+            var busca = (from c in _databaseContext.Clients
                          where c.ClientID.Equals(ClientID)
                          select c).ToList();
 
@@ -43,7 +39,7 @@ namespace AppClientes.Infra.Services
 
         public List<Client> SearchName(string ClientName)
         {
-            var busca = (from c in database.ConexaoBanco().Clients
+            var busca = (from c in _databaseContext.Clients
                          where c.Name.ToLower().Equals(ClientName)
                          select c).ToList();
 
@@ -54,8 +50,8 @@ namespace AppClientes.Infra.Services
         {
             try
             {
-                database.ConexaoBanco().Clients.Add(cli);
-                database.ConexaoBanco().SaveChanges();
+                _databaseContext.Clients.Add(cli);
+                _databaseContext.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -68,10 +64,10 @@ namespace AppClientes.Infra.Services
         {
             try
             {
-                using (database.ConexaoBanco())
+                using (_databaseContext)
                 {
-                    database.ConexaoBanco().Entry(c).State = EntityState.Deleted;
-                    database.ConexaoBanco().SaveChanges();
+                    _databaseContext.Entry(c).State = EntityState.Deleted;
+                    _databaseContext.SaveChanges();
                 }
                 
                 return true;
@@ -86,14 +82,14 @@ namespace AppClientes.Infra.Services
         public Client SearchClient(int id)
         {
 
-            return database.ConexaoBanco().Clients.Find(id);
+            return _databaseContext.Clients.Find(id);
 
         }
 
-        public DatabaseContext ConexaoBanco()
+         public List<Client> AllClient()
         {
-            DatabaseContext context = new DatabaseContext();
-            return context;
+            return _databaseContext.Clients.ToList();
         }
+
     }
 }
