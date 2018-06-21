@@ -9,8 +9,7 @@ using System.Text;
 namespace AppClientes.Infra.Services
 {
     public class ClientService : IService
-    {
-        
+    {        
         DatabaseContext _databaseContext;
         
         public ClientService(DatabaseContext databaseContext)
@@ -67,7 +66,7 @@ namespace AppClientes.Infra.Services
                 using (_databaseContext)
                 {
                     _databaseContext.Entry(c).State = EntityState.Deleted;
-                    _databaseContext.SaveChanges();
+                    _databaseContext.Dispose();                    
                 }
                 
                 return true;
@@ -78,18 +77,14 @@ namespace AppClientes.Infra.Services
             }
         }
 
-
         public Client SearchClient(int id)
         {
-
             return _databaseContext.Clients.Find(id);
-
         }
 
          public List<Client> AllClient()
         {
             return _databaseContext.Clients.ToList();
         }
-
     }
 }

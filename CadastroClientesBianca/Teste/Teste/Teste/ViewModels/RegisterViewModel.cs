@@ -57,8 +57,15 @@ namespace AppClientes.ViewModels
         {
             try
             {
-                _clienteService.SaveClient(c);
-                _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
+                bool request=_clienteService.SaveClient(c);
+                if (request)
+                {
+                    _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
+                }
+                else
+                {
+                    _pageDialog.DisplayAlertAsync("Erro ao salvar", "Tente novamente", "OK");
+                }               
             }
             catch (Exception e)
             {

@@ -18,7 +18,6 @@ namespace AppClientes.ViewModels
         {
             Title = "Clientes Cadastrados";
             _pageDialog = pageDialog;
-            Elements = _Elements;
             ListClients = ListItems;
             Search = "Pesquisar";
             SearchDB = new DelegateCommand(SearchClient);
@@ -31,15 +30,10 @@ namespace AppClientes.ViewModels
         public string Search { get; set; }
         public Client ListSelected { get; set; }
         public int Selected { get; set; }
-        public List<string> _Elements = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
+        private List<string> _Elements = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
         public List<string> Elements
         {
-            get { return _Elements; }
-            set
-            {
-                if (Equals(value, _Elements)) return;
-                _Elements = value;
-            }
+            get { return _Elements; }            
         }
 
         public int ElementsSelectedIndex
