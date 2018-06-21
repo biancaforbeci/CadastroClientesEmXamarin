@@ -169,7 +169,7 @@ namespace AppClientes.ViewModels
 
                 if (result)
                 {
-                    DeleteDB(ListSelected.ClientID);
+                    DeleteDB(ListSelected.ClientID);                    
                     reference = 1;
                     if (Selected.Equals(1))
                     {
@@ -179,7 +179,7 @@ namespace AppClientes.ViewModels
                     {
                         SearchName();
                     }
-                }
+                }                
             }
         }
 
@@ -188,15 +188,10 @@ namespace AppClientes.ViewModels
             try
             {
                 Client c = _clienteService.SearchClient(idClient);
-                bool request =_clienteService.DeleteClient(c);
-                if (request)
+                if(_clienteService.DeleteClient(c) == true)
                 {
                     await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
-                }
-                else
-                {
-                    await _pageDialog.DisplayAlertAsync("Ocorreu um erro ao deletar", "Tente novamente", "OK");
-                }               
+                }                                       
             }
             catch (Exception)
             {
