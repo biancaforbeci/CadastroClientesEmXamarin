@@ -10,12 +10,10 @@ using System.Text.RegularExpressions;
 
 namespace AppClientes.ViewModels
 {
-    public class RegisterViewModel : BindableBase
-    {
-
-        private readonly IService _clientService;
-
-        public RegisterViewModel(IPageDialogService pageDialog, IService ClientService)
+	public class RegisterViewModel : BindableBase
+	{
+        private readonly IService _clienteService;
+        public RegisterViewModel(IPageDialogService pageDialog, IService clienteService)
         {
             Title = "Cadastro Clientes";
             TitleName = "Nome";
@@ -23,7 +21,7 @@ namespace AppClientes.ViewModels
             TitlePhone = "Telefone";
             Register = new DelegateCommand<object>(SavingClient);
             _pageDialog = pageDialog;
-            _clientService = ClientService;
+            _clienteService = clienteService;
         }
 
         public string Title { get; set; }
@@ -59,7 +57,7 @@ namespace AppClientes.ViewModels
         {
             try
             {
-                _clientService.SaveClient(c);
+                _clienteService.SaveClient(c);
                 _pageDialog.DisplayAlertAsync("Salvo", "Cliente salvo com sucesso", "OK");
             }
             catch (Exception e)

@@ -14,9 +14,9 @@ namespace AppClientes.ViewModels
 {
 	public class SearchViewModel : BindableBase, INotifyPropertyChanged
     {
-        private readonly ClientService _clienteService;
+        private readonly IService _clienteService;
 
-        public SearchViewModel(IPageDialogService pageDialog, ClientService clienteService)
+        public SearchViewModel(IPageDialogService pageDialog, IService clienteService)
         {
             Title = "Procurar Clientes";
             TitleButton = "Pesquisar";
@@ -30,7 +30,7 @@ namespace AppClientes.ViewModels
 
         public string Title { get; set; }
         public string TitleTipo { get; set; }
-        public string TitleButton { get; set; }        
+        public string TitleButton { get; set; }
         public int Selected { get; set; }
         public string ItemSearch { get; set; }
         public Client ListSelected { get; set; }
@@ -68,7 +68,7 @@ namespace AppClientes.ViewModels
 
         private async void SearchBD()
         {
-            
+
             if (ItemSearch != null && Selected != 0)
             {
                 if (Selected.Equals(1))
@@ -93,7 +93,7 @@ namespace AppClientes.ViewModels
                     }
                     else
                     {
-                        SearchName(); 
+                        SearchName();
                     }
 
                 }
@@ -104,7 +104,7 @@ namespace AppClientes.ViewModels
             }
         }
 
-       
+
 
         private async void SearchID()
         {
@@ -119,7 +119,6 @@ namespace AppClientes.ViewModels
                 await _pageDialog.DisplayAlertAsync("Atenção", "Não foi encontrado nada com esse resultado", "OK");
                 ListClients = search;
             }
-
         }
 
         private async void SearchName()
@@ -128,7 +127,7 @@ namespace AppClientes.ViewModels
 
             if (search.Count > 0)
             {
-                ListClients = search.ToList();                
+                ListClients = search.ToList();
             }
             else
             {
@@ -153,21 +152,11 @@ namespace AppClientes.ViewModels
 
         private async void ListClients_ItemSelectedAsync()
         {
-
             await _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name + "\nIdade: " + ListSelected.Age + "\nTelefone: " + ListSelected.Phone, "OK");
-            ListSelected = null;            
+            ListSelected = null;
         }
-
-
-
-
-
-
     }
 }
-
-
-
 
 
 

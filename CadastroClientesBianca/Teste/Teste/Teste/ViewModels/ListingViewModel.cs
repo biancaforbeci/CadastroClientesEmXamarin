@@ -1,27 +1,22 @@
-﻿using AppClientes.DAL;
-using AppClientes.Infra.Services;
+﻿using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace AppClientes.ViewModels
 {
-    public class ListingViewModel : BindableBase, INotifyPropertyChanged
+	public class ListingViewModel : BindableBase, INotifyPropertyChanged
     {
         private readonly IService _clientService;
 
         public ListingViewModel(IPageDialogService pageDialog, IService clientService)
         {
-            Title = "Clientes Cadastrados";           
+            Title = "Clientes Cadastrados";
             _pageDialog = pageDialog;
             Elements = _Elements;
             ListClients = ListItems;
@@ -30,10 +25,10 @@ namespace AppClientes.ViewModels
             ListSelect = new DelegateCommand(ListClient_ItemSelected);
             _clientService = clientService;
         }
-        
+
 
         public string Title { get; set; }
-        public string Search { get; set; }   
+        public string Search { get; set; }
         public Client ListSelected { get; set; }
         public int Selected { get; set; }
         public List<string> _Elements = new List<string> { "Selecione o tipo de Listagem", "Listar Cliente", "Listar por Ordenação" };
@@ -76,7 +71,7 @@ namespace AppClientes.ViewModels
         }
 
         public DelegateCommand ListSelect { get; set; }
-         
+
         public DelegateCommand SearchDB { get; set; }
 
 
@@ -87,29 +82,29 @@ namespace AppClientes.ViewModels
 
         private void ListClient_ItemSelected()
         {
-                if (Selected.Equals(1))
-                {
-                    
-                    _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name, "OK");
-                    ListSelected = null;                    
-                    
-                }
-                else if(Selected.Equals(2))
-                {
-                    
-                    _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name + "\nIdade: " + ListSelected.Age + "\nTelefone: " + ListSelected.Phone, "OK");
-                    ListSelected = null;
-                }            
+            if (Selected.Equals(1))
+            {
+
+                _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name, "OK");
+                ListSelected = null;
+
+            }
+            else if (Selected.Equals(2))
+            {
+
+                _pageDialog.DisplayAlertAsync("Detalhes do Cliente", "ID:" + ListSelected.ClientID + "\nNome: " + ListSelected.Name + "\nIdade: " + ListSelected.Age + "\nTelefone: " + ListSelected.Phone, "OK");
+                ListSelected = null;
+            }
         }
 
 
 
         private void SearchClient()
         {
-            
+
             if (Selected.Equals(1))
             {
-                var list=_clientService.AllClient();
+                var list = _clientService.AllClient();
                 if (list.Count > 0)
                 {
                     ListClients = list;
@@ -131,10 +126,7 @@ namespace AppClientes.ViewModels
                 {
                     _pageDialog.DisplayAlertAsync("Nada encontrado", "Não foi encontrado nada cadastrado", "OK");
                 }
-
             }
-
         }
     }
 }
-

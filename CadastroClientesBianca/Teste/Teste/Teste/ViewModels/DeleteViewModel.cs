@@ -11,11 +11,11 @@ using System.Text.RegularExpressions;
 
 namespace AppClientes.ViewModels
 {
-    public class DeleteViewModel : BindableBase, INotifyPropertyChanged
+	public class DeleteViewModel : BindableBase, INotifyPropertyChanged
     {
         private readonly IService _clienteService;
 
-        public DeleteViewModel(IPageDialogService pageDialog, IService ClienteService)
+        public DeleteViewModel(IPageDialogService pageDialog, IService clienteService)
         {
             Title = "Excluir Clientes";
             TitleButton = "Pesquisar";
@@ -24,10 +24,10 @@ namespace AppClientes.ViewModels
             Elements = _Elements;
             ListClients = ListItems;
             ListSelect = new DelegateCommand(ListClients_ItemSelectedAsync);
-            _clienteService = ClienteService;
+            _clienteService = clienteService;
         }
 
-        private int reference = 0;
+        private int reference=0;
         public string Title { get; set; }
         public string TitleTipo { get; set; }
         public string TitleButton { get; set; }
@@ -128,7 +128,6 @@ namespace AppClientes.ViewModels
                 }
 
             }
-
         }
 
         private async void SearchName()
@@ -197,13 +196,11 @@ namespace AppClientes.ViewModels
                 Client c = _clienteService.SearchClient(idClient);
                 _clienteService.DeleteClient(c);
                 await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
-
             }
             catch (Exception)
             {
                 await _pageDialog.DisplayAlertAsync("Erro", "Cliente já excluído", "OK");
             }
-
         }
     }
 }
