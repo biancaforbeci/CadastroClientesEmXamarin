@@ -33,12 +33,13 @@ namespace AppClientes
 		}
 
 
-        protected void InitializingAsync()
+        protected async void InitializingAsync()
         {
             var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             var fileName = "Clientes.db";
             var dbFullPath = Path.Combine(dbFolder, fileName);
-            DatabaseContext.DatabasePath = dbFullPath;
+            DatabaseContext contexto = new DatabaseContext(dbFullPath);
+            await Database.InitializeDataAsync(contexto);
         }
 
         protected override void OnSleep ()

@@ -20,8 +20,7 @@ namespace AppClientes.ViewModels
             Title = "Excluir Clientes";
             TitleButton = "Pesquisar";
             _pageDialog = pageDialog;
-            Search = new DelegateCommand(SearchDB);
-            Elements = _Elements;
+            Search = new DelegateCommand(SearchDB);           
             ListClients = ListItems;
             ListSelect = new DelegateCommand(ListClients_ItemSelectedAsync);
             _clienteService = clienteService;
@@ -39,15 +38,10 @@ namespace AppClientes.ViewModels
         public Client ListSelected { get; set; }
 
 
-        public List<string> _Elements = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
+        private List<string> _Elements = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
         public List<string> Elements
         {
-            get { return _Elements; }
-            set
-            {
-                if (Equals(value, _Elements)) return;
-                _Elements = value;
-            }
+            get { return _Elements; }            
         }
 
 
@@ -175,7 +169,7 @@ namespace AppClientes.ViewModels
 
                 if (result)
                 {
-                    DeleteDB(ListSelected.ClientID);
+                    DeleteDB(ListSelected.ClientID);                    
                     reference = 1;
                     if (Selected.Equals(1))
                     {
@@ -185,7 +179,7 @@ namespace AppClientes.ViewModels
                     {
                         SearchName();
                     }
-                }
+                }                
             }
         }
 
@@ -194,8 +188,10 @@ namespace AppClientes.ViewModels
             try
             {
                 Client c = _clienteService.SearchClient(idClient);
-                _clienteService.DeleteClient(c);
-                await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
+                if(_clienteService.DeleteClient(c) == true)
+                {
+                    await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
+                }                                       
             }
             catch (Exception)
             {

@@ -21,8 +21,7 @@ namespace AppClientes.ViewModels
             Title = "Procurar Clientes";
             TitleButton = "Pesquisar";
             _pageDialog = pageDialog;
-            Search = new DelegateCommand(SearchBD);
-            Elements = _Elements;
+            Search = new DelegateCommand(SearchBD);            
             ListClients = ListItems;
             ListSelect = new DelegateCommand(ListClients_ItemSelectedAsync);
             _clienteService = clienteService;
@@ -38,15 +37,10 @@ namespace AppClientes.ViewModels
         public DelegateCommand Search { get; set; }
         public DelegateCommand ListSelect { get; set; }
 
-        public List<string> _Elements = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
+        private List<string> _Elements = new List<string> { "Selecione o tipo de Busca", "Por ID", "Por Nome" };
         public List<string> Elements
         {
-            get { return _Elements; }
-            set
-            {
-                if (Equals(value, _Elements)) return;
-                _Elements = value;
-            }
+            get { return _Elements; }            
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using AppClientes.DAL;
 using AppClientes.Models;
 using Microsoft.EntityFrameworkCore;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,17 @@ using System.Text;
 namespace AppClientes.Infra.Services
 {
     public class ClientService : IService
-    {
-        
+    {        
         DatabaseContext _databaseContext;
         
-        public ClientService(DatabaseContext databaseContext)
+        public ClientService(DatabaseContext databaseContext, IPageDialogService pageDialog)
         {
-            _databaseContext = databaseContext;     
-        }    
-        
+            _databaseContext = databaseContext;
+            _pageDialog = pageDialog;
+        }
+
+        IPageDialogService _pageDialog;
+
         public List<Client> AgeListing()
         {
 
@@ -50,8 +53,8 @@ namespace AppClientes.Infra.Services
         {
             try
             {
-                _databaseContext.Clients.Add(cli);
-                _databaseContext.SaveChanges();
+               _databaseContext.Clients.Add(cli);
+               _databaseContext.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -64,12 +67,8 @@ namespace AppClientes.Infra.Services
         {
             try
             {
-                using (_databaseContext)
-                {
-                    _databaseContext.Entry(c).State = EntityState.Deleted;
-                    _databaseContext.SaveChanges();
-                }
-                
+                 _databaseContext.Entry(c).State = EntityState.Deleted;
+                 _databaseContext.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -78,18 +77,14 @@ namespace AppClientes.Infra.Services
             }
         }
 
-
         public Client SearchClient(int id)
-        {
-
-            return _databaseContext.Clients.Find(id);
-
+        {           
+            return _databaseContext.Clients.Find(id);          
         }
 
-         public List<Client> AllClient()
+        public List<Client> AllClient()
         {
-            return _databaseContext.Clients.ToList();
+            return _databaseContext.Clients.ToList();                       
         }
-
     }
 }
