@@ -1,4 +1,5 @@
 ﻿using AppClientes.DAL;
+using AppClientes.Infra;
 using AppClientes.Infra.Services;
 using AppClientes.ViewModels;
 using AppClientes.Views;
@@ -35,10 +36,9 @@ namespace AppClientes
 
         protected async void InitializingAsync()
         {
-            var dbFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            var fileName = "Clientes.db";
-            var dbFullPath = Path.Combine(dbFolder, fileName);
-            DatabaseContext contexto = new DatabaseContext(dbFullPath);
+            var dbPath = Container.Resolve<IFileSystem>().GetDatabasePath();
+            DatabaseContext.DatabasePath = dbPath;            
+            DatabaseContext contexto = new DatabaseContext(dbPath);
             await Database.InitializeDataAsync(contexto);
         }
 

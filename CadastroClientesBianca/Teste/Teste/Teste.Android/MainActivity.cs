@@ -23,16 +23,12 @@ namespace AppClientes.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App(new AndroidInitializer()));
-        }
 
-        public class AndroidInitializer : IPlatformInitializer
-        {
-            public void RegisterTypes(IContainerRegistry containerRegistry)
-            {
-                
-            }
-        }
+
+            var platformInitializer = new AndroidInitializer();
+            var application = new App(platformInitializer);
+            LoadApplication(application);
+        }        
     }
 }
 
