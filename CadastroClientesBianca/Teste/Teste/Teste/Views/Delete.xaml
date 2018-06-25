@@ -29,7 +29,7 @@
                 Command="{Binding Search}"
                 Font="30"
                 HorizontalOptions="FillAndExpand"
-                Text="Pesquisar"
+                Text="Pesquisar "
                 VerticalOptions="Start" />
 
             <ListView
