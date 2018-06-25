@@ -36,8 +36,7 @@ namespace AppClientes
 
         protected async void InitializingAsync()
         {
-            var dbPath = Container.Resolve<IFileSystem>().GetDatabasePath();
-            DatabaseContext.DatabasePath = dbPath;            
+            var dbPath = Container.Resolve<IFileSystem>().GetDatabasePath();                      
             DatabaseContext contexto = new DatabaseContext(dbPath);
             await Database.InitializeDataAsync(contexto);
         }
