@@ -105,7 +105,7 @@ namespace AppClientes.ViewModels
                 }
                 else
                 {
-                    _pageDialog.DisplayAlertAsync("Nada encontrado", "Não foi encontrado nada cadastrado", "OK");
+                    _pageDialog.DisplayAlertAsync("Nada encontrado", "Não foi encontrado nada cadastrado ", "OK");
                 }
             }
             else if (Selected.Equals(2))
