@@ -58,8 +58,10 @@ namespace AppClientes
             containerRegistry.RegisterForNavigation<Delete, DeleteViewModel>();
             containerRegistry.RegisterForNavigation<Listing, ListingViewModel>();
             containerRegistry.RegisterForNavigation<Search, SearchViewModel>();
+            containerRegistry.RegisterForNavigation<LocalFileList, LocalFileListViewModel>();
             containerRegistry.RegisterInstance(new DatabaseContext());
             containerRegistry.Register<IService, ClientService>();            
+            containerRegistry.RegisterForNavigation<LocalFileList>();
         }
     }
 }
