@@ -25,7 +25,8 @@ namespace AppClientes.ViewModels
             PageListClient = new DelegateCommand(PageList);
             DeletePage = new DelegateCommand(PageDelete);
             SearchPage = new DelegateCommand(PageSearch);
-
+            LocalFileList = new DelegateCommand(PageListingLocal);
+            ListingLocal = "Importar e Exportar Lista";
         }
 
 
@@ -37,14 +38,14 @@ namespace AppClientes.ViewModels
         public string Listing { get; set; }
         public string Search { get; set; }
         public string Delete { get; set; }
+        public string ListingLocal { get; set; }
 
 
         public DelegateCommand RegisterClient { get; set; }
         public DelegateCommand PageListClient { get; set; }
         public DelegateCommand DeletePage { get; set; }
         public DelegateCommand SearchPage { get; set; }
-
-
+        public DelegateCommand LocalFileList { get; set; }
 
 
 
@@ -69,6 +70,11 @@ namespace AppClientes.ViewModels
             _navigationService.NavigateAsync("Search");  
         }
 
+        private void PageListingLocal()
+        {
+            _navigationService.NavigateAsync("LocalFileList");
+        }
+
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
             throw new NotImplementedException();
@@ -83,5 +89,6 @@ namespace AppClientes.ViewModels
         {
             throw new NotImplementedException();
         }
+
     }
 }
