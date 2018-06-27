@@ -40,7 +40,8 @@ namespace AppClientes.Droid.PlatformCode
 
         public string GetStoragePath()
         {
-            return Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+            var pathLocalFile= Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Client");
+            return pathLocalFile;
         }
 
         public Task<string[]> ListDirectoriesAsync(string directoryPath)

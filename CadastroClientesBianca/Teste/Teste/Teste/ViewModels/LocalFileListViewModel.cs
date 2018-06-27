@@ -127,7 +127,7 @@ namespace AppClientes.ViewModels
             }
             else
             {
-                await _pageDialog.DisplayAlertAsync("Erro", "Tente novamente a exportação !", "OK");
+                await _pageDialog.DisplayAlertAsync("Erro", "Tente novamente a exportação !", "OK" );
             }
         }
 
