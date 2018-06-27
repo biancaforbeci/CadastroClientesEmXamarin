@@ -12,6 +12,6 @@ namespace AppClientes.Infra
         Task<IEnumerable<string>> SearchFilesAsync(string directory, string searchPattern, bool recursive = true);       
         bool FileExists(string filePath);
         string GetDatabasePath();
-        string GetStoragePath();
+        string GetStoragePath();        
     }
 }
