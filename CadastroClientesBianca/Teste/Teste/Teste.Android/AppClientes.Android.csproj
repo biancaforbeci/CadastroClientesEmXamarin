@@ -59,6 +59,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core">
       <Version>2.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Core">
       <Version>7.0.0.396</Version>
     </PackageReference>

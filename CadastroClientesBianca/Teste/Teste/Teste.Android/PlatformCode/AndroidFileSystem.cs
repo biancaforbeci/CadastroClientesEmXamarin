@@ -71,6 +71,6 @@ namespace AppClientes.Droid.PlatformCode
                     return Directory.EnumerateFiles(directory, searchPattern, SearchOption.AllDirectories);
                 return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly);
             });
-        }
+        }        
     }
 }
