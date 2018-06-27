@@ -34,11 +34,7 @@ namespace AppClientes.Droid.PlatformCode
                 Directory.CreateDirectory(absoluteDatabaseDirectory);            
 
             var absoluteDatabaseFileName = Path.Combine(absoluteDatabaseDirectory, dbFileName);
-
-            if (FileExists(absoluteDatabaseFileName))
-            {
-                File.Delete(absoluteDatabaseFileName);
-            }
+            
             return absoluteDatabaseFileName;
         }
 
