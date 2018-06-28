@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
 namespace AppClientes.ViewModels
@@ -36,6 +37,7 @@ namespace AppClientes.ViewModels
         public string ExportTitle { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
+        public bool x;
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
@@ -57,12 +59,47 @@ namespace AppClientes.ViewModels
                 var filename = Path.Combine(documents, "clients.json");
                 var dataJson = File.ReadAllText(filename);
                 IEnumerable<Client> result = JsonConvert.DeserializeObject<IEnumerable<Client>>(dataJson);
-                ImportNotificationAsync(result);
+                if (x)
+                {
+                    ImportNotificationAsync(result);
+                }
             }
             catch
             {
                 throw;
             }
+        }
+
+
+        private async void ValidationAsync(IEnumerable<Client> result)
+        {
+            string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
+            foreach (var item in result)
+            {
+                if (( item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
+                {
+                    if (!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
+                    {
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
+                    }
+                    else if (Convert.ToInt32(item.Age) < 0)
+                    {
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores positivos !", "OK");
+                    }
+                    else if (Regex.IsMatch(item.Phone, tel) == false)
+                    {
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido no item de ID : " + item.ClientID + " Digite como o exemplo: 3333-3333 ou 33333333", "OK");
+                    }
+                    else
+                    {
+                        x = true;
+                    }
+                }
+                else
+                {
+                    await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos do item: " + item.ClientID , "OK");
+                }
+            }            
         }
 
         private void ExportList()
