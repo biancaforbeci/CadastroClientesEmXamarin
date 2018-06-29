@@ -19,7 +19,7 @@ namespace AppClientes.Droid.PlatformCode
         public bool FileExists(string filePath)
         {
             return File.Exists(filePath);
-        }
+        }               
 
         public string GetDatabasePath()
         {
@@ -31,7 +31,7 @@ namespace AppClientes.Droid.PlatformCode
             var absoluteDatabaseDirectory = Path.Combine(externalStorageDirectory, dbFolderName);
 
             if (!Directory.Exists(absoluteDatabaseDirectory))
-                Directory.CreateDirectory(absoluteDatabaseDirectory);            
+                Directory.CreateDirectory(absoluteDatabaseDirectory);
 
             var absoluteDatabaseFileName = Path.Combine(absoluteDatabaseDirectory, dbFileName);
             
@@ -68,6 +68,11 @@ namespace AppClientes.Droid.PlatformCode
                     return Directory.EnumerateFiles(directory, searchPattern, SearchOption.AllDirectories);
                 return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly);
             });
-        }        
+        }       
+
+        public bool DirectoryExists(string filePath)
+        {
+            return Directory.Exists(filePath);
+        }
     }
 }

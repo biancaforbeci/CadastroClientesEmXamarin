@@ -37,7 +37,7 @@ namespace AppClientes.ViewModels
         public string ExportTitle { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
-        public bool x;
+        public bool x=false;
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
@@ -51,25 +51,36 @@ namespace AppClientes.ViewModels
             return directoryname;
         }
 
-        private void ImportListAsync()
+        private async void ImportListAsync()
         {
             try
             {
                 var documents = CreateDirectory();
                 var filename = Path.Combine(documents, "clients.json");
-                var dataJson = File.ReadAllText(filename);
-                IEnumerable<Client> result = JsonConvert.DeserializeObject<IEnumerable<Client>>(dataJson);
-                if (x)
+                if (SearchFile(filename) == false)
                 {
-                    ImportNotificationAsync(result);
+                    await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Crie um arquivo JSON com nome clients.JSON no diretório List JSON ou cadastre clientes e exporte", "OK");
                 }
+                else
+                {
+                    var dataJson = File.ReadAllText(filename);
+                    if (dataJson == null)
+                    {
+                        await _pageDialog.DisplayAlertAsync("Arquivo vazio", "Esse arquivo não possui nenhuma informação", "OK");
+                    }
+                    IEnumerable<Client> result = JsonConvert.DeserializeObject<IEnumerable<Client>>(dataJson);
+                    ValidationAsync(result);
+                    if (x)
+                    {
+                        ImportNotificationAsync(result);
+                    }
+                }               
             }
             catch
             {
                 throw;
             }
         }
-
 
         private async void ValidationAsync(IEnumerable<Client> result)
         {
@@ -104,12 +115,18 @@ namespace AppClientes.ViewModels
 
         private void ExportList()
         {
+            string documents;
+
             try
             {
                 string json = JsonConvert.SerializeObject(ListingDB());
-                CountClients = ListingDB().Count;
-                var documents = CreateDirectory();
-                var filename = Path.Combine(documents, "clients.json");
+                CountClients = ListingDB().Count;                
+                var directoryname = Path.Combine(_fileSystem.GetStoragePath(), "List JSON");
+                if(SearchDirectory(directoryname) == false)
+                {
+                    documents = CreateDirectory();
+                }                
+                var filename = Path.Combine(directoryname, "clients.json");
                 File.WriteAllText(filename, json);
                 ExportNotificationAsync(true);
             }
@@ -168,5 +185,28 @@ namespace AppClientes.ViewModels
             }
         }
 
+        private bool SearchFile(string filename)
+        {           
+            if (_fileSystem.FileExists(filename))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }         
+        }
+
+        private bool SearchDirectory(string filename)
+        {
+            if (_fileSystem.DirectoryExists(filename))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
