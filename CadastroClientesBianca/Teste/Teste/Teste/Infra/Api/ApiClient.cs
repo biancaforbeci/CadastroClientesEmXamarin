@@ -7,15 +7,23 @@ using AppClientes.Models;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Prism.Services;
 
 namespace AppClientes.Infra.Api
 {
-    public class ApiClient : IApiClient
+    public class ApiClient /*: IApiClient*/
     {
         private HttpClient _restClient;
         private string _apiUrlBase;
+        IPageDialogService _pageDialog;
 
-        public ApiClient(string apiUrlBase)
+        public ApiClient(string apiUrlBase, IPageDialogService pageDialog)
+        {
+            ApiClientFunction(apiUrlBase);
+            _pageDialog = pageDialog;
+        }
+
+        public void ApiClientFunction(string apiUrlBase)
         {
             if (string.IsNullOrEmpty(apiUrlBase))
             {
@@ -25,28 +33,29 @@ namespace AppClientes.Infra.Api
             _apiUrlBase = apiUrlBase;
         }
 
+
         public void Dispose()
         {
            
         }
 
-        public async Task<List<Client>> GetAsync<T>(string apiRoute, Action<Task<List<Client>>> callback = null)
-        {
-            try
-            {
-                var json = await GetAsync(apiRoute);
-                var data = JsonConvert.DeserializeObject<Client>(json, GetConverter());
-                var result = new OkApiResult<Client>(data);
+        //public async void GetAsync<Client>(string apiRoute, Action<Task<List<Client>>> callback = null)
+        //{
+        //    try
+        //    {
+        //        var json = await GetAsync(apiRoute);
+        //        var data = JsonConvert.DeserializeObject<Client>(json, GetConverter());
+        //        var result = new OkApiResult<Client>(data);
 
-                callback?.Invoke(result);
+        //        callback?.Invoke(result);
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return new InvalidApiResult<Client>(ex);
-            }
-        }
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return 
+        //    }
+        //}
 
         public async Task<string> PostAsync<Client>(string apiRoute, object body = null, Action<Task<string>> callback = null)
         {
@@ -78,36 +87,36 @@ namespace AppClientes.Infra.Api
             _restClient.DefaultRequestHeaders.Clear();
         }
 
-        public async Task<List<Client>> PostResultAsync<Client>(string apiRoute, object body = null, Action<Task<List<Client>>> callback = null)
-        {
-            try
-            {
-                var data = await PostAsync(apiRoute, body);
-                var result = JsonConvert.DeserializeObject<OkApiResult<Client>>(data, GetConverter());
+        //public async Task<List<Client>> PostResultAsync<Client>(string apiRoute, object body = null, Action<Task<List<Client>>> callback = null)
+        //{
+        //    try
+        //    {
+        //       // var data = await PostAsync(apiRoute, body);
+        //        //var result = JsonConvert.DeserializeObject<OkApiResult<Client>>(data, GetConverter());
 
-                callback?.Invoke(result);
+        //        callback?.Invoke(result);
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return new InvalidApiResult<Client>(ex);
-            }
-        }
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //       // return ;
+        //    }
+        //}
 
         private IsoDateTimeConverter GetConverter()
         {
             return new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" };
         }
 
-        public IApiClient UseSufix(string urlSufix)
-        {
-            if (!_apiUrlBase.EndsWith(urlSufix))
-            {
-                _apiUrlBase = _apiUrlBase + "/" + urlSufix;
-            }
-            return this;
-        }
+        //public IApiClient UseSufix(string urlSufix)
+        //{
+        //    if (!_apiUrlBase.EndsWith(urlSufix))
+        //    {
+        //        _apiUrlBase = _apiUrlBase + "/" + urlSufix;
+        //    }
+        //    //return this;
+        //}
 
         private async Task<string> GetAsync(string apiRoute)
         {
