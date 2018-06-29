@@ -69,8 +69,6 @@
                 TextColor="DarkBlue"
                 VerticalOptions="Start" />
 
-
         </StackLayout>
     </ContentPage.Content>
-
 </ContentPage>
