@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace AppClientes.Infra.Api
 {
-    public interface IApiClient : IDisposable
+    public interface IApiClient
     {
-        Task<List<Client>> GetAsync<Client>(string apiRoute, Action<Task<List<Client>>> callback = null);
-        IApiClient UseSufix(string urlSufix);
-        Task<List<Client>> PostResultAsync<Client>(string apiRoute, object body = null, Action<Task<List<Client>>> callback = null);
-        Task<string> PostAsync<Client>(string apiRoute, object body = null, Action<Task<string>> callback = null);
+        Task<IEnumerable<Client>> GetAsync(string apiRoute);
+
     }
 }

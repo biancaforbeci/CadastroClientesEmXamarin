@@ -1,4 +1,6 @@
-﻿using AppClientes.Infra;
+﻿using Android.Webkit;
+using AppClientes.Infra;
+using AppClientes.Infra.Api;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Newtonsoft.Json;
@@ -19,23 +21,29 @@ namespace AppClientes.ViewModels
 	{
         private readonly IFileSystem _fileSystem;
         private readonly IService _service;
-
-        public LocalFileListViewModel(IFileSystem fileSystem, IService service, IPageDialogService pageDialog)
+        private readonly IApiClient _apiClient;
+        public LocalFileListViewModel(IFileSystem fileSystem, IService service, IPageDialogService pageDialog, IApiClient apiClient)
         {
             Title = "Importar e Exportar Em JSON";
             ImportTitle = "Importar";
             ExportTitle = "Exportar";
+            TitleURL = "Coloque a URL para importação abaixo";
+            TitleExport = "Exportar clientes cadastrados para pasta local";
             Import = new DelegateCommand(ImportListAsync);
             Export = new DelegateCommand(ExportList);
             Image = "lista.png";
             _fileSystem = fileSystem;
             _service = service;
             _pageDialog = pageDialog;
+            _apiClient = apiClient;
         }
 
         public string ImportTitle { get; set; }
         public string ExportTitle { get; set; }
         public string Title { get; set; }
+        public string TitleURL { get; set; }
+        public string TitleExport { get; set; }
+        public string URLImport { get; set; }
         public string Image { get; set; }
         public bool x=false;
         IPageDialogService _pageDialog;
@@ -52,33 +60,14 @@ namespace AppClientes.ViewModels
         }
 
         private async void ImportListAsync()
-        {
-            try
+        {            
+            if ((URLUtil.IsValidUrl(URLImport) == false) || (URLImport == null))
             {
-                var documents = CreateDirectory();
-                var filename = Path.Combine(documents, "clients.json");
-                if (SearchFile(filename) == false)
-                {
-                    await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Crie um arquivo JSON com nome clients.JSON no diretório List JSON ou cadastre clientes e exporte", "OK");
-                }
-                else
-                {
-                    var dataJson = File.ReadAllText(filename);
-                    if (dataJson == null)
-                    {
-                        await _pageDialog.DisplayAlertAsync("Arquivo vazio", "Esse arquivo não possui nenhuma informação", "OK");
-                    }
-                    IEnumerable<Client> result = JsonConvert.DeserializeObject<IEnumerable<Client>>(dataJson);
-                    ValidationAsync(result);
-                    if (x)
-                    {
-                        ImportNotificationAsync(result);
-                    }
-                }               
+                await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Verifique a inserção da URL !", "OK");
             }
-            catch
+            else
             {
-                throw;
+                ImportAPIAsync(URLImport);
             }
         }
 
@@ -87,19 +76,27 @@ namespace AppClientes.ViewModels
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
             foreach (var item in result)
             {
-                if (( item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
+                if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
                 {
-                    if (!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
+                    if(!Regex.IsMatch(item.ClientID.ToString(), @"^[a-zA-Z]"))
+                    {
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo ClientID inválido no campo: " + item.ClientID + " Digite apenas caracteres !", "OK");
+                        break;
+                    }
+                    else if(!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
                     {
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
+                        break;
                     }
                     else if (Convert.ToInt32(item.Age) < 0)
                     {
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores positivos !", "OK");
+                        break;
                     }
                     else if (Regex.IsMatch(item.Phone, tel) == false)
                     {
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido no item de ID : " + item.ClientID + " Digite como o exemplo: 3333-3333 ou 33333333", "OK");
+                        break;
                     }
                     else
                     {
@@ -108,9 +105,31 @@ namespace AppClientes.ViewModels
                 }
                 else
                 {
-                    await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos do item: " + item.ClientID , "OK");
+                    await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos do item de ID: " + item.ClientID, "OK");
+                    break;
                 }
-            }            
+            }
+        }
+
+
+        private async void ImportAPIAsync(string uri)
+        {            
+            try
+            {                      
+                IEnumerable<Client> list = await _apiClient.GetAsync(uri);
+                if (list != null)
+                {
+                    ValidationAsync(list);
+                    if (x)
+                    {
+                        ImportNotificationAsync(list);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private void ExportList()
