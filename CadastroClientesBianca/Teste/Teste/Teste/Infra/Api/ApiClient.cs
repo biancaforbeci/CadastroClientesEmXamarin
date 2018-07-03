@@ -18,7 +18,7 @@ namespace AppClientes.Infra.Api
         }
 
         IPageDialogService _pageDialog;
-        
+        public string content { get; set; }
 
         public async Task<IEnumerable<Client>> GetAsync(string apiRoute)
         {
@@ -27,9 +27,10 @@ namespace AppClientes.Infra.Api
                 var uri = new Uri(string.Format(apiRoute, string.Empty));
 
                 var response = await API_Singleton.Instance.GetAsync(uri);
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<IEnumerable<Client>>(content);
                 }
                 else
@@ -40,9 +41,14 @@ namespace AppClientes.Infra.Api
             }
             catch (Exception)
             {
-                await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Conexão falhou !", "OK");
+                await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Tente novamente !", "OK");
                 return null;
             }
+        }
+
+        public string Read_JSON()
+        {
+            return content;
         }
     }
 }

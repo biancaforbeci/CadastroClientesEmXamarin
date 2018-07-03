@@ -78,9 +78,9 @@ namespace AppClientes.ViewModels
             {
                 if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
                 {
-                    if(!Regex.IsMatch(item.ClientID.ToString(), @"^[a-zA-Z]"))
+                    if(!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
                     {
-                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo ClientID inválido no campo: " + item.ClientID + " Digite apenas caracteres !", "OK");
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "ClientID inválido no campo: " + item.ClientID + " Digite apenas números !", "OK");
                         break;
                     }
                     else if(!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
@@ -88,9 +88,9 @@ namespace AppClientes.ViewModels
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
                         break;
                     }
-                    else if (Convert.ToInt32(item.Age) < 0)
+                    else if ((Convert.ToInt32(item.Age) < 0) || (!Regex.IsMatch(item.Age.ToString(), "^[0-9]")))
                     {
-                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores positivos !", "OK");
+                        await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores numéricos positivos !", "OK");
                         break;
                     }
                     else if (Regex.IsMatch(item.Phone, tel) == false)
@@ -99,7 +99,7 @@ namespace AppClientes.ViewModels
                         break;
                     }
                     else
-                    {
+                    {                        
                         x = true;
                     }
                 }
@@ -117,11 +117,13 @@ namespace AppClientes.ViewModels
             try
             {                      
                 IEnumerable<Client> list = await _apiClient.GetAsync(uri);
+               
                 if (list != null)
-                {
+                {                   
                     ValidationAsync(list);
                     if (x)
-                    {
+                    {                        
+                        ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());
                         ImportNotificationAsync(list);
                     }
                 }
@@ -155,9 +157,39 @@ namespace AppClientes.ViewModels
             }
         }
 
+        private void ExportJSON_API(string directoryname, string json)
+        {
+            if (SearchDirectory(directoryname) == false)
+            {
+               CreateDirectory();
+            }
+               bool request;
+                do
+                {
+                    string number = RandomNumberFile()+".json";
+                    var filename = Path.Combine(directoryname,number);
+                    if (SearchFile(filename) == false)
+                    {
+                        File.WriteAllText(filename, json);
+                        _pageDialog.DisplayAlertAsync("Exportado JSON da API","Exportado arquivo JSON da URL para arquivo de nome: "+number+ " na pasta local." ,"OK");
+                        request = true;
+                    }
+                    else
+                    {
+                        request = false;
+                    }
+                } while (request == false);                                                  
+        }
+
         private List<Client> ListingDB()
         {
             return _service.AllClient();
+        }
+
+        private string RandomNumberFile()
+        {
+            Random num = new Random();
+            return num.Next(0, 7000).ToString();
         }
 
         private bool UpdateDB(IEnumerable<Client> listJSON)
@@ -176,7 +208,6 @@ namespace AppClientes.ViewModels
             {
                 return false;
             }
-
         }
 
         private async void ImportNotificationAsync(IEnumerable<Client> listClients)
