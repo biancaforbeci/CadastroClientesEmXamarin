@@ -27,9 +27,10 @@ namespace AppClientes.Infra.Api
                 var uri = new Uri(string.Format(apiRoute, string.Empty));
 
                 var response = await API_Singleton.Instance.GetAsync(uri);
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
+                    content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<IEnumerable<Client>>(content);
                 }
                 else
@@ -40,7 +41,7 @@ namespace AppClientes.Infra.Api
             }
             catch (Exception)
             {
-                await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Conexão falhou !", "OK");
+                await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Tente novamente !", "OK");
                 return null;
             }
         }

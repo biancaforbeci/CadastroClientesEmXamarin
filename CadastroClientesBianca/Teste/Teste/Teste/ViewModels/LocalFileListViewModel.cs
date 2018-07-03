@@ -163,13 +163,33 @@ namespace AppClientes.ViewModels
             {
                CreateDirectory();
             }
-            var filename = Path.Combine(directoryname, "List_By_URL");
-            File.WriteAllText(filename, json);            
+               bool request;
+                do
+                {
+                    string number = RandomNumberFile()+".json";
+                    var filename = Path.Combine(directoryname,number);
+                    if (SearchFile(filename) == false)
+                    {
+                        File.WriteAllText(filename, json);
+                        _pageDialog.DisplayAlertAsync("Exportado JSON da API","Exportado arquivo JSON da URL para arquivo de nome: "+number+ " na pasta local." ,"OK");
+                        request = true;
+                    }
+                    else
+                    {
+                        request = false;
+                    }
+                } while (request == false);                                                  
         }
 
         private List<Client> ListingDB()
         {
             return _service.AllClient();
+        }
+
+        private string RandomNumberFile()
+        {
+            Random num = new Random();
+            return num.Next(0, 7000).ToString();
         }
 
         private bool UpdateDB(IEnumerable<Client> listJSON)
@@ -188,7 +208,6 @@ namespace AppClientes.ViewModels
             {
                 return false;
             }
-
         }
 
         private async void ImportNotificationAsync(IEnumerable<Client> listClients)
