@@ -1,138 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Prism.Services;
 
 namespace AppClientes.Infra.Api
 {
-    public class ApiClient /*: IApiClient*/
+    public class APIClient : IApiClient
     {
-        private HttpClient _restClient;
-        private string _apiUrlBase;
-        IPageDialogService _pageDialog;
 
-        public ApiClient(string apiUrlBase, IPageDialogService pageDialog)
+        public APIClient(IPageDialogService pageDialog)
         {
-            ApiClientFunction(apiUrlBase);
             _pageDialog = pageDialog;
         }
 
-        public void ApiClientFunction(string apiUrlBase)
+        IPageDialogService _pageDialog;
+        
+
+        public async Task<IEnumerable<Client>> GetAsync(string apiRoute)
         {
-            if (string.IsNullOrEmpty(apiUrlBase))
+            try
             {
-                throw new ArgumentNullException("apiUrlBase", "Uma url base de API deve ser informada");
+                var uri = new Uri(string.Format(apiRoute, string.Empty));
+
+                var response = await API_Singleton.Instance.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<Client>>(content);
+                }
+                else
+                {
+                    await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Erro ao processar a URL.", "OK");
+                    return null;
+                }
             }
-
-            _apiUrlBase = apiUrlBase;
-        }
-
-
-        public void Dispose()
-        {
-           
-        }
-
-        //public async void GetAsync<Client>(string apiRoute, Action<Task<List<Client>>> callback = null)
-        //{
-        //    try
-        //    {
-        //        var json = await GetAsync(apiRoute);
-        //        var data = JsonConvert.DeserializeObject<Client>(json, GetConverter());
-        //        var result = new OkApiResult<Client>(data);
-
-        //        callback?.Invoke(result);
-
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return 
-        //    }
-        //}
-
-        public async Task<string> PostAsync<Client>(string apiRoute, object body = null, Action<Task<string>> callback = null)
-        {
-            var url = _apiUrlBase + "/" + apiRoute;
-
-            _restClient = _restClient ?? new HttpClient();
-            _restClient.BaseAddress = new Uri(url);
-
-            ClearReponseHeaders();
-            AddReponseHeaders();
-
-            var bodySerialize = JsonConvert.SerializeObject(body);
-            StringContent content = new StringContent(bodySerialize, Encoding.UTF8, "application/json");
-
-            var response = await _restClient.PostAsync(_restClient.BaseAddress, content);
-            response.EnsureSuccessStatusCode();
-            var data = response.Content.ReadAsStringAsync().Result;
-
-            return data;
-        }
-
-        private void AddReponseHeaders()
-        {
-           
-        }
-
-        private void ClearReponseHeaders()
-        {
-            _restClient.DefaultRequestHeaders.Clear();
-        }
-
-        //public async Task<List<Client>> PostResultAsync<Client>(string apiRoute, object body = null, Action<Task<List<Client>>> callback = null)
-        //{
-        //    try
-        //    {
-        //       // var data = await PostAsync(apiRoute, body);
-        //        //var result = JsonConvert.DeserializeObject<OkApiResult<Client>>(data, GetConverter());
-
-        //        callback?.Invoke(result);
-
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       // return ;
-        //    }
-        //}
-
-        private IsoDateTimeConverter GetConverter()
-        {
-            return new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" };
-        }
-
-        //public IApiClient UseSufix(string urlSufix)
-        //{
-        //    if (!_apiUrlBase.EndsWith(urlSufix))
-        //    {
-        //        _apiUrlBase = _apiUrlBase + "/" + urlSufix;
-        //    }
-        //    //return this;
-        //}
-
-        private async Task<string> GetAsync(string apiRoute)
-        {
-            var url = _apiUrlBase + "/" + apiRoute;
-
-            _restClient = _restClient ?? new HttpClient();
-            _restClient.BaseAddress = new Uri(url);
-
-            ClearReponseHeaders();
-            AddReponseHeaders();
-
-            var response = await _restClient.GetAsync(_restClient.BaseAddress);
-            response.EnsureSuccessStatusCode();
-            var data = response.Content.ReadAsStringAsync().Result;
-
-            return data;
+            catch (Exception)
+            {
+                await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Conexão falhou !", "OK");
+                return null;
+            }
         }
     }
 }
