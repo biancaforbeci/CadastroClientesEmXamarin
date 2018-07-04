@@ -50,6 +50,7 @@ namespace AppClientes.ViewModels
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
         public int CountClients = 0;
+        public List<string> URLS;
 
         private String CreateDirectory()
         {
@@ -71,7 +72,7 @@ namespace AppClientes.ViewModels
             }
         }
 
-        private async void ValidationAsync(IEnumerable<Client> result)
+        private async void ValidationImportAsync(IEnumerable<Client> result)
         {
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
             foreach (var item in result)
@@ -105,9 +106,9 @@ namespace AppClientes.ViewModels
                 }
                 else
                 {
-                    await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos do item de ID: " + item.ClientID, "OK");
+                    await _pageDialog.DisplayAlertAsync("Campo vazio ou inválido", "Verifique se foram preenchidos todos os campos corretamente do item de ID: " + item.ClientID, "OK");
                     break;
-                }
+                }               
             }
         }
 
@@ -120,10 +121,10 @@ namespace AppClientes.ViewModels
                
                 if (list != null)
                 {                   
-                    ValidationAsync(list);
+                    ValidationImportAsync(list);
                     if (x)
                     {                        
-                        ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());
+                        ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());  //exporta para pasta local JSON.
                         ImportNotificationAsync(list);
                     }
                 }
@@ -198,6 +199,10 @@ namespace AppClientes.ViewModels
             {
                 foreach (var i in listJSON)
                 {
+                    if (_service.SearchID(i.ClientID).Count < 0)
+                    {
+                        i.ClientID = _service.LastID() + 1;
+                    }
                     _service.SaveClient(i);
                     CountClients++;
                 }
@@ -214,7 +219,7 @@ namespace AppClientes.ViewModels
         {
             if (UpdateDB(listClients))
             {
-                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso ! Importado: " + CountClients + " clientes", "OK");
+                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso !","OK");                
             }
             else
             {
@@ -227,7 +232,8 @@ namespace AppClientes.ViewModels
         {
             if (response)
             {
-                await _pageDialog.DisplayAlertAsync("Exportação", "Exportação realizada com sucesso ! Exportado: " + CountClients + " clientes", "OK");
+                await _pageDialog.DisplayAlertAsync("Exportação", "Exportação realizada com sucesso ! Exportado: " + CountClients + " clientes para arquivo clients.json na pasta local.", "OK");
+                CountClients = 0;
             }
             else
             {

@@ -86,5 +86,13 @@ namespace AppClientes.Infra.Services
         {
             return _databaseContext.Clients.ToList();                       
         }
+
+        public int LastID()
+        {
+            int result = (from r in _databaseContext.Clients
+                          orderby r.ClientID descending
+                          select r.ClientID).First();
+            return result;
+        }
     }
 }
