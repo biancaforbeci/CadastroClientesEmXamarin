@@ -45,7 +45,7 @@ namespace AppClientes.ViewModels
         public string TitleExport { get; set; }
         public string URLImport { get; set; }
         public string Image { get; set; }
-        public bool x=false;
+        public int x = 0;
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
@@ -81,33 +81,30 @@ namespace AppClientes.ViewModels
                 {
                     if(!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "ClientID inválido no campo: " + item.ClientID + " Digite apenas números !", "OK");
-                        break;
                     }
                     else if(!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
-                        break;
+                       
                     }
                     else if ((Convert.ToInt32(item.Age) < 0) || (!Regex.IsMatch(item.Age.ToString(), "^[0-9]")))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores numéricos positivos !", "OK");
-                        break;
                     }
                     else if (Regex.IsMatch(item.Phone, tel) == false)
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido no item de ID : " + item.ClientID + " Digite como o exemplo: 3333-3333 ou 33333333", "OK");
-                        break;
-                    }
-                    else
-                    {                        
-                        x = true;
-                    }
+                    }                                     
                 }
                 else
                 {
+                    x++;
                     await _pageDialog.DisplayAlertAsync("Campo vazio ou inválido", "Verifique se foram preenchidos todos os campos corretamente do item de ID: " + item.ClientID, "OK");
-                    break;
                 }               
             }
         }
@@ -122,8 +119,9 @@ namespace AppClientes.ViewModels
                 if (list != null)
                 {                   
                     ValidationImportAsync(list);
-                    if (x)
-                    {                        
+                    if (x==0)
+                    {
+                        x = 0;
                         ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());  //exporta para pasta local JSON.
                         ImportNotificationAsync(list);
                     }
