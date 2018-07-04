@@ -45,11 +45,12 @@ namespace AppClientes.ViewModels
         public string TitleExport { get; set; }
         public string URLImport { get; set; }
         public string Image { get; set; }
-        public bool x=false;
+        public int x = 0;
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
         public int CountClients = 0;
+        public List<string> URLS;
 
         private String CreateDirectory()
         {
@@ -71,7 +72,7 @@ namespace AppClientes.ViewModels
             }
         }
 
-        private async void ValidationAsync(IEnumerable<Client> result)
+        private async void ValidationImportAsync(IEnumerable<Client> result)
         {
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
             foreach (var item in result)
@@ -80,34 +81,31 @@ namespace AppClientes.ViewModels
                 {
                     if(!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "ClientID inválido no campo: " + item.ClientID + " Digite apenas números !", "OK");
-                        break;
                     }
                     else if(!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
-                        break;
+                       
                     }
                     else if ((Convert.ToInt32(item.Age) < 0) || (!Regex.IsMatch(item.Age.ToString(), "^[0-9]")))
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo idade inválido no item de ID : " + item.ClientID + " Digite valores numéricos positivos !", "OK");
-                        break;
                     }
                     else if (Regex.IsMatch(item.Phone, tel) == false)
                     {
+                        x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido no item de ID : " + item.ClientID + " Digite como o exemplo: 3333-3333 ou 33333333", "OK");
-                        break;
-                    }
-                    else
-                    {                        
-                        x = true;
-                    }
+                    }                                     
                 }
                 else
                 {
-                    await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos do item de ID: " + item.ClientID, "OK");
-                    break;
-                }
+                    x++;
+                    await _pageDialog.DisplayAlertAsync("Campo vazio ou inválido", "Verifique se foram preenchidos todos os campos corretamente do item de ID: " + item.ClientID, "OK");
+                }               
             }
         }
 
@@ -120,10 +118,11 @@ namespace AppClientes.ViewModels
                
                 if (list != null)
                 {                   
-                    ValidationAsync(list);
-                    if (x)
-                    {                        
-                        ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());
+                    ValidationImportAsync(list);
+                    if (x==0)
+                    {
+                        x = 0;
+                        ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());  //exporta para pasta local JSON.
                         ImportNotificationAsync(list);
                     }
                 }
@@ -198,6 +197,10 @@ namespace AppClientes.ViewModels
             {
                 foreach (var i in listJSON)
                 {
+                    if (_service.SearchID(i.ClientID).Count < 0)
+                    {
+                        i.ClientID = _service.LastID() + 1;
+                    }
                     _service.SaveClient(i);
                     CountClients++;
                 }
@@ -214,7 +217,7 @@ namespace AppClientes.ViewModels
         {
             if (UpdateDB(listClients))
             {
-                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso ! Importado: " + CountClients + " clientes", "OK");
+                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso !","OK");                
             }
             else
             {
@@ -227,7 +230,8 @@ namespace AppClientes.ViewModels
         {
             if (response)
             {
-                await _pageDialog.DisplayAlertAsync("Exportação", "Exportação realizada com sucesso ! Exportado: " + CountClients + " clientes", "OK");
+                await _pageDialog.DisplayAlertAsync("Exportação", "Exportação realizada com sucesso ! Exportado: " + CountClients + " clientes para arquivo clients.json na pasta local.", "OK");
+                CountClients = 0;
             }
             else
             {
