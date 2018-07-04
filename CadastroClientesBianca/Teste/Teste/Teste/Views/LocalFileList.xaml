@@ -15,6 +15,20 @@
                 Text="{Binding Title}"
                 TextColor="LightSeaGreen" />
 
+            <Label
+                Font="30"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
+                Text="{Binding TitleURL}"
+                TextColor="Black" />
+
+            <Entry
+                x:Name="entryURL"
+                FontSize="Large"
+                Keyboard="Url"
+                Text="{Binding URLImport}"
+                TextColor="Black" />
+
             <Button
                 BackgroundColor="Gray"
                 Command="{Binding Import}"
@@ -24,6 +38,15 @@
                 TextColor="DarkBlue"
                 VerticalOptions="Start" />
 
+            <Image Source="{Binding Image}" VerticalOptions="Start" />
+
+            <Label
+                Font="30"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
+                Text="{Binding TitleExport}"
+                TextColor="Black" />
+
             <Button
                 BackgroundColor="Gray"
                 Command="{Binding Export}"
@@ -32,8 +55,6 @@
                 Text="{Binding ExportTitle}"
                 TextColor="DarkBlue"
                 VerticalOptions="Start" />
-
-            <Image Source="{Binding Image}" VerticalOptions="Start" />
 
         </StackLayout>
     </ContentPage.Content>

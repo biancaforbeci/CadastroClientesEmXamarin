@@ -7,6 +7,7 @@ namespace AppClientes.Infra.Services
 {
     public interface IService
     {
+        int LastID();
 
         bool SaveClient(Client cli);
 

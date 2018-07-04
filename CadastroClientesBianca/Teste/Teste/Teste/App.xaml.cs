@@ -1,5 +1,6 @@
 ﻿using AppClientes.DAL;
 using AppClientes.Infra;
+using AppClientes.Infra.Api;
 using AppClientes.Infra.Services;
 using AppClientes.ViewModels;
 using AppClientes.Views;
@@ -60,7 +61,8 @@ namespace AppClientes
             containerRegistry.RegisterForNavigation<Search, SearchViewModel>();
             containerRegistry.RegisterForNavigation<LocalFileList, LocalFileListViewModel>();
             containerRegistry.RegisterInstance(new DatabaseContext());
-            containerRegistry.Register<IService, ClientService>();            
+            containerRegistry.Register<IService, ClientService>();
+            containerRegistry.Register<IApiClient, APIClient>();
             containerRegistry.RegisterForNavigation<LocalFileList>();
         }
     }
