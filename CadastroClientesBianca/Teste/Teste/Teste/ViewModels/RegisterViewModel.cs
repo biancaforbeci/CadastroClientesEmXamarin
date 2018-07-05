@@ -1,19 +1,25 @@
-﻿using AppClientes.Infra.Services;
+﻿using Android.Media;
+using AppClientes.Infra;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
+using Plugin.Media;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Xamarin.Forms;
 
 namespace AppClientes.ViewModels
 {
 	public class RegisterViewModel : BindableBase
 	{
         private readonly IService _clienteService;
-        public RegisterViewModel(IPageDialogService pageDialog, IService clienteService)
+        private readonly IFileSystem _fileSystem;
+        public RegisterViewModel(IPageDialogService pageDialog, IService clienteService, IFileSystem fileSystem)
         {
             Title = "Cadastro Clientes";
             TitleName = "Nome";
@@ -22,7 +28,8 @@ namespace AppClientes.ViewModels
             Register = new DelegateCommand<object>(SavingClient);
             _pageDialog = pageDialog;
             _clienteService = clienteService;
-            AddPhoto = new DelegateCommand(AcessCamera);
+            AddPhoto = new DelegateCommand(AcessCameraAsync);
+            _fileSystem = fileSystem;
         }
 
         public string Title { get; set; }
@@ -102,9 +109,36 @@ namespace AppClientes.ViewModels
 
         }
 
-        private void AcessCamera()
+        private async void AcessCameraAsync()
         {
+            await CrossMedia.Current.Initialize();
 
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await _pageDialog.DisplayAlertAsync("No Camera", ":( No camera available.", "OK");
+                return;
+            }
+
+            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                Directory = "Sample",
+                Name = "test.jpg"
+            });
+
+            if (file == null)
+                return;
+
+            await _pageDialog.DisplayAlertAsync("File Location", file.Path, "OK");
+            
+
+        }
+
+        private String CreateDirectory()
+        {
+            var documents = _fileSystem.GetStoragePath();
+            var directoryname = Path.Combine(documents, "Photos");
+            Directory.CreateDirectory(directoryname);
+            return directoryname;
         }
     }
 }
