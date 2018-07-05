@@ -24,7 +24,10 @@ namespace AppClientes.Infra.Services
                 {
                     lock (syncRoot)
                     {
-                        _instance = new HttpClient();
+                        _instance = new HttpClient
+                        {
+                            MaxResponseContentBufferSize = 256000
+                        };
                     }
                 }
 

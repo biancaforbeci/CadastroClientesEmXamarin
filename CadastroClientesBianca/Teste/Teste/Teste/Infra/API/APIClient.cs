@@ -35,7 +35,7 @@ namespace AppClientes.Infra.Api
                 }
                 else
                 {
-                    await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Erro ao processar a URL.", "OK");
+                    await _pageDialog.DisplayAlertAsync("Ocorreu um erro", "Erro na solicitação HTTP: " + response, "OK");
                     return null;
                 }
             }
