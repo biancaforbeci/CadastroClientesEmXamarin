@@ -22,6 +22,7 @@ namespace AppClientes.ViewModels
             Register = new DelegateCommand<object>(SavingClient);
             _pageDialog = pageDialog;
             _clienteService = clienteService;
+            AddPhoto = new DelegateCommand(AcessCamera);
         }
 
         public string Title { get; set; }
@@ -34,6 +35,7 @@ namespace AppClientes.ViewModels
 
 
         public DelegateCommand<object> Register { get; set; }
+        public DelegateCommand AddPhoto { get; set; }
         IPageDialogService _pageDialog;
 
         bool x;
@@ -97,6 +99,11 @@ namespace AppClientes.ViewModels
             {
                 await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
             }
+
+        }
+
+        private void AcessCamera()
+        {
 
         }
     }

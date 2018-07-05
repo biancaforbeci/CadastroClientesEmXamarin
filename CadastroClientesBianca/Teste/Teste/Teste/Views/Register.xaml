@@ -15,6 +15,15 @@
                 Text="{Binding Title}"
                 TextColor="LightSeaGreen" />
 
+            <Button
+                BackgroundColor="GhostWhite"
+                Command="{Binding AddPhoto}"
+                Font="50"
+                HorizontalOptions="Center"
+                Text="Tirar foto"
+                TextColor="BlueViolet"
+                VerticalOptions="Start" />
+
             <Label
                 Font="40"
                 FontAttributes="Bold"
