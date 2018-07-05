@@ -49,8 +49,7 @@ namespace AppClientes.ViewModels
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
-        public int CountClients = 0;
-        public List<string> URLS;
+        public int CountClients = 0;        
 
         private String CreateDirectory()
         {
@@ -197,7 +196,7 @@ namespace AppClientes.ViewModels
             {
                 foreach (var i in listJSON)
                 {
-                    if (_service.SearchID(i.ClientID).Count < 0)
+                    if (_service.SearchID(i.ClientID).Count > 0)
                     {
                         i.ClientID = _service.LastID() + 1;
                     }
