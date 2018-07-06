@@ -3,20 +3,23 @@ using AppClientes.Infra;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace AppClientes.ViewModels
 {
-	public class RegisterViewModel : BindableBase
-	{
+	public class RegisterViewModel : BindableBase, INotifyPropertyChanged
+    {
         private readonly IService _clienteService;
         private readonly IFileSystem _fileSystem;
         public RegisterViewModel(IPageDialogService pageDialog, IService clienteService, IFileSystem fileSystem)
@@ -30,6 +33,7 @@ namespace AppClientes.ViewModels
             _clienteService = clienteService;
             AddPhoto = new DelegateCommand(AcessCameraAsync);
             _fileSystem = fileSystem;
+            Photo= "drawable-xhdpi/person.png";
         }
 
         public string Title { get; set; }
@@ -39,6 +43,17 @@ namespace AppClientes.ViewModels
         public string NameCli { get; set; }
         public string AgeCli { get; set; }
         public string PhoneCli { get; set; }
+        private string Path_Photo;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public string Photo
+        {
+            get { return Path_Photo; }
+            set
+            {
+                Path_Photo = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Photo)));
+            }
+        }
 
 
         public DelegateCommand<object> Register { get; set; }
@@ -57,9 +72,17 @@ namespace AppClientes.ViewModels
                 c.Name = NameCli;
                 c.Age = Convert.ToInt32(AgeCli);
                 c.Phone = PhoneCli;
-                SavingDB(c);
+                if(Path_Photo != null)
+                {
+                    c.PathPhoto = Path_Photo;
+                    SavingDB(c);
+                }
+                else
+                {
+                    _pageDialog.DisplayAlertAsync("Foto não adicionada", "Confirme uma foto para o cliente !", "OK");
+                    
+                }              
             }
-
         }
 
         private void SavingDB(Client c)
@@ -112,7 +135,11 @@ namespace AppClientes.ViewModels
         private async void AcessCameraAsync()
         {
             await CrossMedia.Current.Initialize();
-            string path=CreateDirectory();
+
+            if(_fileSystem.DirectoryExists(Path.Combine(_fileSystem.GetStoragePath(), "Photos")) == false)
+            {
+                CreateDirectory();
+            }            
 
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
@@ -122,16 +149,33 @@ namespace AppClientes.ViewModels
 
             var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
-                SaveToAlbum = true,
-                Name = "Client.jpg"
+                SaveToAlbum=true,
+                Directory = "Photos_Clients",
+                Name = string.Format("Photo_Client_{0}", DateTime.Now.ToString("yyMMddhhmmss")),
+                PhotoSize = PhotoSize.Medium,
+                CompressionQuality =70
             });
            
 
             if (file == null)
-                return;
+                return;            
 
-            await _pageDialog.DisplayAlertAsync("File Location", file.Path, "OK");            
+            SavePhotoToClientAsync(file);
+        }
 
+        private async void SavePhotoToClientAsync(MediaFile file)
+        {
+            var result = await _pageDialog.DisplayAlertAsync("Confirmar foto", "Deseja salvar essa foto para o cliente ?", "SIM", "NÃO");
+
+            if (result)
+            {
+                Photo = file.Path;        
+                Path_Photo = file.Path;
+            }
+            else
+            {
+                Path_Photo = null;
+            }
         }
 
         private String CreateDirectory()
@@ -140,6 +184,6 @@ namespace AppClientes.ViewModels
             var directoryname = Path.Combine(documents, "Photos");
             Directory.CreateDirectory(directoryname);
             return directoryname;
-        }
+        }        
     }
 }
