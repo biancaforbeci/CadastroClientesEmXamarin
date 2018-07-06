@@ -34,6 +34,6 @@ namespace AppClientes.Droid
         {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+    }        
 }
 
