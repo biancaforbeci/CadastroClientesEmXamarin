@@ -17,12 +17,14 @@
 
             <Button
                 BackgroundColor="GhostWhite"
+                BorderColor="Blue"
+                BorderRadius="5"
+                BorderWidth="2"
                 Command="{Binding AddPhoto}"
                 Font="50"
                 HorizontalOptions="Center"
                 Text="Tirar foto"
-                TextColor="BlueViolet"
-                VerticalOptions="Start" />
+                TextColor="BlueViolet" />
 
             <Label
                 Font="40"
