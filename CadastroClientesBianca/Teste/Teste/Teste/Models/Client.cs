@@ -23,5 +23,8 @@ namespace AppClientes.Models
 
         [DataMember]
         public string Phone { get; set; }
+
+        [DataMember]
+        public string PathPhoto { get; set; }
     }    
 }

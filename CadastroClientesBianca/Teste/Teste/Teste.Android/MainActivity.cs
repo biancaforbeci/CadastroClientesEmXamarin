@@ -28,7 +28,12 @@ namespace AppClientes.Droid
             var platformInitializer = new AndroidInitializer();
             var application = new App(platformInitializer);
             LoadApplication(application);
-        }        
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }
 

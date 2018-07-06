@@ -112,24 +112,25 @@ namespace AppClientes.ViewModels
         private async void AcessCameraAsync()
         {
             await CrossMedia.Current.Initialize();
+            string path=CreateDirectory();
 
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
-                await _pageDialog.DisplayAlertAsync("No Camera", ":( No camera available.", "OK");
+                await _pageDialog.DisplayAlertAsync("Nenhuma câmera", "Nenhuma câmera disponível.", "OK");
                 return;
             }
 
             var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
-                Directory = "Sample",
-                Name = "test.jpg"
+                SaveToAlbum = true,
+                Name = "Client.jpg"
             });
+           
 
             if (file == null)
                 return;
 
-            await _pageDialog.DisplayAlertAsync("File Location", file.Path, "OK");
-            
+            await _pageDialog.DisplayAlertAsync("File Location", file.Path, "OK");            
 
         }
 
