@@ -79,8 +79,7 @@ namespace AppClientes.ViewModels
                 }
                 else
                 {
-                    _pageDialog.DisplayAlertAsync("Foto não adicionada", "Confirme uma foto para o cliente !", "OK");
-                    
+                    _pageDialog.DisplayAlertAsync("Foto não adicionada", "Confirme uma foto para o cliente !", "OK");                    
                 }              
             }
         }
@@ -129,7 +128,6 @@ namespace AppClientes.ViewModels
             {
                 await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
             }
-
         }
 
         private async void AcessCameraAsync()
@@ -153,7 +151,7 @@ namespace AppClientes.ViewModels
                 Directory = "Photos_Clients",
                 Name = string.Format("Photo_Client_{0}", DateTime.Now.ToString("yyMMddhhmmss")),
                 PhotoSize = PhotoSize.Medium,
-                CompressionQuality =70
+                CompressionQuality=70
             });
            
 

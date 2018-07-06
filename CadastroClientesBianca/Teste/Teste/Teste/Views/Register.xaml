@@ -7,7 +7,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <StackLayout Spacing="50">
+        <StackLayout Spacing="20">
             <Label
                 Font="40"
                 HorizontalOptions="FillAndExpand"
@@ -15,7 +15,7 @@
                 Text="{Binding Title}"
                 TextColor="LightSeaGreen" />
 
-            <Image Source="{Binding Photo}"  />
+            <Image Source="{Binding Photo}" />
 
             <Button
                 BackgroundColor="GhostWhite"
