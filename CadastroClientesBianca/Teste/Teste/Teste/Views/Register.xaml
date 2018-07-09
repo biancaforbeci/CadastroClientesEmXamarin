@@ -7,7 +7,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <StackLayout Spacing="20">
+        <StackLayout Spacing="30">
             <Label
                 Font="40"
                 HorizontalOptions="FillAndExpand"
@@ -15,17 +15,23 @@
                 Text="{Binding Title}"
                 TextColor="LightSeaGreen" />
 
-            <Image Source="{Binding Photo}" />
+            <Image
+                HeightRequest="150"
+                Source="{Binding Photo}"
+                WidthRequest="150" />
 
             <Button
                 BackgroundColor="GhostWhite"
-                BorderColor="Blue"
-                BorderRadius="5"
-                BorderWidth="2"
                 Command="{Binding AddPhoto}"
-                Font="50"
-                HorizontalOptions="Center"
+                Font="20"
                 Text="Tirar foto"
+                TextColor="BlueViolet" />
+
+            <Button
+                BackgroundColor="GhostWhite"
+                Command="{Binding ChoosePhoto}"
+                Font="20"
+                Text="Escolher Foto"
                 TextColor="BlueViolet" />
 
             <Label
@@ -72,7 +78,6 @@
                 Text="Salvar"
                 TextColor="Aquamarine"
                 VerticalOptions="Start" />
-
         </StackLayout>
     </ContentPage.Content>
 
