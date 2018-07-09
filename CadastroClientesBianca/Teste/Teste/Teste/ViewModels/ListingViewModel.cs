@@ -22,7 +22,7 @@ namespace AppClientes.ViewModels
             Search = "Pesquisar";
             SearchDB = new DelegateCommand(SearchClient);
             ListSelect = new DelegateCommand(ListClient_ItemSelected);
-            _clientService = clientService;
+            _clientService = clientService;            
         }
 
 
@@ -62,7 +62,8 @@ namespace AppClientes.ViewModels
                 ListItems = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ListClients)));
             }
-        }
+        }        
+
 
         public DelegateCommand ListSelect { get; set; }
 

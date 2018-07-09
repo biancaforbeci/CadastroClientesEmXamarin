@@ -32,18 +32,41 @@ namespace AppClientes.ViewModels
             _pageDialog = pageDialog;
             _clienteService = clienteService;
             AddPhoto = new DelegateCommand(AcessCameraAsync);
+            ChoosePhoto = new DelegateCommand(ChoosePhotoAlbumAsync);
             _fileSystem = fileSystem;
             Photo= "drawable-xhdpi/person.png";
         }
+        
 
         public string Title { get; set; }
         public string TitleName { get; set; }
         public string TitleAge { get; set; }
         public string TitlePhone { get; set; }
-        public string NameCli { get; set; }
-        public string AgeCli { get; set; }
-        public string PhoneCli { get; set; }
-        private string Path_Photo;
+        private string Name { get; set; }
+        private string Age { get; set; }
+        private string Phone { get; set; }
+        public string NameCli {
+            get { return Name; }
+            set {
+                Name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NameCli)));
+            }
+        }
+        public string AgeCli {
+            get { return Age; }
+            set {
+                Age = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AgeCli)));
+            }
+        }
+        public string PhoneCli {
+            get { return Phone; }
+            set {
+                Phone = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PhoneCli)));
+            }
+        }
+        private string Path_Photo = null;
         public event PropertyChangedEventHandler PropertyChanged;
         public string Photo
         {
@@ -58,6 +81,7 @@ namespace AppClientes.ViewModels
 
         public DelegateCommand<object> Register { get; set; }
         public DelegateCommand AddPhoto { get; set; }
+        public DelegateCommand ChoosePhoto { get; set; }
         IPageDialogService _pageDialog;
 
         bool x;
@@ -72,15 +96,16 @@ namespace AppClientes.ViewModels
                 c.Name = NameCli;
                 c.Age = Convert.ToInt32(AgeCli);
                 c.Phone = PhoneCli;
-                if(Path_Photo != null)
+                if(!Path_Photo.Equals("drawable-xhdpi/person.png"))
                 {
                     c.PathPhoto = Path_Photo;
                     SavingDB(c);
+                    SavePhotoLocalFile(Path_Photo);   
+                    Clean();
                 }
                 else
                 {
-                    _pageDialog.DisplayAlertAsync("Foto não adicionada", "Confirme uma foto para o cliente !", "OK");
-                    
+                    _pageDialog.DisplayAlertAsync("Foto não adicionada", "Confirme uma foto para o cliente !", "OK");                    
                 }              
             }
         }
@@ -129,17 +154,24 @@ namespace AppClientes.ViewModels
             {
                 await _pageDialog.DisplayAlertAsync("Campo vazio", "Verifique se foram preenchidos todos os campos", "OK");
             }
+        }
 
+        private async void ChoosePhotoAlbumAsync()
+        {
+            ExistsDirectory();
+
+            var media = CrossMedia.Current;
+
+            var file = await media.PickPhotoAsync();
+
+            SavePhotoToClientAsync(file);
         }
 
         private async void AcessCameraAsync()
         {
             await CrossMedia.Current.Initialize();
 
-            if(_fileSystem.DirectoryExists(Path.Combine(_fileSystem.GetStoragePath(), "Photos")) == false)
-            {
-                CreateDirectory();
-            }            
+            ExistsDirectory();          
 
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
@@ -152,8 +184,8 @@ namespace AppClientes.ViewModels
                 SaveToAlbum=true,
                 Directory = "Photos_Clients",
                 Name = string.Format("Photo_Client_{0}", DateTime.Now.ToString("yyMMddhhmmss")),
-                PhotoSize = PhotoSize.Medium,
-                CompressionQuality =70
+                PhotoSize = PhotoSize.Custom,CustomPhotoSize=100,
+                CompressionQuality=100
             });
            
 
@@ -169,21 +201,42 @@ namespace AppClientes.ViewModels
 
             if (result)
             {
-                Photo = file.Path;        
-                Path_Photo = file.Path;
+                Photo = file.Path;                
             }
             else
             {
-                Path_Photo = null;
+                Photo = "drawable-xhdpi/person.png";
             }
         }
 
-        private String CreateDirectory()
+        private void CreateDirectory()
         {
             var documents = _fileSystem.GetStoragePath();
             var directoryname = Path.Combine(documents, "Photos");
-            Directory.CreateDirectory(directoryname);
-            return directoryname;
-        }        
+            Directory.CreateDirectory(directoryname);            
+        }   
+
+        private void ExistsDirectory()
+        {
+            if (_fileSystem.DirectoryExists(Path.Combine(_fileSystem.GetStoragePath(), "Photos")) == false)
+            {
+                CreateDirectory();
+            }
+        }
+
+        private void SavePhotoLocalFile(string path)
+        {
+            string destiny = Path.Combine(_fileSystem.GetStoragePath(), "Photos");
+            string imageLocal = Path.Combine(destiny, Path.GetFileName(path));
+            File.Copy(path, imageLocal);
+        }
+
+        private void Clean()
+        {
+            NameCli = null;
+            AgeCli = null;
+            PhoneCli = null;
+            Photo="drawable-xhdpi/person.png";
+        }
     }
-}
+ }
