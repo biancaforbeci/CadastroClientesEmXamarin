@@ -27,6 +27,8 @@ namespace AppClientes.ViewModels
             SearchPage = new DelegateCommand(PageSearch);
             LocalFileList = new DelegateCommand(PageListingLocal);
             ListingLocal = "Importar e Exportar Lista";
+            PositionPage = new DelegateCommand(PageLocation);
+            Localization = "GeoLocalização";
         }
 
 
@@ -39,14 +41,14 @@ namespace AppClientes.ViewModels
         public string Search { get; set; }
         public string Delete { get; set; }
         public string ListingLocal { get; set; }
-
+        public string Localization { get; set; }
 
         public DelegateCommand RegisterClient { get; set; }
         public DelegateCommand PageListClient { get; set; }
         public DelegateCommand DeletePage { get; set; }
         public DelegateCommand SearchPage { get; set; }
         public DelegateCommand LocalFileList { get; set; }
-
+        public DelegateCommand PositionPage { get; set; }
 
 
         private void PageRegister()
@@ -73,6 +75,11 @@ namespace AppClientes.ViewModels
         private void PageListingLocal()
         {
             _navigationService.NavigateAsync("LocalFileList");
+        }
+
+        private void PageLocation()
+        {
+            _navigationService.NavigateAsync("Location");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

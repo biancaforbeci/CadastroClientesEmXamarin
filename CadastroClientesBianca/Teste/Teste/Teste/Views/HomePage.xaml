@@ -21,8 +21,18 @@
                     Text="{Binding Title}"
                     TextColor="DarkBlue" />
 
+
                 <Button
-                    BackgroundColor="Gray"
+                    BackgroundColor="FloralWhite"
+                    Command="{Binding PositionPage}"
+                    Font="50"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding Localization}"
+                    TextColor="DarkBlue"
+                    VerticalOptions="Start" />
+
+                <Button
+                    BackgroundColor="FloralWhite"
                     Command="{Binding RegisterClient}"
                     Font="50"
                     HorizontalOptions="FillAndExpand"
@@ -32,7 +42,7 @@
 
 
                 <Button
-                    BackgroundColor="Gray"
+                    BackgroundColor="FloralWhite"
                     Command="{Binding PageListClient}"
                     Font="50"
                     HorizontalOptions="FillAndExpand"
@@ -42,7 +52,7 @@
 
 
                 <Button
-                    BackgroundColor="Gray"
+                    BackgroundColor="FloralWhite"
                     Command="{Binding LocalFileList}"
                     Font="50"
                     HorizontalOptions="FillAndExpand"
@@ -52,7 +62,7 @@
 
 
                 <Button
-                    BackgroundColor="Gray"
+                    BackgroundColor="FloralWhite"
                     Command="{Binding SearchPage}"
                     Font="50"
                     HorizontalOptions="FillAndExpand"
@@ -62,7 +72,7 @@
 
 
                 <Button
-                    BackgroundColor="Gray"
+                    BackgroundColor="FloralWhite"
                     Command="{Binding DeletePage}"
                     Font="50"
                     HorizontalOptions="FillAndExpand"

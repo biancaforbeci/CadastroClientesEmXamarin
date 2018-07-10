@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AppClientes.Views.Location"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <ScrollView Orientation="Vertical">
+        <StackLayout Spacing="70">
+
+            <Label
+                Font="70"
+                FontFamily="Broadway"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Title}"
+                TextColor="Blue" />
+
+            <Image Source="{Binding Image}" VerticalOptions="Start" />
+
+            <Button
+                x:Name="btnGeolocalizacao"
+                Command="{Binding Localization}"
+                Text="{Binding TitleLocalization}"
+                TextColor="Green" />
+
+            <Button
+                x:Name="btnMostrarPosicaoNoMapa"
+                Command="{Binding Position}"
+                Text="{Binding TitlePosition}"
+                TextColor="Green" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
