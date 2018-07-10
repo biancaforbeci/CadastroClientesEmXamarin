@@ -9,61 +9,61 @@
 
 
     <ContentPage.Content>
-        <StackLayout Spacing="50">
-            <Label
-                Font="40"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="{Binding Title}"
-                TextColor="LightSeaGreen" />
+        <ScrollView Orientation="Vertical">
+            <StackLayout Spacing="50">
+                <Label
+                    Font="40"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Title}"
+                    TextColor="LightSeaGreen" />
 
-            <Picker ItemsSource="{Binding Elements}" SelectedIndex="{Binding ElementsSelectedIndex}" />
+                <Picker ItemsSource="{Binding Elements}" SelectedIndex="{Binding ElementsSelectedIndex}" />
 
-            <Entry
-                x:Name="entryBusca"
-                FontSize="Large"
-                Keyboard="Text"
-                Text="{Binding ItemSearch}"
-                TextColor="Black" />
+                <Entry
+                    x:Name="entryBusca"
+                    FontSize="Large"
+                    Keyboard="Text"
+                    Text="{Binding ItemSearch}"
+                    TextColor="Black" />
 
-            <Button
-                Command="{Binding Search}"
-                Font="30"
-                HorizontalOptions="FillAndExpand"
-                Text="Pesquisar"
-                VerticalOptions="Start" />
+                <Button
+                    Command="{Binding Search}"
+                    Font="30"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Pesquisar"
+                    VerticalOptions="Start" />
 
-            <ListView
-                x:Name="ListaClientes"
-                ItemsSource="{Binding ListClients}"
-                SelectedItem="{Binding ListSelected}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Image
-                                    HeightRequest="100"
-                                    Source="{Binding PathPhoto}"
-                                    WidthRequest="100" />
-                                <Label
-                                    Font="30"
-                                    Text="{Binding Name}"
-                                    TextColor="Black" />
-                                <Label
-                                    Font="30"
-                                    Text="{Binding Age}"
-                                    TextColor="Blue" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior Command="{Binding ListSelect}" EventName="ItemSelected" />
-                </ListView.Behaviors>
-            </ListView>
+                <ListView
+                    x:Name="ListaClientes"
+                    ItemsSource="{Binding ListClients}"
+                    SelectedItem="{Binding ListSelected}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image
+                                        HeightRequest="100"
+                                        Source="{Binding PathPhoto}"
+                                        WidthRequest="100" />
+                                    <Label
+                                        Font="30"
+                                        Text="{Binding Name}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Font="30"
+                                        Text="{Binding Age}"
+                                        TextColor="Blue" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding ListSelect}" EventName="ItemSelected" />
+                    </ListView.Behaviors>
+                </ListView>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
-
-
 </ContentPage>
