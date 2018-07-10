@@ -64,6 +64,7 @@ namespace AppClientes
             containerRegistry.Register<IService, ClientService>();
             containerRegistry.Register<IApiClient, APIClient>();
             containerRegistry.RegisterForNavigation<LocalFileList>();
+            containerRegistry.RegisterForNavigation<Location>();
         }
     }
 }

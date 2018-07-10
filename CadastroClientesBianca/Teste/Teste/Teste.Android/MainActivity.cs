@@ -9,6 +9,7 @@ using Prism;
 using Unity;
 using Prism.Ioc;
 
+
 namespace AppClientes.Droid
 {
     [Activity(Label = "Teste", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -22,7 +23,7 @@ namespace AppClientes.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-
+            
 
             var platformInitializer = new AndroidInitializer();
             var application = new App(platformInitializer);
