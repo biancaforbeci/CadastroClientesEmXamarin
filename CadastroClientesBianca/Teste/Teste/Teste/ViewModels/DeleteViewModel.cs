@@ -1,4 +1,5 @@
-﻿using AppClientes.Infra.Services;
+﻿using AppClientes.Infra;
+using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -6,6 +7,7 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -14,8 +16,8 @@ namespace AppClientes.ViewModels
 	public class DeleteViewModel : BindableBase, INotifyPropertyChanged
     {
         private readonly IService _clienteService;
-
-        public DeleteViewModel(IPageDialogService pageDialog, IService clienteService)
+        private readonly IFileSystem _fileSystem;
+        public DeleteViewModel(IPageDialogService pageDialog, IService clienteService, IFileSystem fileSystem)
         {
             Title = "Excluir Clientes";
             TitleButton = "Pesquisar";
@@ -23,6 +25,7 @@ namespace AppClientes.ViewModels
             Search = new DelegateCommand(SearchDB);           
             ListClients = ListItems;
             ListSelect = new DelegateCommand(ListClients_ItemSelectedAsync);
+            _fileSystem = fileSystem;
             _clienteService = clienteService;
         }
 
@@ -188,8 +191,9 @@ namespace AppClientes.ViewModels
             try
             {
                 Client c = _clienteService.SearchClient(idClient);
+                DeletePhoto(c.PathPhoto);
                 if(_clienteService.DeleteClient(c) == true)
-                {
+                {                    
                     await _pageDialog.DisplayAlertAsync("Exclusão concluída", "Cliente excluído com sucesso ", "OK");
                 }                                       
             }
@@ -197,6 +201,13 @@ namespace AppClientes.ViewModels
             {
                 await _pageDialog.DisplayAlertAsync("Erro", "Cliente já excluído", "OK");
             }
+        }
+
+        private void DeletePhoto(string path)
+        {
+            string destiny = Path.Combine(_fileSystem.GetStoragePath(), "Photos");
+            string imageLocal = Path.Combine(destiny, Path.GetFileName(path));
+            System.IO.File.Delete(imageLocal);
         }
     }
 }

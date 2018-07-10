@@ -7,78 +7,80 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Content>
-        <StackLayout Spacing="30">
-            <Label
-                Font="40"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="{Binding Title}"
-                TextColor="LightSeaGreen" />
+        <ScrollView Orientation="Vertical">
+            <StackLayout Spacing="30">
+                <Label
+                    Font="40"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Title}"
+                    TextColor="LightSeaGreen" />
 
-            <Image
-                HeightRequest="150"
-                Source="{Binding Photo}"
-                WidthRequest="150" />
+                <Image
+                    HeightRequest="150"
+                    Source="{Binding Photo}"
+                    WidthRequest="150" />
 
-            <Button
-                BackgroundColor="GhostWhite"
-                Command="{Binding AddPhoto}"
-                Font="20"
-                Text="Tirar foto"
-                TextColor="BlueViolet" />
+                <Button
+                    BackgroundColor="GhostWhite"
+                    Command="{Binding AddPhoto}"
+                    Font="20"
+                    Text="Tirar foto"
+                    TextColor="BlueViolet" />
 
-            <Button
-                BackgroundColor="GhostWhite"
-                Command="{Binding ChoosePhoto}"
-                Font="20"
-                Text="Escolher Foto"
-                TextColor="BlueViolet" />
+                <Button
+                    BackgroundColor="GhostWhite"
+                    Command="{Binding ChoosePhoto}"
+                    Font="20"
+                    Text="Escolher Foto"
+                    TextColor="BlueViolet" />
 
-            <Label
-                Font="40"
-                FontAttributes="Bold"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="{Binding TitleName}" />
-            <Entry
-                x:Name="EntryNome"
-                FontSize="Large"
-                Keyboard="Text"
-                Text="{Binding NameCli}"
-                TextColor="Black" />
-            <Label
-                Font="40"
-                FontAttributes="Bold"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="{Binding TitleAge}" />
-            <Entry
-                x:Name="EntryIdade"
-                FontSize="Large"
-                Keyboard="Numeric"
-                Text="{Binding AgeCli}"
-                TextColor="Black" />
-            <Label
-                Font="40"
-                FontAttributes="Bold"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Text="{Binding TitlePhone}" />
-            <Entry
-                x:Name="EntryTelefone"
-                FontSize="Large"
-                Keyboard="Telephone"
-                Text="{Binding PhoneCli}"
-                TextColor="Black" />
-            <Button
-                BackgroundColor="Gray"
-                Command="{Binding Register}"
-                Font="50"
-                HorizontalOptions="FillAndExpand"
-                Text="Salvar"
-                TextColor="Aquamarine"
-                VerticalOptions="Start" />
-        </StackLayout>
+                <Label
+                    Font="40"
+                    FontAttributes="Bold"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding TitleName}" />
+                <Entry
+                    x:Name="EntryNome"
+                    FontSize="Large"
+                    Keyboard="Text"
+                    Text="{Binding NameCli}"
+                    TextColor="Black" />
+                <Label
+                    Font="40"
+                    FontAttributes="Bold"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding TitleAge}" />
+                <Entry
+                    x:Name="EntryIdade"
+                    FontSize="Large"
+                    Keyboard="Numeric"
+                    Text="{Binding AgeCli}"
+                    TextColor="Black" />
+                <Label
+                    Font="40"
+                    FontAttributes="Bold"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding TitlePhone}" />
+                <Entry
+                    x:Name="EntryTelefone"
+                    FontSize="Large"
+                    Keyboard="Telephone"
+                    Text="{Binding PhoneCli}"
+                    TextColor="Black" />
+                <Button
+                    BackgroundColor="Gray"
+                    Command="{Binding Register}"
+                    Font="50"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Salvar"
+                    TextColor="Aquamarine"
+                    VerticalOptions="Start" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 
 </ContentPage>
