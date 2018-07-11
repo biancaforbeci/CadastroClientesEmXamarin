@@ -16,9 +16,9 @@ using Xamarin.Forms;
 
 namespace AppClientes
 {
-	public partial class App : PrismApplication
-	{
-		public App (IPlatformInitializer initializer = null): base(initializer) { }
+    public partial class App : PrismApplication
+    {
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
         protected override void OnInitialized()
         {
@@ -26,35 +26,35 @@ namespace AppClientes
 
             InitializingAsync();
 
-            NavigationService.NavigateAsync("HomePage");            
-        }        
-		
-		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+            NavigationService.NavigateAsync("MasterDetailHomePage");
+        }
+
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
 
 
         protected async void InitializingAsync()
         {
-            var dbPath = Container.Resolve<IFileSystem>().GetDatabasePath();                      
+            var dbPath = Container.Resolve<IFileSystem>().GetDatabasePath();
             DatabaseContext contexto = new DatabaseContext(dbPath);
             await Database.InitializeDataAsync(contexto);
         }
 
-        protected override void OnSleep ()
-		{
-			// Handle when your app sleeps
-		}
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
 
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<MasterDetailHomePage, MasterDetailHomePageViewModel>();
             containerRegistry.RegisterForNavigation<Register, RegisterViewModel>();
             containerRegistry.RegisterForNavigation<Delete, DeleteViewModel>();
             containerRegistry.RegisterForNavigation<Listing, ListingViewModel>();
@@ -63,8 +63,8 @@ namespace AppClientes
             containerRegistry.RegisterInstance(new DatabaseContext());
             containerRegistry.Register<IService, ClientService>();
             containerRegistry.Register<IApiClient, APIClient>();
-            containerRegistry.RegisterForNavigation<LocalFileList>();
-            containerRegistry.RegisterForNavigation<Location>();
+            containerRegistry.RegisterForNavigation<LocalFileList, LocalFileListViewModel>();
+            containerRegistry.RegisterForNavigation<Location, LocationViewModel>();            
         }
     }
 }
