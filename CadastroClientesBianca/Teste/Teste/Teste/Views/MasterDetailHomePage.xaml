@@ -8,36 +8,38 @@
 
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
-            <StackLayout Padding="20" Orientation="Vertical">
-                <Button
-                    BackgroundColor="MediumSlateBlue"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Main"
-                    Font="20"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding HomePage}"
-                    TextColor="White"
-                    VerticalOptions="Start" />
-                <Button
-                    BackgroundColor="MediumSlateBlue"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Location"
-                    Font="20"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding Localization}"
-                    TextColor="White"
-                    VerticalOptions="Start" />
+            <ScrollView Orientation="Vertical">
+                <StackLayout Padding="20" Orientation="Vertical">
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="HomePage"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding HomePage}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Location"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Localization}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
 
-                <Button
-                    BackgroundColor="MediumSlateBlue"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="LocalFileList"
-                    Font="20"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding ListingLocal}"
-                    TextColor="White"
-                    VerticalOptions="Start" />
-            </StackLayout>
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="LocalFileList"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding ListingLocal}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+                </StackLayout>
+            </ScrollView>
         </ContentPage>
     </MasterDetailPage.Master>
 
@@ -48,7 +50,11 @@
                     <ScrollView Orientation="Vertical">
                         <StackLayout Orientation="Vertical" Spacing="50">
 
-                            <Image Source="{Binding Image}" VerticalOptions="Start" />
+                            <Image
+                                HeightRequest="150"
+                                Source="{Binding Image}"
+                                VerticalOptions="Start"
+                                WidthRequest="150" />
 
                             <Label
                                 Font="70"
@@ -99,7 +105,6 @@
                                 Text="{Binding Delete}"
                                 TextColor="White"
                                 VerticalOptions="Start" />
-
                         </StackLayout>
                     </ScrollView>
                 </ContentPage>

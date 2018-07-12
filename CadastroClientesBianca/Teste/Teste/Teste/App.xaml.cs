@@ -55,6 +55,7 @@ namespace AppClientes
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<MasterDetailHomePage, MasterDetailHomePageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<Register, RegisterViewModel>();
             containerRegistry.RegisterForNavigation<Delete, DeleteViewModel>();
             containerRegistry.RegisterForNavigation<Listing, ListingViewModel>();
@@ -64,7 +65,7 @@ namespace AppClientes
             containerRegistry.Register<IService, ClientService>();
             containerRegistry.Register<IApiClient, APIClient>();
             containerRegistry.RegisterForNavigation<LocalFileList, LocalFileListViewModel>();
-            containerRegistry.RegisterForNavigation<Location, LocationViewModel>();            
+            containerRegistry.RegisterForNavigation<Location, LocationViewModel>();           
         }
     }
 }
