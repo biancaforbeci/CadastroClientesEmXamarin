@@ -10,6 +10,7 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ using Xamarin.Forms;
 namespace AppClientes.ViewModels
 {
     public class LocalFileListViewModel : BindableBase
-	{
+    {
         private readonly IFileSystem _fileSystem;
         private readonly IService _service;
         private readonly IApiClient _apiClient;
@@ -49,7 +50,7 @@ namespace AppClientes.ViewModels
         IPageDialogService _pageDialog;
         public DelegateCommand Import { get; set; }
         public DelegateCommand Export { get; set; }
-        public int CountClients = 0;        
+        public int CountClients = 0;
 
         private String CreateDirectory()
         {
@@ -60,7 +61,7 @@ namespace AppClientes.ViewModels
         }
 
         private async void ImportListAsync()
-        {            
+        {
             if ((URLUtil.IsValidUrl(URLImport) == false) || (URLImport == null))
             {
                 await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Verifique a inserção da URL !", "OK");
@@ -74,20 +75,22 @@ namespace AppClientes.ViewModels
         private async void ValidationImportAsync(IEnumerable<Client> result)
         {
             string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
+            string[] contentTypes = new string[] { "image/jpg", "image/png" };
+
             foreach (var item in result)
             {
-                if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
+                if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null) && (item.PathPhoto != null))
                 {
-                    if(!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
+                    if (!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
                     {
                         x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "ClientID inválido no campo: " + item.ClientID + " Digite apenas números !", "OK");
                     }
-                    else if(!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
+                    else if (!Regex.IsMatch(item.Name, @"^[a-zA-Z]"))
                     {
                         x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo nome inválido no item de ID : " + item.ClientID + " Digite apenas caracteres !", "OK");
-                       
+
                     }
                     else if ((Convert.ToInt32(item.Age) < 0) || (!Regex.IsMatch(item.Age.ToString(), "^[0-9]")))
                     {
@@ -98,27 +101,27 @@ namespace AppClientes.ViewModels
                     {
                         x++;
                         await _pageDialog.DisplayAlertAsync("ATENÇÃO", "Campo telefone inválido no item de ID : " + item.ClientID + " Digite como o exemplo: 3333-3333 ou 33333333", "OK");
-                    }                                     
+                    }
                 }
                 else
                 {
                     x++;
                     await _pageDialog.DisplayAlertAsync("Campo vazio ou inválido", "Verifique se foram preenchidos todos os campos corretamente do item de ID: " + item.ClientID, "OK");
-                }               
+                }
             }
         }
 
 
         private async void ImportAPIAsync(string uri)
-        {            
+        {
             try
-            {                      
+            {
                 IEnumerable<Client> list = await _apiClient.GetAsync(uri);
-               
+                
                 if (list != null)
-                {                   
+                {
                     ValidationImportAsync(list);
-                    if (x==0)
+                    if (x == 0)
                     {
                         x = 0;
                         ExportJSON_API(Path.Combine(_fileSystem.GetStoragePath(), "List JSON"), _apiClient.Read_JSON());  //exporta para pasta local JSON.
@@ -132,6 +135,17 @@ namespace AppClientes.ViewModels
             }
         }
 
+        private async void CompressionGZipAsync(IEnumerable<Client> list, string uri)
+        {
+            try
+            {
+                _apiClient.CompressionGZIP(list, uri);
+            }catch(Exception e)
+            {
+                await _pageDialog.DisplayAlertAsync("Erro","Erro: " + e,"OK");
+            }           
+        }
+
         private void ExportList()
         {
             string documents;
@@ -139,14 +153,15 @@ namespace AppClientes.ViewModels
             try
             {
                 string json = JsonConvert.SerializeObject(ListingDB());
-                CountClients = ListingDB().Count;                
+                CountClients = ListingDB().Count;
                 var directoryname = Path.Combine(_fileSystem.GetStoragePath(), "List JSON");
-                if(SearchDirectory(directoryname) == false)
+                if (SearchDirectory(directoryname) == false)
                 {
                     documents = CreateDirectory();
-                }                
+                }
                 var filename = Path.Combine(directoryname, "clients.json");
                 File.WriteAllText(filename, json);
+                CompressionGZipAsync(list, uri);
                 ExportNotificationAsync(true);
             }
             catch
@@ -159,24 +174,24 @@ namespace AppClientes.ViewModels
         {
             if (SearchDirectory(directoryname) == false)
             {
-               CreateDirectory();
+                CreateDirectory();
             }
-               bool request;
-                do
+            bool request;
+            do
+            {
+                string number = RandomNumberFile() + ".json";
+                var filename = Path.Combine(directoryname, number);
+                if (SearchFile(filename) == false)
                 {
-                    string number = RandomNumberFile()+".json";
-                    var filename = Path.Combine(directoryname,number);
-                    if (SearchFile(filename) == false)
-                    {
-                        File.WriteAllText(filename, json);
-                        _pageDialog.DisplayAlertAsync("Exportado JSON da API","Exportado arquivo JSON da URL para arquivo de nome: "+number+ " na pasta local." ,"OK");
-                        request = true;
-                    }
-                    else
-                    {
-                        request = false;
-                    }
-                } while (request == false);                                                  
+                    File.WriteAllText(filename, json);
+                    _pageDialog.DisplayAlertAsync("Exportado JSON da API", "Exportado arquivo JSON da URL para arquivo de nome: " + number + " na pasta local.", "OK");
+                    request = true;
+                }
+                else
+                {
+                    request = false;
+                }
+            } while (request == false);
         }
 
         private List<Client> ListingDB()
@@ -216,7 +231,7 @@ namespace AppClientes.ViewModels
         {
             if (UpdateDB(listClients))
             {
-                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso !","OK");                
+                await _pageDialog.DisplayAlertAsync("Importação", "Importação realizada com sucesso !", "OK");
             }
             else
             {
@@ -239,7 +254,7 @@ namespace AppClientes.ViewModels
         }
 
         private bool SearchFile(string filename)
-        {           
+        {
             if (_fileSystem.FileExists(filename))
             {
                 return true;
@@ -247,7 +262,7 @@ namespace AppClientes.ViewModels
             else
             {
                 return false;
-            }         
+            }
         }
 
         private bool SearchDirectory(string filename)
@@ -263,3 +278,5 @@ namespace AppClientes.ViewModels
         }
     }
 }
+
+        

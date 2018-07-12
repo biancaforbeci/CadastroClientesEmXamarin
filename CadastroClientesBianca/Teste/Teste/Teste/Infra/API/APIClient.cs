@@ -20,6 +20,7 @@ namespace AppClientes.Infra.Api
 
         IPageDialogService _pageDialog;
         public string content { get; set; }
+        protected HttpClient modernHttpClient { get; set;}
 
         public async Task<IEnumerable<Client>> GetAsync(string apiRoute)
         {
@@ -51,7 +52,7 @@ namespace AppClientes.Infra.Api
         {
             return content;
         }
-
+        
         public async void DecompressionGZIPAsync(string url)
         {
             var httpHandler = new HttpClientHandler
@@ -59,6 +60,7 @@ namespace AppClientes.Infra.Api
                 AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
             };
             var httpClient = API_Singleton.DecompressionInstance(httpHandler);
+            InitHttpClient(httpClient);
             await httpClient.GetStringAsync(url);
         }
 
@@ -66,6 +68,13 @@ namespace AppClientes.Infra.Api
         {
             var jsonContent = new CompressionGZIP(received);
             API_Singleton.Instance.PostAsync(url, jsonContent);
+            int i=0;
+        }
+
+        private void InitHttpClient(HttpClient client)
+        {
+            client.DefaultRequestHeaders.Remove("Accept-Encoding");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
         }
     }
 }
