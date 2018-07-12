@@ -12,8 +12,10 @@ namespace AppClientes.ViewModels
         public MasterDetailHomePageViewModel(INavigationService navigationService)
         {            
             HomePage = "Home Page";
+            TitleMenu = "Menu";
             Title = "Bem-Vindo";
             Image = "imagem.png";
+            Image2 = "clientes.png";
             Register = "Cadastrar";
             Listing = "Listagem";
             Search = "Buscar";
@@ -21,15 +23,17 @@ namespace AppClientes.ViewModels
             _navigationService = navigationService;
             NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
             ListingLocal = "Importar e Exportar Lista";            
-            Localization = "GeoLocalização";
+            Localization = "GeoLocalização";            
         }
 
         public string Title { get; set; }
         public string Image { get; set; }
+        public string Image2 { get; set; }
         public string Register { get; set; }
         public string Listing { get; set; }
         public string Search { get; set; }
         public string Delete { get; set; }
+        public string TitleMenu { get; set; }
         private readonly INavigationService _navigationService;
         
         public string ListingLocal { get; set; }

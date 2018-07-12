@@ -54,8 +54,7 @@ namespace AppClientes
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<MasterDetailHomePage, MasterDetailHomePageViewModel>();
-            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<MasterDetailHomePage, MasterDetailHomePageViewModel>();            
             containerRegistry.RegisterForNavigation<Register, RegisterViewModel>();
             containerRegistry.RegisterForNavigation<Delete, DeleteViewModel>();
             containerRegistry.RegisterForNavigation<Listing, ListingViewModel>();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppClientes.Infra.API;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
 using Newtonsoft.Json;
@@ -49,6 +50,22 @@ namespace AppClientes.Infra.Api
         public string Read_JSON()
         {
             return content;
+        }
+
+        public async void DecompressionGZIPAsync(string url)
+        {
+            var httpHandler = new HttpClientHandler
+            {
+                AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+            };
+            var httpClient = API_Singleton.DecompressionInstance(httpHandler);
+            await httpClient.GetStringAsync(url);
+        }
+
+        public void CompressionGZIP(object received, string url)
+        {
+            var jsonContent = new CompressionGZIP(received);
+            API_Singleton.Instance.PostAsync(url, jsonContent);
         }
     }
 }

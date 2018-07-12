@@ -9,14 +9,57 @@
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
             <ScrollView Orientation="Vertical">
-                <StackLayout Padding="20" Orientation="Vertical">
+                <StackLayout
+                    Padding="20"
+                    Orientation="Vertical"
+                    Spacing="20">
+
+                    <Label
+                        Font="50"
+                        FontFamily="Broadway"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding TitleMenu}"
+                        TextColor="Black" />
+
                     <Button
                         BackgroundColor="MediumSlateBlue"
                         Command="{Binding NavigateCommand}"
-                        CommandParameter="HomePage"
+                        CommandParameter="Register"
                         Font="20"
                         HorizontalOptions="FillAndExpand"
-                        Text="{Binding HomePage}"
+                        Text="{Binding Register}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Listing"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Listing}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Search"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Search}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Delete"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Delete}"
                         TextColor="White"
                         VerticalOptions="Start" />
                     <Button
@@ -48,63 +91,26 @@
             <x:Arguments>
                 <ContentPage>
                     <ScrollView Orientation="Vertical">
-                        <StackLayout Orientation="Vertical" Spacing="50">
+                        <StackLayout Orientation="Vertical" Spacing="220">
 
                             <Image
-                                HeightRequest="150"
+                                HorizontalOptions="Center"
                                 Source="{Binding Image}"
-                                VerticalOptions="Start"
-                                WidthRequest="150" />
+                                VerticalOptions="Center" />
 
                             <Label
                                 Font="70"
                                 FontFamily="Broadway"
-                                HorizontalOptions="FillAndExpand"
+                                HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
                                 Text="{Binding Title}"
-                                TextColor="MediumSlateBlue" />
+                                TextColor="MediumSlateBlue"
+                                VerticalOptions="Center" />
 
-
-                            <Button
-                                BackgroundColor="MediumSlateBlue"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Register"
-                                Font="50"
-                                HorizontalOptions="FillAndExpand"
-                                Text="{Binding Register}"
-                                TextColor="White"
-                                VerticalOptions="Start" />
-
-
-                            <Button
-                                BackgroundColor="MediumSlateBlue"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Listing"
-                                Font="50"
-                                HorizontalOptions="FillAndExpand"
-                                Text="{Binding Listing}"
-                                TextColor="White"
-                                VerticalOptions="Start" />
-
-                            <Button
-                                BackgroundColor="MediumSlateBlue"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Search"
-                                Font="50"
-                                HorizontalOptions="FillAndExpand"
-                                Text="{Binding Search}"
-                                TextColor="White"
-                                VerticalOptions="Start" />
-
-                            <Button
-                                BackgroundColor="MediumSlateBlue"
-                                Command="{Binding NavigateCommand}"
-                                CommandParameter="Delete"
-                                Font="50"
-                                HorizontalOptions="FillAndExpand"
-                                Text="{Binding Delete}"
-                                TextColor="White"
-                                VerticalOptions="Start" />
+                            <Image
+                                HorizontalOptions="Center"
+                                Source="{Binding Image2}"
+                                VerticalOptions="Center" />
                         </StackLayout>
                     </ScrollView>
                 </ContentPage>
