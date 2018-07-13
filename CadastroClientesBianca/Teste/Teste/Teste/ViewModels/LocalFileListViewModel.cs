@@ -74,8 +74,7 @@ namespace AppClientes.ViewModels
 
         private async void ValidationImportAsync(IEnumerable<Client> result)
         {
-            string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";
-            string[] contentTypes = new string[] { "image/jpg", "image/png" };
+            string tel = "^(?:(?([0-9]{2}))?[-. ]?)?([0-9]{4})[-. ]?([0-9]{4})$";           
 
             foreach (var item in result)
             {
@@ -111,7 +110,6 @@ namespace AppClientes.ViewModels
             }
         }
 
-
         private async void ImportAPIAsync(string uri)
         {
             try
@@ -135,11 +133,11 @@ namespace AppClientes.ViewModels
             }
         }
 
-        private async void CompressionGZipAsync(IEnumerable<Client> list, string uri)
+        private async void CompressionGZipAsync(string list)
         {
             try
             {
-                _apiClient.CompressionGZIP(list, uri);
+                _apiClient.CompressionGZIPAsync(list);
             }catch(Exception e)
             {
                 await _pageDialog.DisplayAlertAsync("Erro","Erro: " + e,"OK");
@@ -154,14 +152,14 @@ namespace AppClientes.ViewModels
             {
                 string json = JsonConvert.SerializeObject(ListingDB());
                 CountClients = ListingDB().Count;
+                string compressedString = _apiClient.CompressionGZIPAsync(json);   //compression GZIP
                 var directoryname = Path.Combine(_fileSystem.GetStoragePath(), "List JSON");
                 if (SearchDirectory(directoryname) == false)
                 {
                     documents = CreateDirectory();
                 }
-                var filename = Path.Combine(directoryname, "clients.json");
-                File.WriteAllText(filename, json);
-                CompressionGZipAsync(list, uri);
+                var filename = Path.Combine(directoryname, "clients.JSON");
+                File.WriteAllText(filename, json);                
                 ExportNotificationAsync(true);
             }
             catch

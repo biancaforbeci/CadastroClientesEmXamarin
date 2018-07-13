@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,35 +12,32 @@ using System.Threading.Tasks;
 
 namespace AppClientes.Infra.API
 {
-    public class CompressionGZIP : HttpContent
+    public static class CompressionGZIP 
     {
-        private JsonSerializer serializer { get; }
-        private object value { get; }
-
-        public CompressionGZIP(object value)
+        public static string CompressString(string uncompressedString)
         {
-            this.serializer = new JsonSerializer();
-            this.value = value;
-            Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            Headers.ContentEncoding.Add("gzip");
+            var compressedStream = new MemoryStream();
+            var uncompressedStream = new MemoryStream(Encoding.UTF8.GetBytes(uncompressedString));
+
+            using (var compressorStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
+            {
+                uncompressedStream.CopyTo(compressorStream);
+            }
+
+            return Convert.ToBase64String(compressedStream.ToArray());
         }
 
-        protected override bool TryComputeLength(out long length)
+        public static string Decompress(this string compressedString)   //implementar quando necessário.
         {
-            length = -1;
-            return false;
-        }        
+            var decompressedStream = new MemoryStream();
+            var compressedStream = new MemoryStream(Convert.FromBase64String(compressedString));
 
-        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
-        {
-            return Task.Factory.StartNew(() =>
+            using (var decompressorStream = new DeflateStream(compressedStream, CompressionMode.Decompress))
             {
-                using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
-                using (var writer = new StreamWriter(gzip))
-                {
-                    serializer.Serialize(writer, value);
-                }
-            });
+                decompressorStream.CopyTo(decompressedStream);
+            }
+
+            return Encoding.UTF8.GetString(decompressedStream.ToArray());
         }
     }
 }

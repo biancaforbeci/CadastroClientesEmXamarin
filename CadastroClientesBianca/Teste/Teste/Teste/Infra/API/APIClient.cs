@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AppClientes.Infra.API;
@@ -12,10 +13,11 @@ namespace AppClientes.Infra.Api
 {
     public class APIClient : IApiClient
     {
-
-        public APIClient(IPageDialogService pageDialog)
+        private readonly IFileSystem _fileSystem;
+        public APIClient(IPageDialogService pageDialog, IFileSystem fileSystem)
         {
             _pageDialog = pageDialog;
+            _fileSystem = fileSystem;
         }
 
         IPageDialogService _pageDialog;
@@ -51,30 +53,17 @@ namespace AppClientes.Infra.Api
         public string Read_JSON()
         {
             return content;
-        }
+        }      
         
-        public async void DecompressionGZIPAsync(string url)
-        {
-            var httpHandler = new HttpClientHandler
-            {
-                AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-            };
-            var httpClient = API_Singleton.DecompressionInstance(httpHandler);
-            InitHttpClient(httpClient);
-            await httpClient.GetStringAsync(url);
-        }
-
-        public void CompressionGZIP(object received, string url)
-        {
-            var jsonContent = new CompressionGZIP(received);
-            API_Singleton.Instance.PostAsync(url, jsonContent);
-            int i=0;
+        public string CompressionGZIPAsync(string json)
+        {               
+           return CompressionGZIP.CompressString(json);
         }
 
         private void InitHttpClient(HttpClient client)
         {
             client.DefaultRequestHeaders.Remove("Accept-Encoding");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-        }
+        }        
     }
 }
