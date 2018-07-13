@@ -2,9 +2,9 @@
 
 namespace AppClientes.Views
 {
-    public partial class HomePage : ContentPage
+    public partial class MasterDetailHomePage : MasterDetailPage
     {
-        public HomePage()
+        public MasterDetailHomePage()
         {
             InitializeComponent();
         }

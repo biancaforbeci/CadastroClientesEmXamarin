@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage
+    x:Class="AppClientes.Views.MasterDetailHomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu">
+            <ScrollView Orientation="Vertical">
+                <StackLayout
+                    Padding="20"
+                    Orientation="Vertical"
+                    Spacing="20">
+
+                    <Label
+                        Font="50"
+                        FontFamily="Broadway"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding TitleMenu}"
+                        TextColor="Black" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Register"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Register}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Listing"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Listing}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Search"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Search}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Delete"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Delete}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Location"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Localization}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                    <Button
+                        BackgroundColor="MediumSlateBlue"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="LocalFileList"
+                        Font="20"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding ListingLocal}"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+                </StackLayout>
+            </ScrollView>
+        </ContentPage>
+    </MasterDetailPage.Master>
+
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <ContentPage>
+                    <ScrollView Orientation="Vertical">
+                        <StackLayout Orientation="Vertical" Spacing="220">
+
+                            <Image
+                                HorizontalOptions="Center"
+                                Source="{Binding Image}"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Font="70"
+                                FontFamily="Broadway"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Title}"
+                                TextColor="MediumSlateBlue"
+                                VerticalOptions="Center" />
+
+                            <Image
+                                HorizontalOptions="Center"
+                                Source="{Binding Image2}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </ScrollView>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

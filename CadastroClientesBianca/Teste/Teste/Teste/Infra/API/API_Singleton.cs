@@ -12,7 +12,7 @@ namespace AppClientes.Infra.Services
         private API_Singleton()
         {
 
-        }
+        }        
 
         private static HttpClient _instance;
 
@@ -33,6 +33,22 @@ namespace AppClientes.Infra.Services
 
                 return _instance;
             }
+        }
+
+        public static HttpClient DecompressionInstance(HttpClientHandler httpClientHandler)
+        {
+            if (_instance == null)
+            {
+                lock (syncRoot)
+                {
+                    _instance = new HttpClient(httpClientHandler)
+                    {
+                        MaxResponseContentBufferSize = 256000
+                    };
+                }
+            }
+
+            return _instance;
         }
     }
 }
