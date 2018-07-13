@@ -78,7 +78,7 @@ namespace AppClientes.ViewModels
 
             foreach (var item in result)
             {
-                if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null) && (item.PathPhoto != null))
+                if ((item.ClientID != 0) && (item.Name != null) && (item.Age.ToString() != null) && (item.Phone != null))
                 {
                     if (!Regex.IsMatch(item.ClientID.ToString(), "^[0-9]"))
                     {
@@ -190,7 +190,7 @@ namespace AppClientes.ViewModels
                     request = false;
                 }
             } while (request == false);
-        }
+        }        
 
         private List<Client> ListingDB()
         {
@@ -235,8 +235,7 @@ namespace AppClientes.ViewModels
             {
                 await _pageDialog.DisplayAlertAsync("Erro", "Erro ao salvar no banco, tente novamente !", "OK");
             }
-        }
-
+        }        
 
         private async void ExportNotificationAsync(bool response)
         {
@@ -272,6 +271,21 @@ namespace AppClientes.ViewModels
             else
             {
                 return false;
+            }
+        }
+
+        private void CreateDirectoryPhotos()
+        {
+            var documents = _fileSystem.GetStoragePath();
+            var directoryname = Path.Combine(documents, "Photos");
+            Directory.CreateDirectory(directoryname);
+        }
+
+        private void ExistsDirectoryPhotos()
+        {
+            if (_fileSystem.DirectoryExists(Path.Combine(_fileSystem.GetStoragePath(), "Photos")) == false)
+            {
+                CreateDirectory();
             }
         }
     }
