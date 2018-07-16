@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using AppClientes.Infra.API;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
+using MyCouch;
 using Newtonsoft.Json;
 using Prism.Services;
 
@@ -64,6 +66,14 @@ namespace AppClientes.Infra.Api
         {
             client.DefaultRequestHeaders.Remove("Accept-Encoding");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-        }        
+        }
+
+        public async void PostAsync(string files)
+        {
+            using (var client = new MyCouchClient("http://localhost:5984/", "soapui"))
+            {
+                await client.Documents.PostAsync(content);
+            }                
+        }
     }
 }

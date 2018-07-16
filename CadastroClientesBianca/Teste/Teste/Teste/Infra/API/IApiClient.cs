@@ -12,5 +12,6 @@ namespace AppClientes.Infra.Api
         Task<IEnumerable<Client>> GetAsync(string apiRoute);
         string Read_JSON();
         string CompressionGZIPAsync(string json);
+        void PostAsync(string files);
     }
 }
