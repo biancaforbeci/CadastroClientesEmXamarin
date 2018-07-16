@@ -3,6 +3,7 @@ using AppClientes.Infra;
 using AppClientes.Infra.Api;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
+using CommonServiceLocator;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -31,7 +33,7 @@ namespace AppClientes.ViewModels
             TitleURL = "Coloque a URL para importação abaixo";
             TitleExport = "Exportar clientes cadastrados para pasta local";
             Import = new DelegateCommand(ImportListAsync);
-            Export = new DelegateCommand(ExportList);
+            Export = new DelegateCommand(ExportListAsync);
             Image = "lista.png";
             _fileSystem = fileSystem;
             _service = service;
@@ -144,15 +146,15 @@ namespace AppClientes.ViewModels
             }           
         }
 
-        private void ExportList()
+        private void ExportListAsync()
         {
-            string documents;
+            string documents;           
 
             try
             {
                 string json = JsonConvert.SerializeObject(ListingDB());
                 CountClients = ListingDB().Count;
-                string compressedString = _apiClient.CompressionGZIPAsync(json);   //compression GZIP
+                PostServerAsync(json);
                 var directoryname = Path.Combine(_fileSystem.GetStoragePath(), "List JSON");
                 if (SearchDirectory(directoryname) == false)
                 {
@@ -166,6 +168,16 @@ namespace AppClientes.ViewModels
             {
                 ExportNotificationAsync(false);
             }
+        }
+
+        private async void PostServerAsync(string json)
+        {
+            string compressedString = _apiClient.CompressionGZIPAsync(json);   //compression GZIP                
+            
+            var uri = "http://127.0.0.1:5984/";  //url servidor -- falta testar
+            string response = _apiClient.GetData(uri, compressedString).ToString();              //enviando para servidor   
+
+            await _pageDialog.DisplayAlertAsync("Servidor", "Resposta do servidor: " + response, "OK");
         }
 
         private void ExportJSON_API(string directoryname, string json)
@@ -190,8 +202,8 @@ namespace AppClientes.ViewModels
                     request = false;
                 }
             } while (request == false);
-        }        
-
+        }  
+              
         private List<Client> ListingDB()
         {
             return _service.AllClient();

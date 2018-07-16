@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using AppClientes.Infra.API;
 using AppClientes.Infra.Services;
@@ -64,6 +65,20 @@ namespace AppClientes.Infra.Api
         {
             client.DefaultRequestHeaders.Remove("Accept-Encoding");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-        }        
+        }
+
+        public async Task<string> GetData(string url, string files)
+        {
+
+            HttpClient client = API_Singleton.Instance;
+            var content = new StringContent(files, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = null;
+            response = await client.PostAsync(url, content);            
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            return responseBody;
+        }
     }
 }
