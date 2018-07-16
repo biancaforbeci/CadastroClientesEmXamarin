@@ -173,11 +173,16 @@ namespace AppClientes.ViewModels
         private async void PostServerAsync(string json)
         {
             string compressedString = _apiClient.CompressionGZIPAsync(json);   //compression GZIP                
-            
-            var uri = "http://127.0.0.1:5984/";  //url servidor -- falta testar
-            string response = _apiClient.GetData(uri, compressedString).ToString();              //enviando para servidor   
 
-            await _pageDialog.DisplayAlertAsync("Servidor", "Resposta do servidor: " + response, "OK");
+            try
+            {
+                _apiClient.PostAsync(compressedString);              //enviando para servidor   
+
+            }
+            catch (Exception e)
+            {
+                await _pageDialog.DisplayAlertAsync("Erro", "Erro: " + e, "OK");
+            }       
         }
 
         private void ExportJSON_API(string directoryname, string json)
