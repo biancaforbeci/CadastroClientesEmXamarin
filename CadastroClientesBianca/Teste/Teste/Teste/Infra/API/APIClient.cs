@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Media;
 using AppClientes.Infra.API;
 using AppClientes.Infra.Services;
 using AppClientes.Models;
+using DotNetXmlHttpRequest;
 using MyCouch;
 using Newtonsoft.Json;
 using Plugin.Media.Abstractions;
@@ -27,10 +29,8 @@ namespace AppClientes.Infra.Api
         IPageDialogService _pageDialog;
         public string content { get; set; }
         protected HttpClient modernHttpClient { get; set; }
-        private static string BaseCouchDbApiAddress = "http://localhost:5984";
-        private static HttpClient Client = new HttpClient() { BaseAddress = new Uri(BaseCouchDbApiAddress) };
         private string sContentType = "application/json";
-
+        private MediaFile _mediaFile;
         public async Task<IEnumerable<Client>> GetAsync(string apiRoute)
         {
             try
@@ -69,21 +69,42 @@ namespace AppClientes.Infra.Api
 
         private void InitHttpClient(HttpClient client)
         {
-            client.DefaultRequestHeaders.Remove("Accept-Encoding");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            //client.DefaultRequestHeaders.Remove("Accept-Encoding");
+            //client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
         }
 
-        public async void PostAsync(string files)
+        public async void PostAsync(List<Client> listCli)
         {
             try
             {
-                var uri = new Uri(string.Format("http://localhost:5984/my_db", string.Empty));
-                var authResult = await Client.PostAsync(uri, new StringContent(files, Encoding.UTF8, sContentType));
 
-                if (authResult.IsSuccessStatusCode)
+                HttpResponseMessage response=null;
+                HttpClient client = API_Singleton.Instance;
+                var uri = new Uri(string.Format("http://admin:admin@10.108.70.125:5984/_gzip/my_db", string.Empty));
+
+                foreach (var item in listCli)
                 {
-                    await _pageDialog.DisplayAlertAsync("Sucesso", " ", "OK");
+                    try
+                    {                        
+                        MultipartFormDataContent form = new MultipartFormDataContent();
+                        form.Add(new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, sContentType));
+                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(item.PathPhoto);
+                        form.Add(new ByteArrayContent byteContent = new ByteArrayContent(data));
+                        response = await client.PostAsync(uri, form);
+
+                    }
+                    catch (Exception e)
+                    {
+                        await _pageDialog.DisplayAlertAsync("Ocorreu erro", "Erro em enviar o item:" + item, "OK");
+                    }
                 }
+
+                //response = await client.PostAsync(uri, new StringContent(files, Encoding.UTF8, sContentType));                
+
+                string contentStr = await response.Content.ReadAsStringAsync();
+                               
+                await _pageDialog.DisplayAlertAsync("Resposta servidor", " " + contentStr, "OK");
+                
             }
             catch (Exception e)
             {

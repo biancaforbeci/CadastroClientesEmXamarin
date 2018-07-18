@@ -154,6 +154,7 @@ namespace AppClientes.ViewModels
             {
                 string json = JsonConvert.SerializeObject(ListingDB());
                 CountClients = ListingDB().Count;
+
                 PostServerAsync(json);
                 var directoryname = Path.Combine(_fileSystem.GetStoragePath(), "List JSON");
                 if (SearchDirectory(directoryname) == false)
@@ -176,7 +177,7 @@ namespace AppClientes.ViewModels
 
             try
             {
-                _apiClient.PostAsync(json);              //enviando para servidor   
+                _apiClient.PostAsync(ListingDB());              //enviando para servidor   
 
             }
             catch (Exception e)
