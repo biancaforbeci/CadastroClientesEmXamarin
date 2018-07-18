@@ -176,7 +176,7 @@ namespace AppClientes.ViewModels
 
             try
             {
-                _apiClient.PostAsync(compressedString);              //enviando para servidor   
+                _apiClient.PostAsync(json);              //enviando para servidor   
 
             }
             catch (Exception e)
