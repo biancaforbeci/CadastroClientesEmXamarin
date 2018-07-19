@@ -26,5 +26,8 @@ namespace AppClientes.Models
 
         [DataMember]
         public string PathPhoto { get; set; }
+
+        [DataMember]
+        public byte[] BytePhoto { get; set; }
     }    
 }

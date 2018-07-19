@@ -45,6 +45,7 @@ namespace AppClientes.ViewModels
         private string Name { get; set; }
         private string Age { get; set; }
         private string Phone { get; set; }
+        private byte[] Bytephoto;
         public string NameCli {
             get { return Name; }
             set {
@@ -99,6 +100,7 @@ namespace AppClientes.ViewModels
                 if(!Path_Photo.Equals("drawable-xhdpi/person.png"))
                 {
                     c.PathPhoto = Path_Photo;
+                    c.BytePhoto=Bytephoto;
                     SavingDB(c);
                     SavePhotoLocalFile(Path_Photo);   
                     Clean();
@@ -167,6 +169,16 @@ namespace AppClientes.ViewModels
             SavePhotoToClientAsync(file);
         }
 
+        private void BytePhoto(MediaFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.GetStream().CopyTo(memoryStream);
+                file.Dispose();
+                Bytephoto= memoryStream.ToArray();
+            }
+        }
+
         private async void AcessCameraAsync()
         {
             await CrossMedia.Current.Initialize();
@@ -201,7 +213,8 @@ namespace AppClientes.ViewModels
 
             if (result)
             {
-                Photo = file.Path;                
+                Photo = file.Path;
+                BytePhoto(file);
             }
             else
             {
