@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Graphics;
 using Android.Media;
 using AppClientes.Infra.API;
 using AppClientes.Infra.Services;
@@ -77,7 +79,6 @@ namespace AppClientes.Infra.Api
         {
             try
             {
-
                 HttpResponseMessage response=null;
                 HttpClient client = API_Singleton.Instance;
                 var uri = new Uri(string.Format("http://admin:admin@10.108.70.125:5984/_gzip/my_db", string.Empty));
@@ -85,22 +86,20 @@ namespace AppClientes.Infra.Api
                 foreach (var item in listCli)
                 {
                     try
-                    {                        
-                        MultipartFormDataContent form = new MultipartFormDataContent();
-                        form.Add(new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, sContentType));
-                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(item.PathPhoto);
-                        form.Add(new ByteArrayContent byteContent = new ByteArrayContent(data));
+                    {
+                        MultipartFormDataContent form = new MultipartFormDataContent();                      
+                        form.Add(new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, sContentType));                         
+                        var imageContent = new ByteArrayContent(item.BytePhoto);          
+                        imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+                        form.Add(imageContent, "image", System.IO.Path.GetFileName(item.PathPhoto));
                         response = await client.PostAsync(uri, form);
-
                     }
                     catch (Exception e)
                     {
-                        await _pageDialog.DisplayAlertAsync("Ocorreu erro", "Erro em enviar o item:" + item, "OK");
+                        await _pageDialog.DisplayAlertAsync("Ocorreu erro", "Erro ao enviar o item:" + item.ClientID + "\n Erro: " + await response.Content.ReadAsStringAsync(), "OK");
                     }
                 }
-
-                //response = await client.PostAsync(uri, new StringContent(files, Encoding.UTF8, sContentType));                
-
+                
                 string contentStr = await response.Content.ReadAsStringAsync();
                                
                 await _pageDialog.DisplayAlertAsync("Resposta servidor", " " + contentStr, "OK");
@@ -110,7 +109,8 @@ namespace AppClientes.Infra.Api
             {
                 await _pageDialog.DisplayAlertAsync("Erro", "Erro: " + e, "OK");
             }
-        }
+        }      
+        
     }       
  }
 
